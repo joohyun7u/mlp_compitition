@@ -2,6 +2,8 @@
 test_scan.zip
 train_scan.zip
 train_clean.zip
+logs/
+local_datasets/
 
 
 
