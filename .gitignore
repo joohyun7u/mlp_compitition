@@ -4,7 +4,8 @@ train_scan.zip
 train_clean.zip
 logs/
 local_datasets/
-
+.vscode/
+cjh/.vscode/
 
 
 # Byte-compiled / optimized / DLL files
