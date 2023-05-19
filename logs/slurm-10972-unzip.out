@@ -1,0 +1,3 @@
+/local_datasets/MLinP/test/scan exist
+/local_datasets/MLinP/test/scan/BookOfMaking.00016.01.tif
+/var/spool/slurm/d/job10972/slurm_script: line 70: syntax error: unexpected end of file
