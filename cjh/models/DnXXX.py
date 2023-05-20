@@ -6,7 +6,7 @@ import torch
 import torch.utils.data as data
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, random_split
 from torchvision.transforms import ToTensor, Normalize, Compose
 from os.path import join
 from os import listdir
@@ -54,16 +54,16 @@ class CustomDataset(data.Dataset):
         return noisy_image, clean_image
 
 # 모델 학습
-def train(num_epochs):
+def train(num_epochs, save_val=True):
     model.train()
     best_loss = 9999.0
+    best_val_loss = 9999.0
     tem = 1
     for epoch in range(args.epoch):
         epoch_time = time.time()
         running_loss = 0.0
         for noisy_images, clean_images in train_loader:
-            noisy_images = noisy_images.to(device)
-            clean_images = clean_images.to(device)
+            noisy_images, clean_images = noisy_images.to(device), clean_images.to(device)
             optimizer.zero_grad()
             outputs = model(noisy_images)
             if tem:
@@ -74,21 +74,41 @@ def train(num_epochs):
             optimizer.step()
             running_loss += loss.item() * noisy_images.size(0)
         epoch_loss = running_loss / len(train_dataset)
-        print(f'Time: {time.time()-epoch_time:.0f}초 \tEpoch {epoch+1}/{num_epochs}, \tLoss: {epoch_loss:.4f}')
+        val_loss = val()
+
+        print(f'Time: {time.time()-epoch_time:.0f}초 \tEpoch {epoch+1}/{num_epochs}, \
+              \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f}')
 
     # 현재 epoch의 loss가 최소 loss보다 작으면 모델 갱신
-        if epoch_loss < best_loss:
-            best_loss = epoch_loss
-            torch.save(model.state_dict(), model_file)
-            print(f"{epoch+1}epoch 모델 저장 완료")
+        if save_val:
+            if val_loss < best_val_loss:
+                best_val_loss = val_loss
+                torch.save(model.state_dict(), model_file)
+                print(f"{epoch+1}epoch 모델 저장 완료")
+        else:
+            if epoch_loss < best_loss:
+                best_loss = epoch_loss
+                torch.save(model.state_dict(), model_file)
+                print(f"{epoch+1}epoch 모델 저장 완료")
 
-
+def val():
+    model.eval()
+    running_loss = 0.0
+    for noisy_images, clean_images in val_loader:
+        noisy_images, clean_images = noisy_images.to(device), clean_images.to(device)
+        outputs = model(noisy_images)
+        loss = criterion(outputs, noisy_images-clean_images)
+        running_loss += loss.item() * noisy_images.size(0)
+    epoch_loss = running_loss / len(val_dataset)
+    return epoch_loss
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Argparse')
     parser.add_argument('--epoch',          type=int,   default=80)
     parser.add_argument('--batch_size',     type=int,   default=64)
     parser.add_argument('--lr',             type=float, default=0.001)
+    parser.add_argument('--val',            type=float, default=0.1)
+    parser.add_argument('--cv',             type=float, default=None)
     parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
     parser.add_argument('--csv',            type=str,   default='./best_dncnn_model1.pth')
     parser.add_argument('--model',          type=str,   default='DnCNN')
@@ -98,7 +118,7 @@ if __name__ == '__main__':
     print(f"running: {device}, \tModel: {args.model} \tepoch: {args.epoch}, \tbatch: {args.batch_size}, \tlr: {args.lr}")
 
     # 랜덤 시드 고정
-    np.random.seed(42)
+    seed_everything(42)
 
     # 시작 시간 기록
     start_time = time.time()
@@ -131,11 +151,31 @@ if __name__ == '__main__':
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
-    # 커스텀 데이터셋 인스턴스 생성
-    train_dataset = CustomDataset(noisy_image_paths, clean_image_paths, transform=train_transform)
+    val_transform = Compose([
+        ToTensor(),
+        Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+    ])
 
+    # 커스텀 데이터셋 인스턴스 생성
+    dataset = CustomDataset(noisy_image_paths, clean_image_paths, transform=train_transform)
+    
+    # val 분할
+    train_size = int(len(dataset)*(1-args.val))
+    val_size = int(len(dataset)*(args.val))
+    train_dataset, val_dataset = random_split(dataset,[train_size,val_size])
+    print(f"Train Size : {len(train_dataset)} \tValidattion Size : {len(val_dataset)}")
     # 데이터 로더 설정
-    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, num_workers=4, persistent_workers=True, shuffle=True)
+    train_loader = DataLoader(train_dataset, 
+                              batch_size=args.batch_size, 
+                              num_workers=4, 
+                              persistent_workers=True, 
+                              shuffle=True)
+    
+    val_loader   = DataLoader(val_dataset, 
+                              batch_size=args.batch_size, 
+                              num_workers=4, 
+                              persistent_workers=True, 
+                              shuffle=False)
 
     m = args.model
     if m == 'DnCNN':

@@ -7,14 +7,14 @@ import os
 import pandas as pd
 import numpy as np
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
+# device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
 
-num_epochs = 100
-learning_rate =0.1
-batch_size = 110
+# num_epochs = 100
+# learning_rate =0.1
+# batch_size = 110
 
-train_data_dir = '/local_datasets/ImageNet/train'
-test_data_dir = '/local_datasets/ImageNet/val'
+# train_data_dir = '/local_datasets/ImageNet/train'
+# test_data_dir = '/local_datasets/ImageNet/val'
 
 def cal_norm(dataset):
     mean_ = np.array([np.mean(x.numpy(), axis=(1,2)) for x,_ in dataset])
@@ -63,14 +63,14 @@ test_transform = transforms.Compose([
     transforms.Normalize(mean_, std_)]
 )
 
-classes = []
-img_per_class = []
-# for folder in os.listdir(data_dir+'consolidated'):/
-for folder in os.listdir(train_data_dir):    
-    classes.append(folder)
-    img_per_class.append(len(os.listdir(f'{train_data_dir}/{folder}')))
-num_classes = len(classes)
-df = pd.DataFrame({'Classes':classes, 'Examples':img_per_class})
+# classes = []
+# img_per_class = []
+# # for folder in os.listdir(data_dir+'consolidated'):/
+# for folder in os.listdir(train_data_dir):    
+#     classes.append(folder)
+#     img_per_class.append(len(os.listdir(f'{train_data_dir}/{folder}')))
+# num_classes = len(classes)
+# df = pd.DataFrame({'Classes':classes, 'Examples':img_per_class})
 
 
 # splitting the data into train/validation/test sets
@@ -79,26 +79,26 @@ df = pd.DataFrame({'Classes':classes, 'Examples':img_per_class})
 # val_size = int((len(data)-train_size))
 # train_dataset,test_dataset = torch.utils.data.random_split(data,[train_size,val_size])
 
-train_dataset = torchvision.datasets.ImageFolder(train_data_dir,
-                                                 transform=train_transform
-                                                 )
-test_dataset = torchvision.datasets.ImageFolder(test_data_dir,
-                                                 transform=test_transform
-                                                )
-torch.manual_seed(3334)
-print(f'train size: {len(train_dataset)}\nval size: {len(test_dataset)}')
+# train_dataset = torchvision.datasets.ImageFolder(train_data_dir,
+#                                                  transform=train_transform
+#                                                  )
+# test_dataset = torchvision.datasets.ImageFolder(test_data_dir,
+#                                                  transform=test_transform
+#                                                 )
+# torch.manual_seed(3334)
+# print(f'train size: {len(train_dataset)}\nval size: {len(test_dataset)}')
 
-train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
-                                           batch_size=batch_size,
-                                           num_workers=4,
-                                           persistent_workers=True,
-                                           shuffle=True)
+# train_loader = torch.utils.data.DataLoader(dataset=train_dataset,
+#                                            batch_size=batch_size,
+#                                            num_workers=4,
+#                                            persistent_workers=True,
+#                                            shuffle=True)
 
-test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
-                                          batch_size=batch_size,
-                                          num_workers=4,
-                                          persistent_workers=True,
-                                          shuffle=False)
+# test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
+#                                           batch_size=batch_size,
+#                                           num_workers=4,
+#                                           persistent_workers=True,
+#                                           shuffle=False)
 
 class BasicBlock(nn.Module):
     expansion = 1
@@ -241,52 +241,52 @@ def update_lr(optimizer, lr):
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
-total_step = len(train_loader)
-def train(epoch):
-    model.train()
-    correct = 0
-    for i, (images, labels) in enumerate(train_loader):
-        images, labels = images.to(device), labels.to(device)
-        optimizer.zero_grad()
-        #print(images.size())
-        outputs = model(images)
-        loss = criterion(outputs, labels)
-        _, predicted = torch.max(outputs.data, 1)
-        correct += (predicted == labels).sum().item()
-        # correct += (predicted == labels).cpu().sum().item()
+# total_step = len(train_loader)
+# def train(epoch):
+#     model.train()
+#     correct = 0
+#     for i, (images, labels) in enumerate(train_loader):
+#         images, labels = images.to(device), labels.to(device)
+#         optimizer.zero_grad()
+#         #print(images.size())
+#         outputs = model(images)
+#         loss = criterion(outputs, labels)
+#         _, predicted = torch.max(outputs.data, 1)
+#         correct += (predicted == labels).sum().item()
+#         # correct += (predicted == labels).cpu().sum().item()
 
-        loss.backward()
-        optimizer.step()
+#         loss.backward()
+#         optimizer.step()
 
-        if (i+1) % 100 == 0:
-            print(f'Epoch [{epoch+1}/{num_epochs}], step [{i+1}/{total_step}] Loss: {loss.item():.4f}')
-    print(f'\tTrain Accuracy: {correct}/{len(train_loader.dataset)} ({100. * correct / len(train_loader.dataset):.4f})%')
+#         if (i+1) % 100 == 0:
+#             print(f'Epoch [{epoch+1}/{num_epochs}], step [{i+1}/{total_step}] Loss: {loss.item():.4f}')
+#     print(f'\tTrain Accuracy: {correct}/{len(train_loader.dataset)} ({100. * correct / len(train_loader.dataset):.4f})%')
 
-    if (epoch+1) % 15 == 0:
-        global curr_lr 
-        curr_lr /= 10
-        update_lr(optimizer, curr_lr)
+#     if (epoch+1) % 15 == 0:
+#         global curr_lr 
+#         curr_lr /= 10
+#         update_lr(optimizer, curr_lr)
 
 
-def test():
-    model.eval()
-    with torch.no_grad():
-        correct = 0
-        total = 0
-        for images, labels in test_loader:
-            images, labels = images.to(device), labels.to(device)
-            outputs = model(images)
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
-            # correct += (predicted == labels).cpu().sum().item()
-        print(f'Accuracy of the model on the test images: {100*correct/total} %')
+# def test():
+#     model.eval()
+#     with torch.no_grad():
+#         correct = 0
+#         total = 0
+#         for images, labels in test_loader:
+#             images, labels = images.to(device), labels.to(device)
+#             outputs = model(images)
+#             _, predicted = torch.max(outputs.data, 1)
+#             total += labels.size(0)
+#             correct += (predicted == labels).sum().item()
+#             # correct += (predicted == labels).cpu().sum().item()
+#         print(f'Accuracy of the model on the test images: {100*correct/total} %')
 
-if __name__ == '__main__':
-    model = resnet50().to(device)
-    criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate, weight_decay=0.0001, momentum=0.9)
-    curr_lr = learning_rate
-    for epoch in range(num_epochs):
-        train(epoch)
-        test()
+# if __name__ == '__main__':
+#     model = resnet50().to(device)
+#     criterion = nn.CrossEntropyLoss()
+#     optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate, weight_decay=0.0001, momentum=0.9)
+#     curr_lr = learning_rate
+#     for epoch in range(num_epochs):
+#         train(epoch)
+#         test()
