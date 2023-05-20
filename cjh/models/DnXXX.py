@@ -135,14 +135,16 @@ if __name__ == '__main__':
     clean_image_paths = dataset_dir+'/train/clean'
 
     # 모델 저장 위치 
-    model_path = '../save/'
+    model_path = './save/'
     model_num = 1
-    model_file = 'best_'+args.model+'_model' + str(model_num) + '.pth'
-    while (os.path.isfile(model_path + model_file)):
+    model_file = model_path+'best_'+args.model+'_model' + str(model_num) + '.pth'
+    while (os.path.isfile(model_file)):
         model_num += 1
-        model_file = 'best_'+args.model+'_model' + str(model_num) + '.pth'
+        model_file = model_path+'best_'+args.model+'_model' + str(model_num) + '.pth'
+    print(model_file)
     file = open(model_file,"w") 
     # 파일을 닫습니다. 파일을 닫지 않으면 데이터 손실이 발생할 수 있습니다.
+    file.write('temp')
     file.close() 
 
     # 데이터셋 로드 및 전처리

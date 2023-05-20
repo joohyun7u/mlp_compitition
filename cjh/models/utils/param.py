@@ -15,14 +15,15 @@ def param_check(model, grad=False):
         print(f'10M 1천만보다 {10000000-pytorch_total_params}개 여유 있음...')
     return pytorch_total_params
 
-def seed_everything(seed):
+def seed_everything(seed, deterministic=False):
     random.seed(seed)
     os.environ['PYTHONHASHSEED'] = str(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
-    torch.backends.cudnn.deterministic = True
-    torch.backends.cudnn.benchmark = True
+    if deterministic:
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = True
 
 class AverageMeter(object):
     r"""Computes and stores the average and current value
