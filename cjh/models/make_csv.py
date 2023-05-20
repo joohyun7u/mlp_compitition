@@ -186,7 +186,6 @@ if True:
     out_num = 1
     output_file = args.csv+args.load_pth + 'output' + str(out_num) + '.csv'
     while (os.path.isfile(output_file)):
-        print("add")
         out_num += 1
         output_file = args.csv+args.load_pth  + 'output' + str(out_num) + '.csv'
     print(output_file)

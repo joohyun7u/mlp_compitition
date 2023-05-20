@@ -23,7 +23,7 @@ model=ResNet18
 python -u $py_dir \
         --epoch=150 \
         --batch_size=32 \
-        --lr=0.001 \
+        --lr=0.01 \
         --model=$model \
 
 
