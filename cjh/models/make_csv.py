@@ -18,13 +18,13 @@ import argparse
 np.random.seed(42)
 
 parser = argparse.ArgumentParser(description='Argparse')
-parser.add_argument('--epoch',          type=int,   default=80)
-parser.add_argument('--batch_size',     type=int,   default=128)
-parser.add_argument('--lr',             type=float, default=0.001)
+# parser.add_argument('--epoch',          type=int,   default=80)
+# parser.add_argument('--batch_size',     type=int,   default=128)
+# parser.add_argument('--lr',             type=float, default=0.001)
 parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
-parser.add_argument('--csv',            type=str,   default='save/best_dncnn_model1.pth')
+parser.add_argument('--csv',            type=str,   default='./best_dncnn_model1.pth')
 parser.add_argument('--model',          type=str,   default='DnCNN')
-parser.add_argument('--output_dir',     type=str,   default='~/output')
+parser.add_argument('--output_dir',     type=str,   default='../../output')
 args = parser.parse_args()
 
 # def load_img(filepath):

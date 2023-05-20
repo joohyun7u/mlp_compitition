@@ -70,10 +70,10 @@ class CustomDataset(data.Dataset):
         return noisy_image, clean_image
 
 # 모델 학습
-def train():
+def train(num_epochs):
     model.train()
     best_loss = 9999.0
-    for epoch in range(num_epochs):
+    for epoch in range(args.epoch):
         epoch_time = time.time()
         running_loss = 0.0
         for noisy_images, clean_images in train_loader:
@@ -97,6 +97,18 @@ def train():
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Argparse')
+    parser.add_argument('--epoch',          type=int,   default=80)
+    parser.add_argument('--batch_size',     type=int,   default=64)
+    parser.add_argument('--lr',             type=float, default=0.001)
+    parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
+    parser.add_argument('--csv',            type=str,   default='./best_dncnn_model1.pth')
+    parser.add_argument('--model',          type=str,   default='DnCNN')
+    parser.add_argument('--output_dir',     type=str,   default='~/output')
+    args = parser.parse_args()
+    device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
+    print(f"running: {device}, \tepoch: {args.epoch}, \tbatch: {args.batch_size}, \tlr: {args.lr}")
+
     # 랜덤 시드 고정
     np.random.seed(42)
 
@@ -104,18 +116,18 @@ if __name__ == '__main__':
     start_time = time.time()
 
     # 하이퍼파라미터 설정
-    num_epochs = 60
-    batch_size = 64
-    learning_rate = 0.001
+    num_epochs = args.epoch
+    batch_size = args.batch_size
+    learning_rate = args.lr
 
-    dataset_dir = '/local_datasets/MLinP'
+    dataset_dir = args.datasets_dir
 
     # 데이터셋 경로
     noisy_image_paths = dataset_dir+'/train/scan'
     clean_image_paths = dataset_dir+'/train/clean'
 
     # 모델 저장 위치 
-    model_path = './model_save/'
+    model_path = '../save/'
     model_num = 1
     model_file = 'best_dncnn_model' + str(model_num) + '.pth'
     while (os.path.isfile(model_path + model_file)):
@@ -132,22 +144,20 @@ if __name__ == '__main__':
     train_dataset = CustomDataset(noisy_image_paths, clean_image_paths, transform=train_transform)
 
     # 데이터 로더 설정
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, num_workers=4, persistent_workers=True, shuffle=True)
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, num_workers=4, persistent_workers=True, shuffle=True)
 
-    # GPU 사용 여부 확인
-    device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
-    print(device)
     # DnCNN 모델 인스턴스 생성 및 GPU로 이동
     model = DnCNN().to(device)
-    #print(summary(model, (3, 128, 128)))
+    print(summary(model, (3, 128, 128)))
 
     # 손실 함수와 최적화 알고리즘 설정
     criterion = nn.MSELoss()
-    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    optimizer = optim.Adam(model.parameters(), lr=args.lr)
+    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
 
     # 모델 학습
     print("모델 학습 시작")
-    train()
+    train(args.epoch)
 
     # 종료 시간 기록
     end_time = time.time()
