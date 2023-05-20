@@ -13,6 +13,7 @@ from os import listdir
 from torchsummary import summary
 import time
 import argparse
+import DnCNN, resnet
 from utils.param import param_check, seed_everything
 
 # 이미지 로드 함수 정의
@@ -20,23 +21,6 @@ def load_img(filepath):
     img = cv2.imread(filepath)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     return img
-
-
-# DnCNN 모델 정의
-class DnCNN(nn.Module):
-    def __init__(self, num_layers=17, num_channels=64):
-        super(DnCNN, self).__init__()
-        layers = [nn.Conv2d(3, num_channels, kernel_size=3, padding=1), nn.ReLU(inplace=True)]
-        for _ in range(num_layers - 2):
-            layers.append(nn.Conv2d(num_channels, num_channels, kernel_size=3, padding=1))
-            layers.append(nn.BatchNorm2d(num_channels))
-            layers.append(nn.ReLU(inplace=True))
-        layers.append(nn.Conv2d(num_channels, 3, kernel_size=3, padding=1))
-        self.dncnn = nn.Sequential(*layers)
-
-    def forward(self, x):
-        out = self.dncnn(x)
-        return out
 
 # 커스텀 데이터셋 클래스 정의
 class CustomDataset(data.Dataset):
@@ -73,6 +57,7 @@ class CustomDataset(data.Dataset):
 def train(num_epochs):
     model.train()
     best_loss = 9999.0
+    tem = 1
     for epoch in range(args.epoch):
         epoch_time = time.time()
         running_loss = 0.0
@@ -81,6 +66,9 @@ def train(num_epochs):
             clean_images = clean_images.to(device)
             optimizer.zero_grad()
             outputs = model(noisy_images)
+            if tem:
+                tem=0
+                print(outputs.size(), clean_images.size())
             loss = criterion(outputs, noisy_images-clean_images)
             loss.backward()
             optimizer.step()
@@ -107,7 +95,7 @@ if __name__ == '__main__':
     parser.add_argument('--output_dir',     type=str,   default='~/output')
     args = parser.parse_args()
     device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
-    print(f"running: {device}, \tepoch: {args.epoch}, \tbatch: {args.batch_size}, \tlr: {args.lr}")
+    print(f"running: {device}, \tModel: {args.model} \tepoch: {args.epoch}, \tbatch: {args.batch_size}, \tlr: {args.lr}")
 
     # 랜덤 시드 고정
     np.random.seed(42)
@@ -132,7 +120,7 @@ if __name__ == '__main__':
     model_file = 'best_dncnn_model' + str(model_num) + '.pth'
     while (os.path.isfile(model_path + model_file)):
         model_num += 1
-    model_file = 'best_dncnn_model' + str(model_num) + '.pth'
+        model_file = 'best_dncnn_model' + str(model_num) + '.pth'
 
     # 데이터셋 로드 및 전처리
     train_transform = Compose([
@@ -146,8 +134,22 @@ if __name__ == '__main__':
     # 데이터 로더 설정
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, num_workers=4, persistent_workers=True, shuffle=True)
 
-    # DnCNN 모델 인스턴스 생성 및 GPU로 이동
-    model = DnCNN().to(device)
+    m = args.model
+    if m == 'DnCNN':
+        model = DnCNN.DnCNN().to(device)
+    elif m == 'ResNet18':
+        model = resnet.resnet18().to(device)
+    elif m == 'ResNet34':
+        model = resnet.resnet34().to(device)
+        print('이거')
+    elif m == 'ResNet50':
+        model = resnet.resnet50().to(device)
+    elif m == 'ResNet101':
+        model = resnet.resnet101().to(device)
+    elif m == 'ResNet152':
+        model = resnet.resnet152().to(device)
+    else:
+        model = DnCNN.DnCNN().to(device)
     param_check(model)
     param_check(model, True)
     print(summary(model, (3, 128, 128)))

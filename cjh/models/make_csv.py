@@ -22,9 +22,10 @@ parser = argparse.ArgumentParser(description='Argparse')
 # parser.add_argument('--batch_size',     type=int,   default=128)
 # parser.add_argument('--lr',             type=float, default=0.001)
 parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
-parser.add_argument('--csv',            type=str,   default='./best_dncnn_model1.pth')
+parser.add_argument('--csv',            type=str,   default='./save/')
 parser.add_argument('--model',          type=str,   default='DnCNN')
 parser.add_argument('--output_dir',     type=str,   default='../../output')
+parser.add_argument('--load_pth',       type=str,   default='best_dncnn_model1.pth')
 args = parser.parse_args()
 
 # def load_img(filepath):
@@ -48,24 +49,6 @@ args = parser.parse_args()
 #         out = self.dncnn(x)
 #         return out
 
-if args.model == 'DnCNN':
-    model = DnCNN.DnCNN()
-else:
-    model = DnCNN.DnCNN()
-model.load_state_dict(torch.load(args.csv))
-model.eval()
-
-# GPU 사용 여부 확인
-device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
-model.to(device)
-
-# 데이터셋 경로
-noisy_data_path = args.datasets_dir+'/test/scan'
-output_path = args.output_dir
-
-if not os.path.exists(output_path):
-    os.makedirs(output_path)
-
 class CustomDatasetTest(data.Dataset):
     def __init__(self, noisy_image_paths, transform=None):
         self.noisy_image_paths = [join(noisy_image_paths, x) for x in listdir(noisy_image_paths)]
@@ -83,6 +66,27 @@ class CustomDatasetTest(data.Dataset):
             noisy_image = self.transform(noisy_image)
 
         return noisy_image, noisy_image_path
+    
+
+
+if args.model == 'DnCNN':
+    model = DnCNN.DnCNN()
+else:
+    model = DnCNN.DnCNN()
+print(args.csv+args.load_pth)
+model.load_state_dict(torch.load(args.csv+args.load_pth))
+model.eval()
+
+# GPU 사용 여부 확인
+device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
+model.to(device)
+
+# 데이터셋 경로
+noisy_data_path = args.datasets_dir+'/test/scan'
+output_path = args.output_dir
+
+if not os.path.exists(output_path):
+    os.makedirs(output_path)
 
 test_transform = Compose([
     ToTensor(),
@@ -96,65 +100,124 @@ noisy_dataset = CustomDatasetTest(noisy_data_path, transform=test_transform)
 # 데이터 로더 설정
 noisy_loader = DataLoader(noisy_dataset, batch_size=1, shuffle=False)
 
-# 이미지 denoising 및 저장
-for noisy_image, noisy_image_path in noisy_loader:
-    noisy_image = noisy_image.to(device)
-    noise = model(noisy_image)
+def make_csv(save_img=False):
+    folder_path = args.output_dir
+    out_num = 1
+    output_file = args.csv + 'output' + str(out_num) + '.csv'
+    while (os.path.isfile(folder_path + output_file)):
+        out_num += 1
+        output_file = args.csv + 'output' + str(out_num) + '.csv'
 
-    denoised_image = noisy_image - noise
-    
-    # denoised_image를 CPU로 이동하여 이미지 저장
-    denoised_image = denoised_image.cpu().squeeze(0)
-    denoised_image = torch.clamp(denoised_image, 0, 1)  # 이미지 값을 0과 1 사이로 클램핑
-    denoised_image = transforms.ToPILImage()(denoised_image)
 
-    # Save denoised image
-    output_filename = noisy_image_path[0]
-    denoised_filename = output_path + '/' + output_filename.split('/')[-1][:-4] + '.png'
-    denoised_image.save(denoised_filename) 
-    
-    print(f'Saved denoised image: {denoised_filename}')
+    # CSV 파일을 작성하기 위해 오픈
+    with open(output_file, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['Image File', 'Y Channel Value'])
+
+
+        for noisy_image, noisy_image_path in noisy_loader:
+            noisy_image = noisy_image.to(device)
+            noise = model(noisy_image)
+
+            denoised_image = noisy_image - noise
+            
+            # denoised_image를 CPU로 이동하여 이미지 저장
+            denoised_image = denoised_image.cpu().squeeze(0)
+            denoised_image = torch.clamp(denoised_image, 0, 1)  # 이미지 값을 0과 1 사이로 클램핑
+            denoised_image = transforms.ToPILImage()(denoised_image)
+
+            output_filename = noisy_image_path[0]
+            file_name = output_filename.split('/')[-1][:-4]
+
+            if save_img:
+                denoised_filename = output_path + '/' + output_filename.split('/')[-1][:-4] + '.png'
+                denoised_image.save(denoised_filename) 
+                
+                print(f'Saved denoised image: {denoised_filename}')
+
+            # 이미지 로드
+            # image = cv2.imread(denoised_image)
+
+            # 이미지를 YUV 색 공간으로 변환
+            image_yuv = cv2.cvtColor(np.array(denoised_image), cv2.COLOR_BGR2YUV)
+
+            # Y 채널 추출
+            y_channel = image_yuv[:, :, 0]
+
+            # Y 채널을 1차원 배열로 변환
+            y_values = np.mean(y_channel.flatten())
+
+            print(y_values)
+
+            # 파일 이름과 Y 채널 값을 CSV 파일에 작성
+            writer.writerow([file_name, y_values])
+
+    print('CSV file created successfully.')
+
+if False:
+    # 이미지 denoising 및 저장
+    for noisy_image, noisy_image_path in noisy_loader:
+        noisy_image = noisy_image.to(device)
+        noise = model(noisy_image)
+
+        denoised_image = noisy_image - noise
+        
+        # denoised_image를 CPU로 이동하여 이미지 저장
+        denoised_image = denoised_image.cpu().squeeze(0)
+        denoised_image = torch.clamp(denoised_image, 0, 1)  # 이미지 값을 0과 1 사이로 클램핑
+        denoised_image = transforms.ToPILImage()(denoised_image)
+
+        # Save denoised image
+        output_filename = noisy_image_path[0]
+        denoised_filename = output_path + '/' + output_filename.split('/')[-1][:-4] + '.png'
+        denoised_image.save(denoised_filename) 
+        
+        print(f'Saved denoised image: {denoised_filename}')
 
 
 import os
 import cv2
 import csv
 import numpy as np
+# make_csv()
 
-folder_path = args.output_dir
-out_num = 1
-output_file = args.csv + 'output' + str(out_num) + '.csv'
-while (os.path.isfile(folder_path + output_file)):
-    out_num += 1
-output_file = args.csv + 'output' + str(out_num) + '.csv'
+if True:
+    folder_path = args.csv
+    out_num = 1
+    output_file = args.csv+args.load_pth + 'output' + str(out_num) + '.csv'
+    while (os.path.isfile(output_file)):
+        print("add")
+        out_num += 1
+        output_file = args.csv+args.load_pth  + 'output' + str(out_num) + '.csv'
+    print(output_file)
 
+    # 폴더 내 이미지 파일 이름 목록을 가져오기
+    file_names = os.listdir(output_path)
+    file_names.sort()
 
-# 폴더 내 이미지 파일 이름 목록을 가져오기
-file_names = os.listdir(folder_path)
-file_names.sort()
+    # CSV 파일을 작성하기 위해 오픈
+    with open(output_file, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(['Image File', 'Y Channel Value'])
 
-# CSV 파일을 작성하기 위해 오픈
-with open(output_file, 'w', newline='') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(['Image File', 'Y Channel Value'])
+        for file_name in file_names:
+            # 이미지 로드
+            image_path = os.path.join(output_path, file_name)
+            image = cv2.imread(image_path)
 
-    for file_name in file_names:
-        # 이미지 로드
-        image_path = os.path.join(folder_path, file_name)
-        image = cv2.imread(image_path)
+            # 이미지를 YUV 색 공간으로 변환
+            image_yuv = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
 
-        # 이미지를 YUV 색 공간으로 변환
-        image_yuv = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
+            # Y 채널 추출
+            y_channel = image_yuv[:, :, 0]
 
-        # Y 채널 추출
-        y_channel = image_yuv[:, :, 0]
+            # Y 채널을 1차원 배열로 변환
+            y_values = np.mean(y_channel.flatten())
 
-        # Y 채널을 1차원 배열로 변환
-        y_values = np.mean(y_channel.flatten())
+            print(y_values)
 
-        print(y_values)
+            # 파일 이름과 Y 채널 값을 CSV 파일에 작성
+            writer.writerow([file_name[:-4], y_values])
 
-        # 파일 이름과 Y 채널 값을 CSV 파일에 작성
-        writer.writerow([file_name[:-4], y_values])
+    print('CSV file created successfully.')
 
-print('CSV file created successfully.')

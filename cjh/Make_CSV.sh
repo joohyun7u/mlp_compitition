@@ -12,7 +12,8 @@
 dataset_dir=/home/joohyun7u/dataset/ff
 
 py_dir=./models/make_csv.py
-save_dir=./save/best_dncnn_model1.pth
+save_dir=./save/
+load_pth=best_dncnn_model1.pth
 model=DnCNN
 
 
@@ -28,6 +29,7 @@ echo $current_time
 python -u $py_dir \
         --csv=$save_dir \
         --model=$model \
+        --load_pth=$load_pth \
         
 
 echo 'done'
