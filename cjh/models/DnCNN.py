@@ -13,6 +13,7 @@ from os import listdir
 from torchsummary import summary
 import time
 import argparse
+from utils.param import param_check, seed_everything
 
 # 이미지 로드 함수 정의
 def load_img(filepath):
@@ -148,6 +149,8 @@ if __name__ == '__main__':
 
     # DnCNN 모델 인스턴스 생성 및 GPU로 이동
     model = DnCNN().to(device)
+    param_check(model)
+    param_check(model, True)
     print(summary(model, (3, 128, 128)))
 
     # 손실 함수와 최적화 알고리즘 설정
