@@ -55,12 +55,12 @@ class CustomDataset(data.Dataset):
 
 # 모델 학습
 def train(num_epochs, save_val=True):
-    model.train()
     best_loss = 9999.0
     best_val_loss = 9999.0
     tem = 1
     total_iter = len(train_loader)
     for epoch in range(args.epoch):
+        model.train()
         epoch_time = time.time()
         running_loss = 0.0
         for iter, (noisy_images, clean_images) in enumerate(train_loader):
@@ -79,7 +79,7 @@ def train(num_epochs, save_val=True):
 
         epoch_loss = running_loss / len(train_dataset)
         val_loss = val()
-
+        loss_save(args.model,epoch,epoch_loss,val_loss,loss_file)
         print(f'Epoch {epoch+1}/{num_epochs} \tTime: {time.time()-epoch_time:.0f}초 \
               \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f}')
 
@@ -106,6 +106,16 @@ def val():
     epoch_loss = running_loss / len(val_dataset)
     return epoch_loss
 
+def loss_save(model, epoch, train_loss, val_loss, save_dir):
+    torch.save(
+        {
+            "model": model,
+            "epoch": epoch,
+            "train_loss": train_loss,
+            "val_loss": val_loss
+        }, save_dir
+    )
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Argparse')
     parser.add_argument('--epoch',          type=int,   default=80)
@@ -113,7 +123,7 @@ if __name__ == '__main__':
     parser.add_argument('--lr',             type=float, default=0.001)
     parser.add_argument('--val',            type=float, default=0.1)
     parser.add_argument('--cv',             type=float, default=None)
-    parser.add_argument('--summary',        type=bool,   default=False)
+    parser.add_argument('--summary',        type=bool,  default=False)
     parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
     parser.add_argument('--csv',            type=str,   default='./best_dncnn_model1.pth')
     parser.add_argument('--model',          type=str,   default='DnCNN')
@@ -142,15 +152,28 @@ if __name__ == '__main__':
     # 모델 저장 위치 
     model_path = './save/'
     model_num = 1
-    model_file = model_path+'best_'+args.model+'_model' + str(model_num) + '.pth'
+    model_file = model_path+args.model+'_model' + str(model_num) + '.pth'
     while (os.path.isfile(model_file)):
         model_num += 1
-        model_file = model_path+'best_'+args.model+'_model' + str(model_num) + '.pth'
+        model_file = model_path+args.model+'_model' + str(model_num) + '.pth'
     print(model_file)
-    file = open(model_file,"w") 
+    mo = open(model_file,"w") 
     # 파일을 닫습니다. 파일을 닫지 않으면 데이터 손실이 발생할 수 있습니다.
-    file.write('temp')
-    file.close() 
+    mo.write('temp')
+    mo.close() 
+
+    # 모델 Loss 위치 
+    loss_path = './loss'
+    loss_num = 1
+    loss_file = loss_path+'best_'+args.model+'_model' + str(loss_num) + '.pth'
+    while (os.path.isfile(loss_file)):
+        loss_num += 1
+        loss_file = loss_path+'best_'+args.model+'_model' + str(loss_num) + '.pth'
+    print(loss_file)
+    lo = open(loss_file,"w") 
+    # 파일을 닫습니다. 파일을 닫지 않으면 데이터 손실이 발생할 수 있습니다.
+    lo.write('temp')
+    lo.close() 
 
     # 데이터셋 로드 및 전처리
     train_transform = Compose([
