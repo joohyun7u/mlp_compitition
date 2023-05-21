@@ -33,6 +33,6 @@ for m in model_list:
     elif m == 'ResNet152':
         model = ResNet.ResNet152().to(device)
    
-    print('\n\n'm,' 모델은 다음과 같다.')
+    print('\n\n',m,' 모델은 다음과 같다.')
     param_check(model)
     param_check(model, True)
