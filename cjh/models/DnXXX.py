@@ -239,7 +239,6 @@ if __name__ == '__main__':
         model = ResNet.ResNet18().to(device)
     elif m == 'ResNet34':
         model = ResNet.ResNet34().to(device)
-        print('이거')
     elif m == 'ResNet50':
         model = ResNet.ResNet50().to(device)
     elif m == 'ResNet101':

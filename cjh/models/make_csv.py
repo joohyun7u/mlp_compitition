@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import ToTensor
 from torchvision.datasets import ImageFolder
 from torchvision.transforms import ToTensor, Normalize, Compose
-import DnCNN
+import models.DnCNN as DnCNN, models.ResNet as ResNet
 import argparse
 
 # 랜덤 시드 고정
@@ -69,8 +69,19 @@ class CustomDatasetTest(data.Dataset):
     
 
 
-if args.model == 'DnCNN':
+m = args.model
+if m == 'DnCNN':
     model = DnCNN.DnCNN()
+elif m == 'ResNet18':
+    model = ResNet.ResNet18()
+elif m == 'ResNet34':
+    model = ResNet.ResNet34()
+elif m == 'ResNet50':
+    model = ResNet.ResNet50()
+elif m == 'ResNet101':
+    model = ResNet.ResNet101()
+elif m == 'ResNet152':
+    model = ResNet.ResNet152()
 else:
     model = DnCNN.DnCNN()
 print(args.csv+args.load_pth)
