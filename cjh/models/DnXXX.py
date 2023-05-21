@@ -53,12 +53,32 @@ class CustomDataset(data.Dataset):
         
         return noisy_image, clean_image
 
+class loss_save():
+    def __init__(self):
+        self.epochs = []
+        self.train_loss = []
+        self.val_loss = []
+
+    def add(self, model, epoch, train_loss, val_loss, save_dir):
+        self.epochs.append(epoch)
+        self.train_loss.append(train_loss)
+        self.val_loss.append(val_loss)
+        torch.save(
+            {
+                "model": model,
+                "epoch": self.epochs,
+                "train_loss": self.train_loss,
+                "val_loss": self.val_loss
+            }, save_dir
+    )
+
 # 모델 학습
 def train(num_epochs, save_val=True):
     best_loss = 9999.0
     best_val_loss = 9999.0
     tem = 1
     total_iter = len(train_loader)
+    loss_pth = loss_save()
     for epoch in range(args.epoch):
         model.train()
         epoch_time = time.time()
@@ -79,7 +99,7 @@ def train(num_epochs, save_val=True):
 
         epoch_loss = running_loss / len(train_dataset)
         val_loss = val()
-        loss_save(args.model,epoch,epoch_loss,val_loss,loss_file)
+        loss_pth.add(args.model,epoch,epoch_loss,val_loss,loss_file)
         print(f'Epoch {epoch+1}/{num_epochs} \tTime: {time.time()-epoch_time:.0f}초 \
               \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f}')
 
@@ -106,16 +126,6 @@ def val():
     epoch_loss = running_loss / len(val_dataset)
     return epoch_loss
 
-def loss_save(model, epoch, train_loss, val_loss, save_dir):
-    torch.save(
-        {
-            "model": model,
-            "epoch": epoch,
-            "train_loss": train_loss,
-            "val_loss": val_loss
-        }, save_dir
-    )
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Argparse')
     parser.add_argument('--epoch',          type=int,   default=80)
@@ -123,14 +133,15 @@ if __name__ == '__main__':
     parser.add_argument('--lr',             type=float, default=0.001)
     parser.add_argument('--val',            type=float, default=0.1)
     parser.add_argument('--cv',             type=float, default=None)
-    parser.add_argument('--summary',        type=bool,  default=False)
+    parser.add_argument('--summary',        type=str,  default=False)
     parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
     parser.add_argument('--csv',            type=str,   default='./best_dncnn_model1.pth')
     parser.add_argument('--model',          type=str,   default='DnCNN')
     parser.add_argument('--output_dir',     type=str,   default='~/output')
     args = parser.parse_args()
     device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
-    print(f"running: {device}, \tModel: {args.model} \tepoch: {args.epoch}, \tbatch: {args.batch_size}, \tlr: {args.lr}")
+    print(f"running: {device}, \tModel: {args.model} \tepoch: {args.epoch},  \
+          \tbatch: {args.batch_size}, \tlr: {args.lr} \tSummary: {args.summary}")
 
     # 랜덤 시드 고정
     seed_everything(42)
@@ -152,10 +163,10 @@ if __name__ == '__main__':
     # 모델 저장 위치 
     model_path = './save/'
     model_num = 1
-    model_file = model_path+args.model+'_model' + str(model_num) + '.pth'
+    model_file = model_path+'best_'+args.model+'_model' + str(model_num) + '.pth'
     while (os.path.isfile(model_file)):
         model_num += 1
-        model_file = model_path+args.model+'_model' + str(model_num) + '.pth'
+        model_file = model_path+'best_'+args.model+'_model' + str(model_num) + '.pth'
     print(model_file)
     mo = open(model_file,"w") 
     # 파일을 닫습니다. 파일을 닫지 않으면 데이터 손실이 발생할 수 있습니다.
@@ -165,10 +176,10 @@ if __name__ == '__main__':
     # 모델 Loss 위치 
     loss_path = './loss/'
     loss_num = 1
-    loss_file = loss_path+'best_'+args.model+'_model' + str(loss_num) + '.pth'
+    loss_file = loss_path+args.model+'_model' + str(loss_num) + '.pth'
     while (os.path.isfile(loss_file)):
         loss_num += 1
-        loss_file = loss_path+'best_'+args.model+'_model' + str(loss_num) + '.pth'
+        loss_file = loss_path+args.model+'_model' + str(loss_num) + '.pth'
     print(loss_file)
     lo = open(loss_file,"w") 
     # 파일을 닫습니다. 파일을 닫지 않으면 데이터 손실이 발생할 수 있습니다.
@@ -225,7 +236,7 @@ if __name__ == '__main__':
         model = DnCNN.DnCNN().to(device)
     param_check(model)
     param_check(model, True)
-    if args.summary:
+    if args.summary == 'True' or args.summary == 'true':
         print(summary(model, (3, 128, 128)))
 
     # 손실 함수와 최적화 알고리즘 설정
