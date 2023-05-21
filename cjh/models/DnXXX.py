@@ -163,7 +163,7 @@ if __name__ == '__main__':
     mo.close() 
 
     # 모델 Loss 위치 
-    loss_path = './loss'
+    loss_path = './loss/'
     loss_num = 1
     loss_file = loss_path+'best_'+args.model+'_model' + str(loss_num) + '.pth'
     while (os.path.isfile(loss_file)):
