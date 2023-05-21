@@ -8,9 +8,9 @@
 #SBATCH --partition batch_ugrad
 #SBATCH -w ariel-v8
 #SBATCH -o logs/slurm-%A-%x.out
+base_dir=/local_datasets/MLinP
 
-
-fold='/local_datasets/MLinP/test/scan'
+fold=$base_dir'/test/scan'
 if [ -d $fold ]; then
     echo $fold' exist'
 else
@@ -31,7 +31,7 @@ fi
 
 
 
-fold='/local_datasets/MLinP/train/scan'
+fold=$base_dir'/train/scan'
 if [ -d $fold ]; then
     echo $fold' exist'
 else
@@ -51,7 +51,7 @@ else
 fi
 
 
-fold='/local_datasets/MLinP/train/clean'
+fold=$base_dir'/train/clean'
 if [ -d $fold ]; then
     echo $fold' exist'
 else

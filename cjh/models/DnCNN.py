@@ -13,7 +13,7 @@ from os import listdir
 from torchsummary import summary
 import time
 import argparse
-from utils.param import param_check, seed_everything
+# from utils.param import param_check, seed_everything
 
 # 이미지 로드 함수 정의
 def load_img(filepath):

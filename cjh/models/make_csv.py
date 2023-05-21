@@ -28,10 +28,10 @@ parser.add_argument('--output_dir',     type=str,   default='../../output')
 parser.add_argument('--load_pth',       type=str,   default='best_dncnn_model1.pth')
 args = parser.parse_args()
 
-# def load_img(filepath):
-#     img = cv2.imread(filepath)
-#     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-#     return img
+def load_img(filepath):
+    img = cv2.imread(filepath)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    return img
 
 # # DnCNN 모델 정의
 # class DnCNN(nn.Module):
@@ -60,7 +60,7 @@ class CustomDatasetTest(data.Dataset):
     def __getitem__(self, index):
         
         noisy_image_path = self.noisy_image_paths[index]
-        noisy_image = DnCNN.load_img(self.noisy_image_paths[index])
+        noisy_image = load_img(self.noisy_image_paths[index])
         
         if self.transform:
             noisy_image = self.transform(noisy_image)

@@ -22,7 +22,7 @@ model=DnCNN
 
 python -u $py_dir \
         --epoch=300 \
-        --batch_size=64 \
+        --batch_size=48 \
         --lr=0.001 \
         --model=$model \
         --summary=False \

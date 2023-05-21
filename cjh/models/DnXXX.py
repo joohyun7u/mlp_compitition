@@ -15,6 +15,11 @@ import time
 import argparse
 import DnCNN, resnet
 from utils.param import param_check, seed_everything
+import utils.vgg_loss, utils.vgg_perceptual_loss
+
+
+
+
 
 # 이미지 로드 함수 정의
 def load_img(filepath):
@@ -240,7 +245,12 @@ if __name__ == '__main__':
         print(summary(model, (3, 128, 128)))
 
     # 손실 함수와 최적화 알고리즘 설정
-    criterion = nn.MSELoss()
+    # criterion = nn.MSELoss()
+    # criterion = utils.vgg_loss.WeightedLoss([utils.vgg_loss.VGGLoss(shift=2),
+    #                                         nn.MSELoss(),
+    #                                         utils.vgg_loss.TVLoss(p=1)],
+    #                                         [1, 40, 10]).to(device)
+    criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss().to(device)
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
     scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
 
