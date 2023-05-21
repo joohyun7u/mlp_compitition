@@ -13,7 +13,7 @@ from os import listdir
 from torchsummary import summary
 import time
 import argparse
-import DnCNN, resnet
+import models.DnCNN as DnCNN, models.ResNet as ResNet
 from utils.param import param_check, seed_everything
 import utils.vgg_loss, utils.vgg_perceptual_loss
 
@@ -227,16 +227,16 @@ if __name__ == '__main__':
     if m == 'DnCNN':
         model = DnCNN.DnCNN().to(device)
     elif m == 'ResNet18':
-        model = resnet.resnet18().to(device)
+        model = ResNet.ResNet18().to(device)
     elif m == 'ResNet34':
-        model = resnet.resnet34().to(device)
+        model = ResNet.ResNet34().to(device)
         print('이거')
     elif m == 'ResNet50':
-        model = resnet.resnet50().to(device)
+        model = ResNet.ResNet50().to(device)
     elif m == 'ResNet101':
-        model = resnet.resnet101().to(device)
+        model = ResNet.ResNet101().to(device)
     elif m == 'ResNet152':
-        model = resnet.resnet152().to(device)
+        model = ResNet.ResNet152().to(device)
     else:
         model = DnCNN.DnCNN().to(device)
     param_check(model)

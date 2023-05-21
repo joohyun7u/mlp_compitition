@@ -1,5 +1,5 @@
 """A VGG-based perceptual loss function for PyTorch."""
-
+# https://github.com/crowsonkb/vgg_loss/blob/master/vgg_loss.py
 import torch
 from torch import nn
 from torch.nn import functional as F
