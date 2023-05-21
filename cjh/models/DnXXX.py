@@ -59,10 +59,11 @@ def train(num_epochs, save_val=True):
     best_loss = 9999.0
     best_val_loss = 9999.0
     tem = 1
+    total_iter = len(train_loader)
     for epoch in range(args.epoch):
         epoch_time = time.time()
         running_loss = 0.0
-        for noisy_images, clean_images in train_loader:
+        for iter, (noisy_images, clean_images) in enumerate(train_loader):
             noisy_images, clean_images = noisy_images.to(device), clean_images.to(device)
             optimizer.zero_grad()
             outputs = model(noisy_images)
@@ -73,10 +74,13 @@ def train(num_epochs, save_val=True):
             loss.backward()
             optimizer.step()
             running_loss += loss.item() * noisy_images.size(0)
+            if (iter+1) % int(total_iter/4) == 0:
+                print(f'\t[{iter+1}/{total_iter}] \tTrain_Loss: {loss.item():.4f}')
+
         epoch_loss = running_loss / len(train_dataset)
         val_loss = val()
 
-        print(f'Time: {time.time()-epoch_time:.0f}초 \tEpoch {epoch+1}/{num_epochs}, \
+        print(f'Epoch {epoch+1}/{num_epochs} \tTime: {time.time()-epoch_time:.0f}초 \
               \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f}')
 
     # 현재 epoch의 loss가 최소 loss보다 작으면 모델 갱신
@@ -109,6 +113,7 @@ if __name__ == '__main__':
     parser.add_argument('--lr',             type=float, default=0.001)
     parser.add_argument('--val',            type=float, default=0.1)
     parser.add_argument('--cv',             type=float, default=None)
+    parser.add_argument('--summary',        type=bool,   default=False)
     parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
     parser.add_argument('--csv',            type=str,   default='./best_dncnn_model1.pth')
     parser.add_argument('--model',          type=str,   default='DnCNN')
@@ -197,7 +202,8 @@ if __name__ == '__main__':
         model = DnCNN.DnCNN().to(device)
     param_check(model)
     param_check(model, True)
-    print(summary(model, (3, 128, 128)))
+    if args.summary:
+        print(summary(model, (3, 128, 128)))
 
     # 손실 함수와 최적화 알고리즘 설정
     criterion = nn.MSELoss()

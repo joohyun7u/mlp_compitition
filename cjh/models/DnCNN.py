@@ -125,7 +125,7 @@ if __name__ == '__main__':
     # 데이터셋 경로
     noisy_image_paths = dataset_dir+'/train/scan'
     clean_image_paths = dataset_dir+'/train/clean'
-
+    
     # 모델 저장 위치 
     model_path = '../save/'
     model_num = 1
