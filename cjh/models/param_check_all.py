@@ -27,23 +27,8 @@ models = {'DnCNN': DnCNN.DnCNN(),
           }
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
-for m in model_list:
-    if m == 'DnCNN':
-        model = DnCNN.DnCNN().to(device)
-    elif m == 'ResNet18':
-        model = ResNet.ResNet18().to(device)
-    elif m == 'ResNet34':
-        model = ResNet.ResNet34().to(device)
-    elif m == 'ResNet50':
-        model = ResNet.ResNet50().to(device)
-    elif m == 'ResNet101':
-        model = ResNet.ResNet101().to(device)
-    elif m == 'ResNet152':
-        model = ResNet.ResNet152().to(device)
-    elif m == 'RFDN':
-        model = RFDN.RFDN().to(device)
-   
+for m in model_list:   
     print('\n\n',m,' 모델은 다음과 같다.')
-    param_check(model)
-    param_check(model, True)
-print(summary(model, (3, 128, 128)))
+    param_check(models[m])
+    param_check(models[m], True)
+    print(summary(models[m], (3, 128, 128)))
