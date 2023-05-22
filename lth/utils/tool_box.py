@@ -1,13 +1,15 @@
 import random, numpy as np, cv2, time
-
 import os
 from os import listdir
 from os.path import join
 
 import torch
 import torch.utils.data as data
+import torchvision.transforms as transforms
 
 device = torch.device('cuda' if torch.cuda.is_available()  else 'cpu')
+
+##############트레이너 관련################
 
 class CustomDataset(data.Dataset):
     def __init__(self, noisy_image_paths, clean_image_paths, patch_size = 128, transform=None):
@@ -101,6 +103,54 @@ class Trainer():
         return epoch_loss
 
 
+
+##############테스트 관련################
+
+class CustomDatasetTest(data.Dataset):
+    def __init__(self, noisy_image_paths, transform=None):
+        self.noisy_image_paths = [join(noisy_image_paths, x) for x in listdir(noisy_image_paths)]
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.noisy_image_paths)
+
+    def __getitem__(self, index):
+        
+        noisy_image_path = self.noisy_image_paths[index]
+        noisy_image = load_img(self.noisy_image_paths[index])
+        
+        if self.transform:
+            noisy_image = self.transform(noisy_image)
+
+        return noisy_image, noisy_image_path
+
+class Tester():
+    def __init__(self, model, model_name, test_data_loader,output_dir):
+        self.model = model
+        self.model_name = model_name
+        self.test_data_loader = test_data_loader
+        self.output_dir = output_dir
+
+    def test(self):
+        self.model.eval()
+        for noisy_image, noisy_image_path in self.test_data_loader:
+            noisy_image = noisy_image.to(device)
+            noise = self.model(noisy_image)
+
+            denoised_image = noisy_image - noise
+        
+            denoised_image = denoised_image.cpu().squeeze(0)
+            denoised_image = torch.clamp(denoised_image, 0, 1)  
+            denoised_image = transforms.ToPILImage()(denoised_image)
+
+            output_filename = noisy_image_path[0]
+            denoised_filename = join(self.output_dir, output_filename.split('\\')[-1][:-4] + '.png')
+            denoised_image.save(denoised_filename) 
+        
+        print(f'Saved denoised image: {denoised_filename}')
+
+
+############## 유틸리티 ################
 class Timer():    
     def __init__(self):
         self.start_time = None
@@ -122,6 +172,21 @@ class Timer():
 
         print(f"total training duration: {hours}H {minutes}M {seconds}S")
 
+def load_img(filepath):
+    img = cv2.imread(filepath)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    return img
+
+def seed_everything(seed, deterministic=False):
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    if deterministic:
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = True
+
 class loss_manager():
     def __init__(self):
         self.epochs = []
@@ -142,20 +207,3 @@ class loss_manager():
                 "val_loss": self.val_loss
             }, save_dir + str(model_name) + '.pth'
         )
-
-# 전체 코드 랜덤 시드 설정
-def seed_everything(seed, deterministic=False):
-    random.seed(seed)
-    os.environ['PYTHONHASHSEED'] = str(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed(seed)
-    if deterministic:
-        torch.backends.cudnn.deterministic = True
-        torch.backends.cudnn.benchmark = True
-
-# 이미지 로딩 함수
-def load_img(filepath):
-    img = cv2.imread(filepath)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    return img

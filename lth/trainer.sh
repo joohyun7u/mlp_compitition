@@ -22,6 +22,5 @@ python -u trainer.py \
         --model=$model_name \
         --model_save_dir=$model_save_dir \
         --loss_save_dir=$loss_save_dir  
-
-echo 'done'
+        
 exit 0
