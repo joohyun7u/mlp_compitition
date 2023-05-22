@@ -2,14 +2,17 @@ import torch
 import torchvision
 # https://gist.github.com/alper111/8233cdb0414b4cb5853f2f730ab95a49
 
+
+models = {'vgg16': torchvision.models.vgg16, 'vgg19': torchvision.models.vgg19}
+
 class VGGPerceptualLoss(torch.nn.Module):
-    def __init__(self, resize=True):
+    def __init__(self, model='vgg16', resize=True):
         super(VGGPerceptualLoss, self).__init__()
         blocks = []
-        blocks.append(torchvision.models.vgg16(pretrained=True).features[:4].eval())
-        blocks.append(torchvision.models.vgg16(pretrained=True).features[4:9].eval())
-        blocks.append(torchvision.models.vgg16(pretrained=True).features[9:16].eval())
-        blocks.append(torchvision.models.vgg16(pretrained=True).features[16:23].eval())
+        blocks.append(models[model](pretrained=True).features[:4].eval())
+        blocks.append(models[model](pretrained=True).features[4:9].eval())
+        blocks.append(models[model](pretrained=True).features[9:16].eval())
+        blocks.append(models[model](pretrained=True).features[16:23].eval())
         for bl in blocks:
             for p in bl.parameters():
                 p.requires_grad = False
