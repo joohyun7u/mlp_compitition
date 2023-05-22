@@ -13,11 +13,7 @@ from os import listdir
 from torchsummary import summary
 import time
 import argparse
-<<<<<<< HEAD
-import DnCNN, resnet
-=======
 import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN
->>>>>>> 7804428de63d7d7dba5f48fbe091d6a5358b31ca
 from utils.param import param_check, seed_everything
 import utils.vgg_loss, utils.vgg_perceptual_loss
 
@@ -143,11 +139,8 @@ if __name__ == '__main__':
     parser.add_argument('--lr',             type=float, default=0.001)
     parser.add_argument('--val',            type=float, default=0.1)
     parser.add_argument('--cv',             type=float, default=None)
-<<<<<<< HEAD
-=======
     loss_list =  ['MSELoss', 'vgg_loss', 'vgg_perceptual_loss']
     parser.add_argument('--loss',           type=int,   default=1)
->>>>>>> 7804428de63d7d7dba5f48fbe091d6a5358b31ca
     parser.add_argument('--summary',        type=str,  default=False)
     parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
     parser.add_argument('--csv',            type=str,   default='./best_dncnn_model1.pth')
@@ -238,27 +231,18 @@ if __name__ == '__main__':
     if m == 'DnCNN':
         model = DnCNN.DnCNN().to(device)
     elif m == 'ResNet18':
-        model = resnet.resnet18().to(device)
+        model = ResNet.ResNet18().to(device)
     elif m == 'ResNet34':
-<<<<<<< HEAD
-        model = resnet.resnet34().to(device)
-        print('이거')
-=======
         model = ResNet.ResNet34().to(device)
->>>>>>> 7804428de63d7d7dba5f48fbe091d6a5358b31ca
     elif m == 'ResNet50':
-        model = resnet.resnet50().to(device)
+        model = ResNet.ResNet50().to(device)
     elif m == 'ResNet101':
-        model = resnet.resnet101().to(device)
+        model = ResNet.ResNet101().to(device)
     elif m == 'ResNet152':
-<<<<<<< HEAD
-        model = resnet.resnet152().to(device)
-=======
         model = ResNet.ResNet152().to(device)
     elif m == 'RFDN':
         model = RFDN.RFDN().to(device)
         args.lr = 5e-4
->>>>>>> 7804428de63d7d7dba5f48fbe091d6a5358b31ca
     else:
         model = DnCNN.DnCNN().to(device)
     param_check(model)
@@ -267,14 +251,6 @@ if __name__ == '__main__':
         print(summary(model, (3, 128, 128)))
 
     # 손실 함수와 최적화 알고리즘 설정
-<<<<<<< HEAD
-    # criterion = nn.MSELoss()
-    # criterion = utils.vgg_loss.WeightedLoss([utils.vgg_loss.VGGLoss(shift=2),
-    #                                         nn.MSELoss(),
-    #                                         utils.vgg_loss.TVLoss(p=1)],
-    #                                         [1, 40, 10]).to(device)
-    criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss().to(device)
-=======
     if args.loss == 0:
         criterion = nn.MSELoss()
     elif args.loss == 1:
@@ -284,7 +260,6 @@ if __name__ == '__main__':
                                                 [1, 40, 10]).to(device)
     elif args.loss == 2:
         criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss(model='vgg16').to(device)
->>>>>>> 7804428de63d7d7dba5f48fbe091d6a5358b31ca
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
     # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
     scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
