@@ -13,10 +13,12 @@ from os import listdir
 from torchsummary import summary
 import time
 import argparse
-import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN
+import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN, models.DRLN as DRLN
 from utils.param import param_check, seed_everything
 import utils.vgg_loss, utils.vgg_perceptual_loss
-
+import gc
+gc.collect()
+torch.cuda.empty_cache()
 
 
 
@@ -77,6 +79,21 @@ class loss_save():
             }, save_dir
     )
 
+class BilateralBlur(object):
+    def __init__(self, output_size):
+        assert isinstance(output_size, int)
+        if isinstance(output_size, int):
+            self.output_size = (output_size, output_size)
+        else:
+            assert len(output_size) == 2
+            self.output_size = output_size
+
+    def __call__(self,sample):
+        image = sample
+        h, w = image.shape[:2]
+
+        return cv2.bilateralFilter(image,-1,10,5)
+
 # 모델 학습
 def train(num_epochs, noise = True, save_val=True):
     best_loss = 9999.0
@@ -127,15 +144,16 @@ def train(num_epochs, noise = True, save_val=True):
 def val(noise = True):
     model.eval()
     running_loss = 0.0
-    for noisy_images, clean_images in val_loader:
-        noisy_images, clean_images = noisy_images.to(device), clean_images.to(device)
-        outputs = model(noisy_images)
-        if noise:
-            loss = criterion(outputs, noisy_images-clean_images)
-        else:
-            loss = criterion(outputs, clean_images)
-        running_loss += loss.item() * noisy_images.size(0)
-    epoch_loss = running_loss / len(val_dataset)
+    with torch.no_grad():
+        for noisy_images, clean_images in val_loader:
+            noisy_images, clean_images = noisy_images.to(device), clean_images.to(device)
+            outputs = model(noisy_images)
+            if noise:
+                loss = criterion(outputs, noisy_images-clean_images)
+            else:
+                loss = criterion(outputs, clean_images)
+            running_loss += loss.item() * noisy_images.size(0)
+        epoch_loss = running_loss / len(val_dataset)
     return epoch_loss
 
 if __name__ == '__main__':
@@ -210,11 +228,13 @@ if __name__ == '__main__':
 
     # 데이터셋 로드 및 전처리
     train_transform = Compose([
+        BilateralBlur(128),
         ToTensor(),
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
     val_transform = Compose([
+        BilateralBlur(128),
         ToTensor(),
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
@@ -256,6 +276,9 @@ if __name__ == '__main__':
     elif m == 'RFDN':
         model = RFDN.RFDN().to(device)
         args.lr = 5e-4
+    elif m == 'DRLN':
+        model = DRLN.DRLN().to(device)
+        args.lr = 1e-4
     else:
         model = DnCNN.DnCNN().to(device)
     param_check(model)

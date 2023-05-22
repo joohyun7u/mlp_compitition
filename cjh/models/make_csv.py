@@ -49,6 +49,21 @@ def load_img(filepath):
 #         out = self.dncnn(x)
 #         return out
 
+class BilateralBlur(object):
+    def __init__(self, output_size):
+        assert isinstance(output_size, int)
+        if isinstance(output_size, int):
+            self.output_size = (output_size, output_size)
+        else:
+            assert len(output_size) == 2
+            self.output_size = output_size
+
+    def __call__(self,sample):
+        image = sample
+        h, w = image.shape[:2]
+
+        return cv2.bilateralFilter(image,-1,10,5)
+
 class CustomDatasetTest(data.Dataset):
     def __init__(self, noisy_image_paths, transform=None):
         self.noisy_image_paths = [join(noisy_image_paths, x) for x in listdir(noisy_image_paths)]
@@ -102,6 +117,7 @@ if not os.path.exists(output_path):
     os.makedirs(output_path)
 
 test_transform = Compose([
+    BilateralBlur(512),
     ToTensor(),
     Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
 ])
