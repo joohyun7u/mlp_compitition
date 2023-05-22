@@ -13,7 +13,11 @@ from os import listdir
 from torchsummary import summary
 import time
 import argparse
+<<<<<<< HEAD
 import DnCNN, resnet
+=======
+import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN
+>>>>>>> 7804428de63d7d7dba5f48fbe091d6a5358b31ca
 from utils.param import param_check, seed_everything
 import utils.vgg_loss, utils.vgg_perceptual_loss
 
@@ -98,6 +102,7 @@ def train(num_epochs, save_val=True):
             loss = criterion(outputs, noisy_images-clean_images)
             loss.backward()
             optimizer.step()
+            scheduler.step()
             running_loss += loss.item() * noisy_images.size(0)
             if (iter+1) % int(total_iter/4) == 0:
                 print(f'\t[{iter+1}/{total_iter}] \tTrain_Loss: {loss.item():.4f}')
@@ -138,6 +143,11 @@ if __name__ == '__main__':
     parser.add_argument('--lr',             type=float, default=0.001)
     parser.add_argument('--val',            type=float, default=0.1)
     parser.add_argument('--cv',             type=float, default=None)
+<<<<<<< HEAD
+=======
+    loss_list =  ['MSELoss', 'vgg_loss', 'vgg_perceptual_loss']
+    parser.add_argument('--loss',           type=int,   default=1)
+>>>>>>> 7804428de63d7d7dba5f48fbe091d6a5358b31ca
     parser.add_argument('--summary',        type=str,  default=False)
     parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
     parser.add_argument('--csv',            type=str,   default='./best_dncnn_model1.pth')
@@ -146,7 +156,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
     print(f"running: {device}, \tModel: {args.model} \tepoch: {args.epoch},  \
-          \tbatch: {args.batch_size}, \tlr: {args.lr} \tSummary: {args.summary}")
+          \tbatch: {args.batch_size}, \tlr: {args.lr} \tSummary: {args.summary} \
+          \tloss: {loss_list[args.loss]}")
 
     # 랜덤 시드 고정
     seed_everything(42)
@@ -229,14 +240,25 @@ if __name__ == '__main__':
     elif m == 'ResNet18':
         model = resnet.resnet18().to(device)
     elif m == 'ResNet34':
+<<<<<<< HEAD
         model = resnet.resnet34().to(device)
         print('이거')
+=======
+        model = ResNet.ResNet34().to(device)
+>>>>>>> 7804428de63d7d7dba5f48fbe091d6a5358b31ca
     elif m == 'ResNet50':
         model = resnet.resnet50().to(device)
     elif m == 'ResNet101':
         model = resnet.resnet101().to(device)
     elif m == 'ResNet152':
+<<<<<<< HEAD
         model = resnet.resnet152().to(device)
+=======
+        model = ResNet.ResNet152().to(device)
+    elif m == 'RFDN':
+        model = RFDN.RFDN().to(device)
+        args.lr = 5e-4
+>>>>>>> 7804428de63d7d7dba5f48fbe091d6a5358b31ca
     else:
         model = DnCNN.DnCNN().to(device)
     param_check(model)
@@ -245,14 +267,27 @@ if __name__ == '__main__':
         print(summary(model, (3, 128, 128)))
 
     # 손실 함수와 최적화 알고리즘 설정
+<<<<<<< HEAD
     # criterion = nn.MSELoss()
     # criterion = utils.vgg_loss.WeightedLoss([utils.vgg_loss.VGGLoss(shift=2),
     #                                         nn.MSELoss(),
     #                                         utils.vgg_loss.TVLoss(p=1)],
     #                                         [1, 40, 10]).to(device)
     criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss().to(device)
+=======
+    if args.loss == 0:
+        criterion = nn.MSELoss()
+    elif args.loss == 1:
+        criterion = utils.vgg_loss.WeightedLoss([utils.vgg_loss.VGGLoss(model='vgg16',shift=2),
+                                                nn.MSELoss(),
+                                                utils.vgg_loss.TVLoss(p=1)],
+                                                [1, 40, 10]).to(device)
+    elif args.loss == 2:
+        criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss(model='vgg16').to(device)
+>>>>>>> 7804428de63d7d7dba5f48fbe091d6a5358b31ca
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
-    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
+    # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
+    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
 
     # 모델 학습
     print("모델 학습 시작")
