@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name rfdn
+#SBATCH --job-name rfdn_clean
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=6
 #SBATCH --mem-per-gpu=24G
@@ -27,7 +27,8 @@ python -u $py_dir \
         --model=$model \
         --summary=False \
         --val=0.1 \
-        --loss=1 \
+        --loss=2 \
+        --get_noise=False \
 
 
 echo 'done'

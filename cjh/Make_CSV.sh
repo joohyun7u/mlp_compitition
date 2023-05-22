@@ -6,15 +6,16 @@
 #SBATCH --mem-per-gpu=24G
 #SBATCH --time 1-0
 #SBATCH --partition batch_ugrad
-#SBATCH -w ariel-v2
+#SBATCH -w ariel-v9
 #SBATCH -o ./logs/slurm-%A-%x.out
 
 dataset_dir=/home/joohyun7u/dataset/ff
 
 py_dir=./models/make_csv.py
 save_dir=./save/
-load_pth=best_dncnn_model1.pth
-model=DnCNN
+load_pth=best_RFDN_model3.pth
+# DnCNN, ResNet18 34 50 101 152, RFDN
+model=RFDN
 
 
 source /data/joohyun7u/cjh/sh/setup.sh

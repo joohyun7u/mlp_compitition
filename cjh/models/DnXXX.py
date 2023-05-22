@@ -78,7 +78,7 @@ class loss_save():
     )
 
 # 모델 학습
-def train(num_epochs, save_val=True):
+def train(num_epochs, noise = True, save_val=True):
     best_loss = 9999.0
     best_val_loss = 9999.0
     tem = 1
@@ -95,7 +95,10 @@ def train(num_epochs, save_val=True):
             if tem:
                 tem=0
                 print(outputs.size(), clean_images.size())
-            loss = criterion(outputs, noisy_images-clean_images)
+            if noise:
+                loss = criterion(outputs, noisy_images-clean_images)
+            else:
+                loss = criterion(outputs, clean_images)
             loss.backward()
             optimizer.step()
             scheduler.step()
@@ -104,7 +107,7 @@ def train(num_epochs, save_val=True):
                 print(f'\t[{iter+1}/{total_iter}] \tTrain_Loss: {loss.item():.4f}')
 
         epoch_loss = running_loss / len(train_dataset)
-        val_loss = val()
+        val_loss = val(noise)
         loss_pth.add(args.model,epoch,epoch_loss,val_loss,loss_file)
         print(f'Epoch {epoch+1}/{num_epochs} \tTime: {time.time()-epoch_time:.0f}초 \
               \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f}')
@@ -121,13 +124,16 @@ def train(num_epochs, save_val=True):
                 torch.save(model.state_dict(), model_file)
                 print(f"{epoch+1}epoch 모델 저장 완료")
 
-def val():
+def val(noise = True):
     model.eval()
     running_loss = 0.0
     for noisy_images, clean_images in val_loader:
         noisy_images, clean_images = noisy_images.to(device), clean_images.to(device)
         outputs = model(noisy_images)
-        loss = criterion(outputs, noisy_images-clean_images)
+        if noise:
+            loss = criterion(outputs, noisy_images-clean_images)
+        else:
+            loss = criterion(outputs, clean_images)
         running_loss += loss.item() * noisy_images.size(0)
     epoch_loss = running_loss / len(val_dataset)
     return epoch_loss
@@ -141,7 +147,8 @@ if __name__ == '__main__':
     parser.add_argument('--cv',             type=float, default=None)
     loss_list =  ['MSELoss', 'vgg_loss', 'vgg_perceptual_loss']
     parser.add_argument('--loss',           type=int,   default=1)
-    parser.add_argument('--summary',        type=str,  default=False)
+    parser.add_argument('--get_noise',      type=str,   default='True')
+    parser.add_argument('--summary',        type=str,   default=False)
     parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
     parser.add_argument('--csv',            type=str,   default='./best_dncnn_model1.pth')
     parser.add_argument('--model',          type=str,   default='DnCNN')
@@ -150,7 +157,7 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
     print(f"running: {device}, \tModel: {args.model} \tepoch: {args.epoch},  \
           \tbatch: {args.batch_size}, \tlr: {args.lr} \tSummary: {args.summary} \
-          \tloss: {loss_list[args.loss]}")
+          \tloss: {loss_list[args.loss]}, \t Noise_Img {args.get_noise}")
 
     # 랜덤 시드 고정
     seed_everything(42)
@@ -159,6 +166,12 @@ if __name__ == '__main__':
     start_time = time.time()
 
     # 하이퍼파라미터 설정
+    if args.get_noise == 'True' or args.get_noise == 'true':
+        end_pth = '.pth'
+        result_noise = True
+    else:
+        end_pth = '_clean.pth'
+        result_noise = False
     num_epochs = args.epoch
     batch_size = args.batch_size
     learning_rate = args.lr
@@ -172,10 +185,10 @@ if __name__ == '__main__':
     # 모델 저장 위치 
     model_path = './save/'
     model_num = 1
-    model_file = model_path+'best_'+args.model+'_model' + str(model_num) + '.pth'
+    model_file = model_path+'best_'+args.model+'_model' + str(model_num) + end_pth
     while (os.path.isfile(model_file)):
         model_num += 1
-        model_file = model_path+'best_'+args.model+'_model' + str(model_num) + '.pth'
+        model_file = model_path+'best_'+args.model+'_model' + str(model_num) + end_pth
     print(model_file)
     mo = open(model_file,"w") 
     # 파일을 닫습니다. 파일을 닫지 않으면 데이터 손실이 발생할 수 있습니다.
@@ -185,10 +198,10 @@ if __name__ == '__main__':
     # 모델 Loss 위치 
     loss_path = './loss/'
     loss_num = 1
-    loss_file = loss_path+args.model+'_model' + str(loss_num) + '.pth'
+    loss_file = loss_path+args.model+'_model' + str(loss_num) + end_pth
     while (os.path.isfile(loss_file)):
         loss_num += 1
-        loss_file = loss_path+args.model+'_model' + str(loss_num) + '.pth'
+        loss_file = loss_path+args.model+'_model' + str(loss_num) + end_pth
     print(loss_file)
     lo = open(loss_file,"w") 
     # 파일을 닫습니다. 파일을 닫지 않으면 데이터 손실이 발생할 수 있습니다.
@@ -259,14 +272,16 @@ if __name__ == '__main__':
                                                 utils.vgg_loss.TVLoss(p=1)],
                                                 [1, 40, 10]).to(device)
     elif args.loss == 2:
-        criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss(model='vgg16').to(device)
+        vgg_model = 'vgg16'
+        print('! vgg model :' , vgg_model)
+        criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss(model=vgg_model).to(device)
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
     # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
     scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
 
     # 모델 학습
     print("모델 학습 시작")
-    train(args.epoch)
+    train(args.epoch,result_noise)
 
     # 종료 시간 기록
     end_time = time.time()

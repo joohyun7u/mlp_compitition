@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import ToTensor
 from torchvision.datasets import ImageFolder
 from torchvision.transforms import ToTensor, Normalize, Compose
-import models.DnCNN as DnCNN, models.ResNet as ResNet
+import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN
 import argparse
 
 # 랜덤 시드 고정
@@ -82,6 +82,8 @@ elif m == 'ResNet101':
     model = ResNet.ResNet101()
 elif m == 'ResNet152':
     model = ResNet.ResNet152()
+elif m == 'RFDN':
+        model = RFDN.RFDN()
 else:
     model = DnCNN.DnCNN()
 print(args.csv+args.load_pth)
