@@ -39,6 +39,7 @@ if __name__ == '__main__':
     T.seed_everything(42)
 
     # 하이퍼파라미터 설정
+    version = args.version
     num_epochs = args.epoch
     batch_size = args.batch_size
     learning_rate = args.lr
@@ -94,6 +95,7 @@ if __name__ == '__main__':
     # 학습
     trainer = T.Trainer(
         model = model,
+        version = version,
         model_name = model_name,
         num_epochs = num_epochs,
         train_data_loader = train_loader,

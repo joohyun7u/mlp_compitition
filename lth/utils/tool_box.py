@@ -45,8 +45,9 @@ class CustomDataset(data.Dataset):
         return noisy_image, noise_image
     
 class Trainer():
-    def __init__(self, model, model_name, num_epochs, train_data_loader, valid_data_loader , optimizer, criterion,model_save_dir,loss_save_dir):
+    def __init__(self, model, version, model_name, num_epochs, train_data_loader, valid_data_loader , optimizer, criterion,model_save_dir,loss_save_dir):
         self.model = model
+        self.version = version
         self.model_name = model_name
         self.num_epochs = num_epochs
         self.train_data_loader = train_data_loader
@@ -87,10 +88,10 @@ class Trainer():
 
             if val_loss < best_val_loss:
                 best_val_loss = val_loss
-                torch.save(self.model.state_dict(), self.model_save_dir + self.model_name + ".pth")
+                torch.save(self.model.state_dict(), self.model_save_dir + self.model_name + self.version + ".pth")
 
 
-        loss_pth.save(self.model_name, self.loss_save_dir)
+        loss_pth.save(self.model_name + self.version, self.loss_save_dir)
         timer.stop()
 
 
