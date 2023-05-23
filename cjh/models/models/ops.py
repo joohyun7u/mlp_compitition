@@ -217,6 +217,9 @@ class _UpsampleBlock(nn.Module):
         elif scale == 3:
             modules += [nn.Conv2d(n_channels, 9*n_channels, 3, 1, 1, groups=group), nn.ReLU(inplace=True)]
             modules += [nn.PixelShuffle(3)]
+        else:
+            modules += [nn.Conv2d(n_channels, n_channels, 3, 1, 1, groups=group), nn.ReLU(inplace=True)]
+            modules += [nn.PixelShuffle(1)]
 
         self.body = nn.Sequential(*modules)
         init_weights(self.modules)

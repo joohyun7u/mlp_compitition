@@ -14,7 +14,7 @@ from torchsummary import summary
 import time
 import argparse
 import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN, models.DRLN as DRLN
-import models.utils.randaugment as randaugment
+import utils.randaugment as randaugment
 from utils.param import param_check, seed_everything
 import utils.vgg_loss, utils.vgg_perceptual_loss
 import gc
@@ -233,7 +233,7 @@ if __name__ == '__main__':
     # 데이터셋 로드 및 전처리
     train_transform = Compose([
         # BilateralBlur(args.train_img_size),
-        randaugment.RandAugment(),
+        # randaugment.RandAugment(),
         ToTensor(),
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
