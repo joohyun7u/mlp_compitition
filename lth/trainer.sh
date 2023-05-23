@@ -10,12 +10,12 @@
 #SBATCH -o ./logs/slurm-%A-%x.out
 
 epoch=10
-batch_size=32
-lr=0.001
+batch_size=16
+lr=0.01
 val_rate=0.1
 isCV=0
 datasets_dir=C:/local_datasets/MLinP/
-model_name=DnCNN
+model_name=UNet
 model_save_dir=./model_save/    
 loss_save_dir=./loss_save/    
 

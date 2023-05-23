@@ -1,6 +1,6 @@
 #!/bin/bash
-datasets_dir=C:/local_datasets/MLinP/test/scan
-model_name=DnCNN
+datasets_dir=C:/local_datasets/MLinP/train/scan
+model_name=UNet
 model_save_dir=./model_save    
 output_dir=./outputs 
 

@@ -8,18 +8,21 @@ from torchvision.transforms import ToTensor, Normalize, Compose
 import torchsummary
 
 from utils import tool_box as T
+from utils.custom_transforms import NoiseReconstruct
+from utils.custom_transforms import RGBtoYcrcb
+from utils.vgg_perceptual_loss import VGGPerceptualLoss
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Argparse')
-    parser.add_argument('--epoch',          type=int,   default=80)
-    parser.add_argument('--batch_size',     type=int,   default=64)
-    parser.add_argument('--lr',             type=float, default=0.001)
-    parser.add_argument('--val_rate',       type=float, default=0.1)
-    parser.add_argument('--isCV',           type=float, default=None)
-    parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
-    parser.add_argument('--model',          type=str,   default=None)
-    parser.add_argument('--model_save_dir', type=str,   default='./model_save/')
-    parser.add_argument('--loss_save_dir',  type=str,   default='./loss_save/')
+    parser.add_argument('--epoch',          type=int)
+    parser.add_argument('--batch_size',     type=int)
+    parser.add_argument('--lr',             type=float)
+    parser.add_argument('--val_rate',       type=float)
+    parser.add_argument('--isCV',           type=float)
+    parser.add_argument('--datasets_dir',   type=str)
+    parser.add_argument('--model',          type=str)
+    parser.add_argument('--model_save_dir', type=str)
+    parser.add_argument('--loss_save_dir',  type=str)
 
     args = parser.parse_args()
 
@@ -52,25 +55,33 @@ if __name__ == '__main__':
     T.param_check(model=model)
 
     # 경로
-    noisy_image_paths = dataset_dir+'train/scan/'
+    noise_image_paths = dataset_dir+'train/residuals/'
     clean_image_paths = dataset_dir+'train/clean/'
+    noisy_image_paths = dataset_dir+'train/scan/'
 
     # 로스함수 및 옵티마이저 설정
-    criterion = nn.MSELoss()
+
+    criterion = VGGPerceptualLoss(model="vgg16").to(device)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
 
     # 전처리
-    train_transform = Compose([
+    noisy_transform = Compose([
         ToTensor(),
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+    ])
+    noise_transform = Compose([
+        ToTensor(),
+        NoiseReconstruct()
     ])
 
     # 데이터셋 설정
     dataset = T.CustomDataset(
         noisy_image_paths = noisy_image_paths, 
-        clean_image_paths = clean_image_paths, 
-        patch_size = 120,
-        transform=train_transform
+        noise_image_paths = noise_image_paths, 
+        patch_size = 128,
+        noisy_transform=noisy_transform,
+        noise_transform=noise_transform
     )
 
     train_size = int(len(dataset)*(1-val_rate))

@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import ToTensor, Normalize, Compose
 
 from utils import tool_box as T
+from utils.custom_transforms import RGBtoYcrcb
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Argparse')
@@ -38,15 +39,15 @@ if __name__ == '__main__':
     model.eval()
 
     # 전처리
-    train_transform = Compose([
+    noisy_transform = Compose([
         ToTensor(),
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
     # 데이터셋 설정
-    noisy_dataset = T.CustomDatasetTest(
+    noisy_dataset = T.TestDatastLoader(
         noisy_image_paths = args.datasets_dir, 
-        transform=train_transform
+        noisy_transform = noisy_transform
     )
 
     # 데이터 로더 설정

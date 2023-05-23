@@ -12,34 +12,37 @@ device = torch.device('cuda' if torch.cuda.is_available()  else 'cpu')
 ##############트레이너 관련################
 
 class CustomDataset(data.Dataset):
-    def __init__(self, noisy_image_paths, clean_image_paths, patch_size = 128, transform=None):
-        self.clean_image_paths = [join(clean_image_paths, x) for x in listdir(clean_image_paths)]
+    def __init__(self, noisy_image_paths, noise_image_paths, patch_size = 128, noisy_transform=None, noise_transform=None):
+        "It is not noisy_image, It is noise_image"
         self.noisy_image_paths = [join(noisy_image_paths, x) for x in listdir(noisy_image_paths)]
-        self.transform = transform
+        self.noise_image_paths = [join(noise_image_paths, x) for x in listdir(noise_image_paths)]
+        self.noisy_transform = noisy_transform
+        self.noise_transform = noise_transform
         self.patch_size = patch_size
 
     def __len__(self):
-        return len(self.noisy_image_paths)
+        return len(self.noise_image_paths)
 
     def __getitem__(self, index):
         # 이미지 불러오기
         noisy_image = load_img(self.noisy_image_paths[index])
-        clean_image = load_img(self.clean_image_paths[index])
+        noise_image = load_img(self.noise_image_paths[index])
 
-        H, W, _ = clean_image.shape
+        H, W, _ = noisy_image.shape
 
         # 이미지 랜덤 크롭
         rnd_h = random.randint(0, max(0, H - self.patch_size))
         rnd_w = random.randint(0, max(0, W - self.patch_size))
         noisy_image = noisy_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
-        clean_image = clean_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
+        noise_image = noise_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
         
         # transform 적용
-        if self.transform:
-            noisy_image = self.transform(noisy_image)
-            clean_image = self.transform(clean_image)
+        if self.noisy_transform:
+            noisy_image = self.noisy_transform(noisy_image)
+        if self.noise_transform:
+            noise_image = self.noise_transform(noise_image)
         
-        return noisy_image, clean_image
+        return noisy_image, noise_image
     
 class Trainer():
     def __init__(self, model, model_name, num_epochs, train_data_loader, valid_data_loader , optimizer, criterion,model_save_dir,loss_save_dir):
@@ -64,13 +67,13 @@ class Trainer():
             self.model.train()
             
             epoch_time = time.time()
+
             running_loss = 0.0
-            
-            for iter, (noisy_images, clean_images) in enumerate(self.train_data_loader):
-                noisy_images, clean_images = noisy_images.to(device), clean_images.to(device)
+            for iter, (noisy_images, noise_images) in enumerate(self.train_data_loader):
+                noisy_images, noise_images =  noisy_images.to(device), noise_images.to(device)
                 self.optimizer.zero_grad()
                 outputs = self.model(noisy_images)
-                loss = self.criterion(outputs, noisy_images-clean_images)
+                loss = self.criterion(outputs,noise_images)
                 loss.backward()
                 self.optimizer.step()
                 running_loss += loss.item() * noisy_images.size(0)
@@ -94,10 +97,10 @@ class Trainer():
     def val(self):
         self.model.eval()
         running_loss = 0.0
-        for noisy_images, clean_images in self.valid_data_loader :
-            noisy_images, clean_images = noisy_images.to(device), clean_images.to(device)
-            outputs = self.model(noisy_images)
-            loss = self.criterion(outputs, noisy_images-clean_images)
+        for noisy_images, noise_images in self.valid_data_loader :
+            noisy_image, noise_image = noisy_images.to(device), noise_images.to(device)
+            outputs = self.model(noisy_image)
+            loss = self.criterion(outputs, noise_image)
             running_loss += loss.item() * noisy_images.size(0)
         epoch_loss = running_loss / len(self.valid_data_loader)
         return epoch_loss
@@ -106,10 +109,10 @@ class Trainer():
 
 ##############테스트 관련################
 
-class CustomDatasetTest(data.Dataset):
-    def __init__(self, noisy_image_paths, transform=None):
+class TestDatastLoader(data.Dataset):
+    def __init__(self, noisy_image_paths, noisy_transform):
         self.noisy_image_paths = [join(noisy_image_paths, x) for x in listdir(noisy_image_paths)]
-        self.transform = transform
+        self.noisy_transform = noisy_transform
 
     def __len__(self):
         return len(self.noisy_image_paths)
@@ -119,13 +122,12 @@ class CustomDatasetTest(data.Dataset):
         noisy_image_path = self.noisy_image_paths[index]
         noisy_image = load_img(self.noisy_image_paths[index])
         
-        if self.transform:
-            noisy_image = self.transform(noisy_image)
+        noisy_image = self.noisy_transform(noisy_image)
 
         return noisy_image, noisy_image_path
 
 class Tester():
-    def __init__(self, model, model_name, test_data_loader,output_dir):
+    def __init__(self, model, model_name, test_data_loader, output_dir):
         self.model = model
         self.model_name = model_name
         self.test_data_loader = test_data_loader
@@ -144,8 +146,8 @@ class Tester():
             denoised_image = transforms.ToPILImage()(denoised_image)
 
             output_filename = noisy_image_path[0]
-            denoised_filename = join(self.output_dir, output_filename.split('\\')[-1][:-4] + '.png')
-            denoised_image.save(denoised_filename) 
+            denoised_filename = join(self.output_dir, output_filename.replace('\\','/').split('/')[-1][:-4] + '.png')
+            denoised_image.save(denoised_filename)
         
         print(f'Saved denoised image: {denoised_filename}')
 
