@@ -9,7 +9,9 @@
 #SBATCH -w moana-y7
 #SBATCH -o /data/worrospeed/logs/slurm-%A.out
 
-python -u make_residual.py
+echo "start"
+
+python -u /data/worrospeed/mlp_compitition/lth/.seraph/make_residual.py
 
 echo "end"
 end 0
