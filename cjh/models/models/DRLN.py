@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 # https://github.com/saeed-anwar/DRLN/blob/master/TestCode/code/model/drln.py
 if __name__ == "models.models.DRLN": 
+    print(__name__)
     import models.models.ops as ops
 else:
     import models.ops as ops

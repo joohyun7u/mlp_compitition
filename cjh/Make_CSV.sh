@@ -13,7 +13,7 @@ dataset_dir=/home/joohyun7u/dataset/ff
 
 py_dir=./models/make_csv.py
 save_dir=./save/
-load_pth=best_RFDN_model1.pth
+load_pth=best_RFDN_model7.pth
 # DnCNN, ResNet18 34 50 101 152, RFDN
 model=RFDN
 

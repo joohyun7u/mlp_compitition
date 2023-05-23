@@ -306,6 +306,7 @@ if __name__ == '__main__':
     print("모델 학습 시작")
     train(args.epoch,result_noise)
 
+
     # 종료 시간 기록
     end_time = time.time()
 
