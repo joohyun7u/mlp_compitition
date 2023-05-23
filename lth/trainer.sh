@@ -1,5 +1,14 @@
 #!/bin/bash
 
+#SBATCH --job-name model_train
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-gpu=6
+#SBATCH --mem-per-gpu=32G
+#SBATCH --time 1-0
+#SBATCH --partition batch_ugrad
+#SBATCH -w ariel-v8
+#SBATCH -o ./logs/slurm-%A-%x.out
+
 epoch=10
 batch_size=32
 lr=0.001
