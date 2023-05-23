@@ -1,13 +1,15 @@
 #!/bin/bash
 
-#SBATCH --job-name model_train
+#SBATCH --job-name UNet
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=4
 #SBATCH --mem-per-gpu=32G
 #SBATCH --time 1-0
 #SBATCH --partition batch_ce_ugrad
 #SBATCH -w moana-y1
-#SBATCH -o /data/worrospeed/logs/%A-%x.out
+#SBATCH -o /data/worrospeed/logs/%x-%2t.out
+
+version=alpha
 
 epoch=200
 batch_size=64
@@ -20,6 +22,7 @@ model_save_dir=./model_save/
 loss_save_dir=./loss_save/    
 
 python -u trainer.py \
+        --version=$version \
         --epoch=$epoch \
         --batch_size=$batch_size \
         --lr=$lr \

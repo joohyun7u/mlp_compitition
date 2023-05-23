@@ -14,3 +14,5 @@ echo "start"
 python -u /data/worrospeed/mlp_compitition/lth/.seraph/make_residual.py
 
 echo "end"
+
+exit 0

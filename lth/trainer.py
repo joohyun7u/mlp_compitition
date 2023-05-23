@@ -12,6 +12,7 @@ from utils.vgg_perceptual_loss import VGGPerceptualLoss
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Argparse')
+    parser.add_argument('--version',        type=str)
     parser.add_argument('--epoch',          type=int)
     parser.add_argument('--batch_size',     type=int)
     parser.add_argument('--lr',             type=float)
@@ -29,6 +30,7 @@ if __name__ == '__main__':
     print(f"==================== TRAIN INFO =================== \
         \nrunning: {device}\
         \nModel: {args.model}\
+        \nVersion: {args.version}\
         \nepoch: {args.epoch}\
         \nbatch: {args.batch_size}\
         \nlr_init: {args.lr}\
