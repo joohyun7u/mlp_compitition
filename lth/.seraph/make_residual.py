@@ -1,5 +1,6 @@
-import cv2, matplotlib.pyplot as plt, numpy as np
+import cv2, numpy as np
 
+import os
 from os import listdir
 from os.path import join
 
@@ -8,12 +9,12 @@ import torch.utils.data as data
 from torch.utils.data import DataLoader
 import torchvision.transforms as transforms
 
-display_number = 3                                              # plt로 디스플레이할 이미지의 개수
 residual_output_dir = '/local_datasets/MLinP/train/residuals'   # 잔차 이미지를 저장할 폴더
 noisy_image_dir = '/local_datasets/MLinP/train/scan'
 clean_image_dir = '/local_datasets/MLinP/train/clean'
 
 output = True                                                   # residual을 파일로 출력할지 여부
+os.mkdir(residual_output_dir)
 
 def load_img(filepath):
     img = cv2.imread(filepath)
@@ -60,11 +61,9 @@ for i, ((noisy_image, noisy_image_path), (clean_image, clean_image_path) ) in en
     if output:
         output_filename = noisy_image_path[0]
 
-        # in windows
-        # residual_filename = join(residual_output_dir , output_filename.split('\\')[-1][:-4].replace('\\',"/") + '.png')
-        
-        # in LINUX
-        residual_filename= join(residual_output_dir , output_filename.split('/')[-1][:-4] + '.png')
+        residual_filename= join(residual_output_dir , output_filename.replace('\\',"/").split('/')[-1][:-4] + '.png')
         
         print_format = cv2.cvtColor(np.array(residual_image), cv2.COLOR_BGR2RGB)
         cv2.imwrite(residual_filename, print_format)
+
+        print(residual_filename)

@@ -2,19 +2,19 @@
 
 #SBATCH --job-name model_train
 #SBATCH --gres=gpu:1
-#SBATCH --cpus-per-gpu=6
+#SBATCH --cpus-per-gpu=4
 #SBATCH --mem-per-gpu=32G
 #SBATCH --time 1-0
-#SBATCH --partition batch_ugrad
-#SBATCH -w ariel-v8
-#SBATCH -o ./logs/slurm-%A-%x.out
+#SBATCH --partition batch_ce_ugrad
+#SBATCH -w moana-y1
+#SBATCH -o /data/worrospeed/logs/%A-%x.out
 
-epoch=10
-batch_size=16
+epoch=200
+batch_size=64
 lr=0.01
 val_rate=0.1
 isCV=0
-datasets_dir=C:/local_datasets/MLinP/
+datasets_dir=/local_datasets/MLinP/
 model_name=UNet
 model_save_dir=./model_save/    
 loss_save_dir=./loss_save/    

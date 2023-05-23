@@ -6,7 +6,7 @@
 #SBATCH --mem-per-gpu=32G
 #SBATCH --time 1-0
 #SBATCH --partition batch_ce_ugrad
-#SBATCH -w moana-y7
+#SBATCH -w moana-y1
 #SBATCH -o /data/worrospeed/logs/slurm-%A.out
 
 echo "start"
@@ -14,4 +14,3 @@ echo "start"
 python -u /data/worrospeed/mlp_compitition/lth/.seraph/make_residual.py
 
 echo "end"
-end 0
