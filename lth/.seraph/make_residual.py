@@ -59,6 +59,12 @@ for i, ((noisy_image, noisy_image_path), (clean_image, clean_image_path) ) in en
 
     if output:
         output_filename = noisy_image_path[0]
-        residual_filename = join(residual_output_dir , output_filename.split('\\')[-1][:-4].replace('\\',"/") + '.png')
+
+        # in windows
+        # residual_filename = join(residual_output_dir , output_filename.split('\\')[-1][:-4].replace('\\',"/") + '.png')
+        
+        # in LINUX
+        residual_filename= join(residual_output_dir , output_filename.split('/')[-1][:-4] + '.png')
+        
         print_format = cv2.cvtColor(np.array(residual_image), cv2.COLOR_BGR2RGB)
         cv2.imwrite(residual_filename, print_format)
