@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#SBATCH --job-name rfdn
+#SBATCH --job-name rfdn_raug
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
-#SBATCH --mem-per-gpu=32G
+#SBATCH --mem-per-gpu=29G
 #SBATCH --time 1-0
 #SBATCH --partition batch_ugrad
 #SBATCH -w ariel-v8
@@ -16,19 +16,21 @@ echo $current_time
 py_dir=./models/DnXXX.py
 dataset_dir=/home/joohyun7u/dataset/ff
 # DnCNN, ResNet18 34 50 101 152, RFDN, DRLN
-model=DRLN
+model=RFDN
 
 #tar -xcvf /data/datasets/ImageNet.tar -C /local_datasets/
 
 python -u $py_dir \
-        --epoch=300 \
-        --batch_size=4 \
+        --epoch=800 \
+        --batch_size=32 \
         --lr=0.001 \
         --model=$model \
-        --summary=False \
-        --val=0.1 \
+        --summary=True \
+        --val=0.01 \
         --loss=2 \
         --get_noise=True \
+        --val_best_save=False \
+        --train_img_size=128 \
 
 
 echo 'done'

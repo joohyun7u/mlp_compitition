@@ -14,6 +14,7 @@ from torchsummary import summary
 import time
 import argparse
 import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN, models.DRLN as DRLN
+import models.utils.randaugment as randaugment
 from utils.param import param_check, seed_everything
 import utils.vgg_loss, utils.vgg_perceptual_loss
 import gc
@@ -165,7 +166,9 @@ if __name__ == '__main__':
     parser.add_argument('--cv',             type=float, default=None)
     loss_list =  ['MSELoss', 'vgg_loss', 'vgg_perceptual_loss']
     parser.add_argument('--loss',           type=int,   default=1)
+    parser.add_argument('--train_img_size', type=int,   default=128)
     parser.add_argument('--get_noise',      type=str,   default='True')
+    parser.add_argument('--val_best_save',  type=str,   default='true')
     parser.add_argument('--summary',        type=str,   default=False)
     parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
     parser.add_argument('--csv',            type=str,   default='./best_dncnn_model1.pth')
@@ -179,6 +182,7 @@ if __name__ == '__main__':
 
     # 랜덤 시드 고정
     seed_everything(42)
+    bools = {'true' : True, 'True' : True, 'TRUE' : True, 'false' : False, 'False' : False, 'FALSE' : False}
 
     # 시작 시간 기록
     start_time = time.time()
@@ -228,19 +232,20 @@ if __name__ == '__main__':
 
     # 데이터셋 로드 및 전처리
     train_transform = Compose([
-        BilateralBlur(128),
+        # BilateralBlur(args.train_img_size),
+        randaugment.RandAugment(),
         ToTensor(),
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
     val_transform = Compose([
-        BilateralBlur(128),
+        BilateralBlur(args.train_img_size),
         ToTensor(),
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
     # 커스텀 데이터셋 인스턴스 생성
-    dataset = CustomDataset(noisy_image_paths, clean_image_paths, transform=train_transform)
+    dataset = CustomDataset(noisy_image_paths, clean_image_paths, args.train_img_size, transform=train_transform)
     
     # val 분할
     train_size = int(len(dataset)*(1-args.val))
@@ -302,9 +307,10 @@ if __name__ == '__main__':
     # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
     scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
 
+
     # 모델 학습
     print("모델 학습 시작")
-    train(args.epoch,result_noise)
+    train(args.epoch,noise = result_noise, save_val=bools[args.val_best_save])
 
 
     # 종료 시간 기록

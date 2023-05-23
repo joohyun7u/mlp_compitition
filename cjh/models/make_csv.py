@@ -11,7 +11,7 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import ToTensor
 from torchvision.datasets import ImageFolder
 from torchvision.transforms import ToTensor, Normalize, Compose
-import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN
+import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN, models.DRLN as DRLN
 import argparse
 
 # 랜덤 시드 고정
@@ -98,7 +98,9 @@ elif m == 'ResNet101':
 elif m == 'ResNet152':
     model = ResNet.ResNet152()
 elif m == 'RFDN':
-        model = RFDN.RFDN()
+    model = RFDN.RFDN()
+elif m == 'DRLN':
+    model = DRLN.DRLN()
 else:
     model = DnCNN.DnCNN()
 print(args.csv+args.load_pth)
@@ -117,7 +119,7 @@ if not os.path.exists(output_path):
     os.makedirs(output_path)
 
 test_transform = Compose([
-    BilateralBlur(512),
+    # BilateralBlur(512),
     ToTensor(),
     Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
 ])
@@ -200,7 +202,7 @@ if True:
 
         # Save denoised image
         output_filename = noisy_image_path[0]
-        denoised_filename = output_path + '/' + output_filename.split('/')[-1][:-4] + '.png'
+        denoised_filename = output_path + '/' + output_filename.replace('\\', '/').split('/')[-1][:-4] + '.png'
         denoised_image.save(denoised_filename) 
         
         print(f'Saved denoised image: {denoised_filename}')
