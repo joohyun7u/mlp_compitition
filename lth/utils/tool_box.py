@@ -207,3 +207,18 @@ class loss_manager():
                 "val_loss": self.val_loss
             }, save_dir + str(model_name) + '.pth'
         )
+
+def param_check(model):
+    isModelSatisfiesCondition = None
+
+    pytorch_total_params = sum(p.numel() for p in model.parameters())
+    print(f"Number of parameters: {pytorch_total_params}")
+
+    if int(pytorch_total_params) > 10000000:
+        print(f'@@@@@@@@@@@@@ IT IS OVER THEN 10 MILLIONS {pytorch_total_params-10000000} PARAMETERS EXCEEDS@@@@@@@@@@@@@')
+        isModelSatisfiesCondition = False
+    else:
+        print(f'@@@@@@@@@@@@@ IT IS LOWER THAN 10 MILLIONS {10000000-pytorch_total_params} PARAMETERS LEFT@@@@@@@@@@@@@')
+        isModelSatisfiesCondition = True
+
+    return isModelSatisfiesCondition

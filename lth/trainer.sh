@@ -14,7 +14,6 @@ batch_size=32
 lr=0.001
 val_rate=0.1
 isCV=0
-isSummary=0
 datasets_dir=C:/local_datasets/MLinP/
 model_name=DnCNN
 model_save_dir=./model_save/    
@@ -26,7 +25,6 @@ python -u trainer.py \
         --lr=$lr \
         --val_rate=$val_rate \
         --isCV=$isCV \
-        --isSummary=$isSummary \
         --datasets_dir=$datasets_dir \
         --model=$model_name \
         --model_save_dir=$model_save_dir \

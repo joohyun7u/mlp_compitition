@@ -5,6 +5,7 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import random_split, DataLoader
 from torchvision.transforms import ToTensor, Normalize, Compose
+import torchsummary
 
 from utils import tool_box as T
 
@@ -15,7 +16,6 @@ if __name__ == '__main__':
     parser.add_argument('--lr',             type=float, default=0.001)
     parser.add_argument('--val_rate',       type=float, default=0.1)
     parser.add_argument('--isCV',           type=float, default=None)
-    parser.add_argument('--isSummary',      type=str,   default=False)
     parser.add_argument('--datasets_dir',   type=str,   default='/local_datasets/MLinP')
     parser.add_argument('--model',          type=str,   default=None)
     parser.add_argument('--model_save_dir', type=str,   default='./model_save/')
@@ -31,7 +31,6 @@ if __name__ == '__main__':
         \nepoch: {args.epoch}\
         \nbatch: {args.batch_size}\
         \nlr_init: {args.lr}\
-        \nSummary: {args.isSummary}\
         \n===================================================")
 
     T.seed_everything(42)
@@ -49,6 +48,8 @@ if __name__ == '__main__':
 
     # 모델 로딩
     model = importlib.import_module('.' + model_name, '.models').model
+    torchsummary.summary(model,input_size=(3,512,512))
+    T.param_check(model=model)
 
     # 경로
     noisy_image_paths = dataset_dir+'train/scan/'
