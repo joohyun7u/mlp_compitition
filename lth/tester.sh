@@ -1,4 +1,15 @@
 #!/bin/bash
+
+#SBATCH --job-name UNetV2
+#SBATCH --gres=gpu:1
+#SBATCH --cpus-per-gpu=4
+#SBATCH --mem-per-gpu=32G
+#SBATCH --time 1-0
+#SBATCH --partition batch_ce_ugrad
+#SBATCH -w moana-y1
+#SBATCH -o /data/worrospeed/logs/%x-%2t.out
+
+
 datasets_dir=/local_datasets/MLinP/train/scan/
 model_name=UNetV2
 model_save_dir=./model_save    
