@@ -62,9 +62,12 @@ if __name__ == '__main__':
 
     # 로스함수 및 옵티마이저 설정
 
-    criterion = VGGPerceptualLoss(model="vgg16").to(device)
+    #criterion = VGGPerceptualLoss(model="vgg16").to(device)
+    criterion = torch.nn.MSELoss()
+
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
+    
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=100, eta_min=0.001)
 
     # 전처리
     noisy_transform = Compose([
@@ -102,6 +105,7 @@ if __name__ == '__main__':
         valid_data_loader = valid_loader,
         optimizer = optimizer,
         criterion = criterion,
+        scheduler = scheduler,
         model_save_dir = model_save_path,
         loss_save_dir = loss_save_dir
     )

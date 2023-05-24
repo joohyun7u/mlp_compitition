@@ -45,15 +45,16 @@ class CustomDataset(data.Dataset):
         return noisy_image, noise_image
     
 class Trainer():
-    def __init__(self, model, version, model_name, num_epochs, train_data_loader, valid_data_loader , optimizer, criterion,model_save_dir,loss_save_dir):
+    def __init__(self, model, version, model_name, num_epochs, train_data_loader, valid_data_loader , optimizer, criterion, scheduler, model_save_dir,loss_save_dir):
         self.model = model
         self.version = version
         self.model_name = model_name
         self.num_epochs = num_epochs
         self.train_data_loader = train_data_loader
         self.valid_data_loader = valid_data_loader
-        self.optimizer = optimizer
+        self.optimizer = optimizer 
         self.criterion = criterion
+        self.scheduler = scheduler
         self.model_save_dir = model_save_dir
         self.loss_save_dir = loss_save_dir
 
@@ -81,6 +82,7 @@ class Trainer():
     
             train_loss = running_loss / len(self.train_data_loader)
             val_loss = self.val()
+            self.scheduler.step()
 
             loss_pth.add(epoch,train_loss,val_loss)
 
