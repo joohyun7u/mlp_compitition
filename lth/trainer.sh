@@ -16,8 +16,8 @@ batch_size=64
 lr=0.1
 val_rate=0.1
 isCV=0
-datasets_dir=/local_datasets/MLinP/
-model_name=UNetV2
+datasets_dir=C:/local_datasets/MLinP/
+model_name=DnCNN
 model_save_dir=./model_save/    
 loss_save_dir=./loss_save/    
 

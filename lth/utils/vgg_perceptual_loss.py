@@ -22,6 +22,7 @@ class VGGPerceptualLoss(torch.nn.Module):
         self.register_buffer("mean", torch.tensor([0.485, 0.456, 0.406]).view(1, 3, 1, 1))
         self.register_buffer("std", torch.tensor([0.229, 0.224, 0.225]).view(1, 3, 1, 1))
 
+
     def forward(self, input, target, feature_layers=[0, 1, 2, 3], style_layers=[]):
         if input.shape[1] != 3:
             input = input.repeat(1, 3, 1, 1)
@@ -46,3 +47,6 @@ class VGGPerceptualLoss(torch.nn.Module):
                 gram_y = act_y @ act_y.permute(0, 2, 1)
                 loss += torch.nn.functional.l1_loss(gram_x, gram_y)
         return loss
+    
+    def __str__(self):
+        return "VGGPerceptualLoss"

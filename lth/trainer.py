@@ -43,8 +43,6 @@ if __name__ == '__main__':
 
     # 모델 로딩
     model = importlib.import_module('.' + model_name, '.models').model
-    torchsummary.summary(model,input_size=(3,512,512))
-    T.param_check(model=model)
 
     # 경로
     noise_image_paths = dataset_dir+'train/residuals/'
@@ -88,6 +86,8 @@ if __name__ == '__main__':
     valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=True)
 
 
+    criterion_name = str(criterion).split('\n')[0]
+    optimizer_name = str(optimizer).split('\n')[0]
     print(f"==================== TRAIN INFO ================================ \
         \nRunning on: {device}\
         \nModel: {model_name}\
@@ -95,9 +95,11 @@ if __name__ == '__main__':
         \nEpoch: {num_epochs}\
         \nBatch: {batch_size}\
         \nLr_init: {learning_rate}\
-        \nCriterion: {str(criterion)}\
-        \nOptimizer: {str(optimizer)}\
+        \nCriterion: {criterion_name}\
+        \nOptimizer: {optimizer_name}\
         \n================================================================")
+    torchsummary.summary(model,input_size=(3,512,512))
+    T.param_check(model=model)
 
 
     # 학습

@@ -6,7 +6,7 @@ from os.path import join
 import torch
 import torch.utils.data as data
 import torchvision.transforms as transforms
-import torch.nn.functional as F
+import torchvision.transforms.functional as F
 
 device = torch.device('cuda' if torch.cuda.is_available()  else 'cpu')
 
@@ -44,11 +44,15 @@ class CustomDataset(data.Dataset):
             noise_image = self.noise_transform(noise_image)
 
 
-        # 이미지 랜덤 플립
-        if torch.rand(1) < self.p:
-            noisy_image = F.flip(noisy_image)
-            noise_image = F.flip(noise_image)
+        # 이미지 랜덤 수평 플립
+        if torch.rand(1) < 0.5:
+            noisy_image = F.hflip(noisy_image)
+            noise_image = F.hflip(noise_image)
         
+        # 이미지 랜덤 수직 플립
+        if torch.rand(1) < 0.5:
+            noisy_image = F.vflip(noisy_image)
+            noise_image = F.vflip(noise_image)
         
         return noisy_image, noise_image
     
