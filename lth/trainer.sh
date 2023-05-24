@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name UNet
+#SBATCH --job-name UNetV2
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=4
 #SBATCH --mem-per-gpu=32G
@@ -16,8 +16,8 @@ batch_size=64
 lr=0.1
 val_rate=0.1
 isCV=0
-datasets_dir=C:/local_datasets/MLinP/
-model_name=DnCNN
+datasets_dir=/local_datasets/MLinP/
+model_name=UNetV2
 model_save_dir=./model_save/    
 loss_save_dir=./loss_save/    
 

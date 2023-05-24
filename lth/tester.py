@@ -12,7 +12,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Argparse')
     parser.add_argument('--datasets_dir',   type=str)
     parser.add_argument('--model',          type=str)
+    parser.add_argument('--model_version',  type=str)
     parser.add_argument('--model_save_dir', type=str)
+    parser.add_argument('--model_pth_name', type=str)
     parser.add_argument('--output_dir',     type=str)
 
     args = parser.parse_args()
@@ -22,6 +24,7 @@ if __name__ == '__main__':
     print(f"==================== TEST  INFO =================== \
         \nrunning: {device}\
         \nModel: {args.model}\
+        \nVersion: {args.model_version}\
         \noutput_dir: {args.output_dir}\
         \n===================================================")
 
@@ -31,7 +34,11 @@ if __name__ == '__main__':
     dataset_dir = args.datasets_dir
     model_name = args.model
     model_save_path = args.model_save_dir
+    model_pth_name = args.model_pth_name
     output_dir = args.output_dir
+
+    image_output_dir = join(output_dir,model_pth_name)
+
 
     # 모델 로딩
     model = importlib.import_module('.' + model_name, '.models').model
@@ -58,6 +65,6 @@ if __name__ == '__main__':
         model = model,
         model_name = model_name,
         test_data_loader = noisy_loader,
-        output_dir = output_dir
+        image_output_dir = image_output_dir
     )
     tester.test()

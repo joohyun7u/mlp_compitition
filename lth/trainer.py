@@ -27,14 +27,14 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available()  else 'cpu')
 
-    print(f"==================== TRAIN INFO =================== \
+    print(f"==================== TRAIN INFO ================================ \
         \nrunning: {device}\
         \nModel: {args.model}\
         \nVersion: {args.version}\
         \nepoch: {args.epoch}\
         \nbatch: {args.batch_size}\
         \nlr_init: {args.lr}\
-        \n===================================================")
+        \n================================================================")
 
     T.seed_everything(42)
 
@@ -76,7 +76,8 @@ if __name__ == '__main__':
     ])
     noise_transform = Compose([
         ToTensor(),
-        NoiseReconstruct()
+        NoiseReconstruct(),
+        Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
     # 데이터셋 설정

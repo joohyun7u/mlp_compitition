@@ -130,11 +130,14 @@ class TestDatastLoader(data.Dataset):
         return noisy_image, noisy_image_path
 
 class Tester():
-    def __init__(self, model, model_name, test_data_loader, output_dir):
+    def __init__(self, model, model_name, test_data_loader, image_output_dir):
         self.model = model
         self.model_name = model_name
         self.test_data_loader = test_data_loader
-        self.output_dir = output_dir
+        self.image_output_dir = image_output_dir
+
+        if not os.path.exists(self.image_output_dir):
+            os.makedirs(self.image_output_dir)
 
     def test(self):
         self.model.eval()
@@ -149,7 +152,7 @@ class Tester():
             denoised_image = transforms.ToPILImage()(denoised_image)
 
             output_filename = noisy_image_path[0]
-            denoised_filename = join(self.output_dir, output_filename.replace('\\','/').split('/')[-1][:-4] + '.png')
+            denoised_filename = join(self.image_output_dir, output_filename.replace('\\','/').split('/')[-1][:-4] + '.png')
             denoised_image.save(denoised_filename)
         
         print(f'Saved denoised image: {denoised_filename}')
