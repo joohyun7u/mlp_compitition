@@ -88,7 +88,7 @@ if __name__ == '__main__':
 
     criterion_name = str(criterion).split('\n')[0]
     optimizer_name = str(optimizer).split('\n')[0]
-    print(f"==================== TRAIN INFO ================================ \
+    print(f"========================= TRAIN INFO =========================== \
         \nRunning on: {device}\
         \nModel: {model_name}\
         \nVersion: {version}\

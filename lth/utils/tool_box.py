@@ -143,18 +143,23 @@ class TestDatastLoader(data.Dataset):
         return noisy_image, noisy_image_path
 
 class Tester():
-    def __init__(self, model, model_name, test_data_loader, image_output_dir):
+    def __init__(self, model, model_name, test_data_loader, image_output_dir, display_num):
         self.model = model
         self.model_name = model_name
         self.test_data_loader = test_data_loader
         self.image_output_dir = image_output_dir
+        self.display_num = display_num
 
         if not os.path.exists(self.image_output_dir):
             os.makedirs(self.image_output_dir)
 
     def test(self):
         self.model.eval()
-        for noisy_image, noisy_image_path in self.test_data_loader:
+        for iter, (noisy_image, noisy_image_path) in enumerate(self.test_data_loader):
+
+            if iter < self.display_num:
+                continue
+
             noisy_image = noisy_image.to(device)
             noise = self.model(noisy_image)
 

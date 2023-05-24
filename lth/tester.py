@@ -6,7 +6,6 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import ToTensor, Normalize, Compose
 
 from utils import tool_box as T
-from utils.custom_transforms import RGBtoYcrcb
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Argparse')
@@ -16,6 +15,7 @@ if __name__ == '__main__':
     parser.add_argument('--model_save_dir', type=str)
     parser.add_argument('--model_pth_name', type=str)
     parser.add_argument('--output_dir',     type=str)
+    parser.add_argument('--display_num',    type=str)
 
     args = parser.parse_args()
 
@@ -26,6 +26,7 @@ if __name__ == '__main__':
         \nModel: {args.model}\
         \nVersion: {args.model_version}\
         \noutput_dir: {args.output_dir}\
+        \ndisplay_num: {args.display_num}\
         \n===================================================")
 
     T.seed_everything(42)
@@ -36,6 +37,7 @@ if __name__ == '__main__':
     model_save_path = args.model_save_dir
     model_pth_name = args.model_pth_name
     output_dir = args.output_dir
+    display_num = args.display_num
 
     image_output_dir = join(output_dir,model_pth_name)
 
@@ -65,6 +67,7 @@ if __name__ == '__main__':
         model = model,
         model_name = model_name,
         test_data_loader = noisy_loader,
-        image_output_dir = image_output_dir
+        image_output_dir = image_output_dir,
+        display_num = display_num
     )
     tester.test()
