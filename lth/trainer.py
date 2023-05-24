@@ -27,15 +27,6 @@ if __name__ == '__main__':
 
     device = torch.device('cuda' if torch.cuda.is_available()  else 'cpu')
 
-    print(f"==================== TRAIN INFO ================================ \
-        \nrunning: {device}\
-        \nModel: {args.model}\
-        \nVersion: {args.version}\
-        \nepoch: {args.epoch}\
-        \nbatch: {args.batch_size}\
-        \nlr_init: {args.lr}\
-        \n================================================================")
-
     T.seed_everything(42)
 
     # 하이퍼파라미터 설정
@@ -62,8 +53,8 @@ if __name__ == '__main__':
 
     # 로스함수 및 옵티마이저 설정
 
-    #criterion = VGGPerceptualLoss(model="vgg16").to(device)
-    criterion = torch.nn.MSELoss()
+    criterion = VGGPerceptualLoss(model="vgg16").to(device)
+    #criterion = torch.nn.MSELoss()
 
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     
@@ -95,6 +86,19 @@ if __name__ == '__main__':
 
     train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True)
     valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=True)
+
+
+    print(f"==================== TRAIN INFO ================================ \
+        \nRunning on: {device}\
+        \nModel: {model_name}\
+        \nVersion: {version}\
+        \nEpoch: {num_epochs}\
+        \nBatch: {batch_size}\
+        \nLr_init: {learning_rate}\
+        \nCriterion: {str(criterion)}\
+        \nOptimizer: {str(optimizer)}\
+        \n================================================================")
+
 
     # 학습
     trainer = T.Trainer(
