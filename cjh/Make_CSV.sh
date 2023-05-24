@@ -13,9 +13,9 @@ dataset_dir=/home/joohyun7u/dataset/ff
 
 py_dir=./models/make_csv.py
 save_dir=./save/
-load_pth=best_RFDN_model11.pth
+load_pth=best_DRLN_model3.pth
 # DnCNN, ResNet18 34 50 101 152, RFDN, DRLN
-model=RFDN
+model=DRLN
 
 
 source /data/joohyun7u/cjh/sh/setup.sh

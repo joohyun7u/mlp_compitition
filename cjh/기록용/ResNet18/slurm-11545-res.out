@@ -1,0 +1,784 @@
+activate torch environment
+/data/joohyun7u/cjh/sh/setup.sh: line 7: activate: No such file or directory
+mlp Activate Failed
+20230521-13:14:50
+running: cuda, 	Model: ResNet18 	epoch: 150,            	batch: 15, 	lr: 0.001 	Summary: False
+./save/best_ResNet18_model4.pth
+./loss/ResNet18_model2.pth
+Train Size : 9000 	Validattion Size : 1000
+모든 parameter 개수기준임
+Number of parameters: 11764782
+!!!!!!10M 1천만보다 1764782개 초과했음!!!!!!
+grad인 parameter 개수기준임
+Number of parameters: 11764782
+!!!!!!10M 1천만보다 1764782개 초과했음!!!!!!
+모델 학습 시작
+torch.Size([15, 3, 128, 128]) torch.Size([15, 3, 128, 128])
+	[150/600] 	Train_Loss: 0.0356
+	[300/600] 	Train_Loss: 0.0497
+	[450/600] 	Train_Loss: 0.0347
+	[600/600] 	Train_Loss: 0.0266
+Epoch 1/150 	Time: 344초               	Train_Loss: 0.0410 	Val_Loss: 0.0348
+1epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0605
+	[300/600] 	Train_Loss: 0.0340
+	[450/600] 	Train_Loss: 0.0350
+	[600/600] 	Train_Loss: 0.0384
+Epoch 2/150 	Time: 342초               	Train_Loss: 0.0367 	Val_Loss: 0.0335
+2epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0282
+	[300/600] 	Train_Loss: 0.0467
+	[450/600] 	Train_Loss: 0.0399
+	[600/600] 	Train_Loss: 0.0352
+Epoch 3/150 	Time: 342초               	Train_Loss: 0.0362 	Val_Loss: 0.0339
+	[150/600] 	Train_Loss: 0.0267
+	[300/600] 	Train_Loss: 0.0447
+	[450/600] 	Train_Loss: 0.0251
+	[600/600] 	Train_Loss: 0.0264
+Epoch 4/150 	Time: 342초               	Train_Loss: 0.0349 	Val_Loss: 0.0326
+4epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0235
+	[300/600] 	Train_Loss: 0.0323
+	[450/600] 	Train_Loss: 0.0339
+	[600/600] 	Train_Loss: 0.0279
+Epoch 5/150 	Time: 342초               	Train_Loss: 0.0336 	Val_Loss: 0.0328
+	[150/600] 	Train_Loss: 0.0196
+	[300/600] 	Train_Loss: 0.0345
+	[450/600] 	Train_Loss: 0.0383
+	[600/600] 	Train_Loss: 0.0541
+Epoch 6/150 	Time: 343초               	Train_Loss: 0.0327 	Val_Loss: 0.0315
+6epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0299
+	[300/600] 	Train_Loss: 0.0279
+	[450/600] 	Train_Loss: 0.0292
+	[600/600] 	Train_Loss: 0.0210
+Epoch 7/150 	Time: 343초               	Train_Loss: 0.0323 	Val_Loss: 0.0305
+7epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0275
+	[300/600] 	Train_Loss: 0.0377
+	[450/600] 	Train_Loss: 0.0443
+	[600/600] 	Train_Loss: 0.0286
+Epoch 8/150 	Time: 343초               	Train_Loss: 0.0323 	Val_Loss: 0.0309
+	[150/600] 	Train_Loss: 0.0211
+	[300/600] 	Train_Loss: 0.0255
+	[450/600] 	Train_Loss: 0.0481
+	[600/600] 	Train_Loss: 0.0656
+Epoch 9/150 	Time: 342초               	Train_Loss: 0.0313 	Val_Loss: 0.0327
+	[150/600] 	Train_Loss: 0.0242
+	[300/600] 	Train_Loss: 0.0417
+	[450/600] 	Train_Loss: 0.0324
+	[600/600] 	Train_Loss: 0.0238
+Epoch 10/150 	Time: 342초               	Train_Loss: 0.0310 	Val_Loss: 0.0302
+10epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0394
+	[300/600] 	Train_Loss: 0.0333
+	[450/600] 	Train_Loss: 0.0285
+	[600/600] 	Train_Loss: 0.0306
+Epoch 11/150 	Time: 342초               	Train_Loss: 0.0308 	Val_Loss: 0.0292
+11epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0174
+	[300/600] 	Train_Loss: 0.0356
+	[450/600] 	Train_Loss: 0.0610
+	[600/600] 	Train_Loss: 0.0419
+Epoch 12/150 	Time: 342초               	Train_Loss: 0.0309 	Val_Loss: 0.0306
+	[150/600] 	Train_Loss: 0.0216
+	[300/600] 	Train_Loss: 0.0236
+	[450/600] 	Train_Loss: 0.0324
+	[600/600] 	Train_Loss: 0.0356
+Epoch 13/150 	Time: 342초               	Train_Loss: 0.0300 	Val_Loss: 0.0290
+13epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0464
+	[300/600] 	Train_Loss: 0.0214
+	[450/600] 	Train_Loss: 0.0253
+	[600/600] 	Train_Loss: 0.0331
+Epoch 14/150 	Time: 343초               	Train_Loss: 0.0302 	Val_Loss: 0.0299
+	[150/600] 	Train_Loss: 0.0465
+	[300/600] 	Train_Loss: 0.0342
+	[450/600] 	Train_Loss: 0.0348
+	[600/600] 	Train_Loss: 0.0314
+Epoch 15/150 	Time: 343초               	Train_Loss: 0.0302 	Val_Loss: 0.0293
+	[150/600] 	Train_Loss: 0.0252
+	[300/600] 	Train_Loss: 0.0235
+	[450/600] 	Train_Loss: 0.0304
+	[600/600] 	Train_Loss: 0.0261
+Epoch 16/150 	Time: 343초               	Train_Loss: 0.0296 	Val_Loss: 0.0299
+	[150/600] 	Train_Loss: 0.0271
+	[300/600] 	Train_Loss: 0.0305
+	[450/600] 	Train_Loss: 0.0327
+	[600/600] 	Train_Loss: 0.0312
+Epoch 17/150 	Time: 343초               	Train_Loss: 0.0296 	Val_Loss: 0.0292
+	[150/600] 	Train_Loss: 0.0548
+	[300/600] 	Train_Loss: 0.0350
+	[450/600] 	Train_Loss: 0.0375
+	[600/600] 	Train_Loss: 0.0422
+Epoch 18/150 	Time: 344초               	Train_Loss: 0.0299 	Val_Loss: 0.0304
+	[150/600] 	Train_Loss: 0.0227
+	[300/600] 	Train_Loss: 0.0286
+	[450/600] 	Train_Loss: 0.0188
+	[600/600] 	Train_Loss: 0.0283
+Epoch 19/150 	Time: 344초               	Train_Loss: 0.0292 	Val_Loss: 0.0290
+	[150/600] 	Train_Loss: 0.0241
+	[300/600] 	Train_Loss: 0.0363
+	[450/600] 	Train_Loss: 0.0399
+	[600/600] 	Train_Loss: 0.0420
+Epoch 20/150 	Time: 344초               	Train_Loss: 0.0292 	Val_Loss: 0.0296
+	[150/600] 	Train_Loss: 0.0424
+	[300/600] 	Train_Loss: 0.0162
+	[450/600] 	Train_Loss: 0.0300
+	[600/600] 	Train_Loss: 0.0435
+Epoch 21/150 	Time: 343초               	Train_Loss: 0.0287 	Val_Loss: 0.0274
+21epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0187
+	[300/600] 	Train_Loss: 0.0407
+	[450/600] 	Train_Loss: 0.0252
+	[600/600] 	Train_Loss: 0.0263
+Epoch 22/150 	Time: 343초               	Train_Loss: 0.0293 	Val_Loss: 0.0277
+	[150/600] 	Train_Loss: 0.0346
+	[300/600] 	Train_Loss: 0.0309
+	[450/600] 	Train_Loss: 0.0209
+	[600/600] 	Train_Loss: 0.0353
+Epoch 23/150 	Time: 343초               	Train_Loss: 0.0289 	Val_Loss: 0.0289
+	[150/600] 	Train_Loss: 0.0245
+	[300/600] 	Train_Loss: 0.0388
+	[450/600] 	Train_Loss: 0.0223
+	[600/600] 	Train_Loss: 0.0317
+Epoch 24/150 	Time: 343초               	Train_Loss: 0.0288 	Val_Loss: 0.0277
+	[150/600] 	Train_Loss: 0.0254
+	[300/600] 	Train_Loss: 0.0283
+	[450/600] 	Train_Loss: 0.0352
+	[600/600] 	Train_Loss: 0.0189
+Epoch 25/150 	Time: 343초               	Train_Loss: 0.0280 	Val_Loss: 0.0280
+	[150/600] 	Train_Loss: 0.0188
+	[300/600] 	Train_Loss: 0.0243
+	[450/600] 	Train_Loss: 0.0324
+	[600/600] 	Train_Loss: 0.0383
+Epoch 26/150 	Time: 343초               	Train_Loss: 0.0290 	Val_Loss: 0.0284
+	[150/600] 	Train_Loss: 0.0368
+	[300/600] 	Train_Loss: 0.0328
+	[450/600] 	Train_Loss: 0.0176
+	[600/600] 	Train_Loss: 0.0359
+Epoch 27/150 	Time: 343초               	Train_Loss: 0.0279 	Val_Loss: 0.0290
+	[150/600] 	Train_Loss: 0.0284
+	[300/600] 	Train_Loss: 0.0253
+	[450/600] 	Train_Loss: 0.0192
+	[600/600] 	Train_Loss: 0.0349
+Epoch 28/150 	Time: 343초               	Train_Loss: 0.0287 	Val_Loss: 0.0291
+	[150/600] 	Train_Loss: 0.0384
+	[300/600] 	Train_Loss: 0.0268
+	[450/600] 	Train_Loss: 0.0316
+	[600/600] 	Train_Loss: 0.0377
+Epoch 29/150 	Time: 343초               	Train_Loss: 0.0286 	Val_Loss: 0.0284
+	[150/600] 	Train_Loss: 0.0270
+	[300/600] 	Train_Loss: 0.0204
+	[450/600] 	Train_Loss: 0.0338
+	[600/600] 	Train_Loss: 0.0281
+Epoch 30/150 	Time: 343초               	Train_Loss: 0.0282 	Val_Loss: 0.0279
+	[150/600] 	Train_Loss: 0.0381
+	[300/600] 	Train_Loss: 0.0226
+	[450/600] 	Train_Loss: 0.0367
+	[600/600] 	Train_Loss: 0.0299
+Epoch 31/150 	Time: 343초               	Train_Loss: 0.0276 	Val_Loss: 0.0292
+	[150/600] 	Train_Loss: 0.0243
+	[300/600] 	Train_Loss: 0.0257
+	[450/600] 	Train_Loss: 0.0236
+	[600/600] 	Train_Loss: 0.0106
+Epoch 32/150 	Time: 343초               	Train_Loss: 0.0278 	Val_Loss: 0.0264
+32epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0269
+	[300/600] 	Train_Loss: 0.0346
+	[450/600] 	Train_Loss: 0.0283
+	[600/600] 	Train_Loss: 0.0213
+Epoch 33/150 	Time: 343초               	Train_Loss: 0.0280 	Val_Loss: 0.0267
+	[150/600] 	Train_Loss: 0.0355
+	[300/600] 	Train_Loss: 0.0221
+	[450/600] 	Train_Loss: 0.0219
+	[600/600] 	Train_Loss: 0.0431
+Epoch 34/150 	Time: 345초               	Train_Loss: 0.0281 	Val_Loss: 0.0275
+	[150/600] 	Train_Loss: 0.0372
+	[300/600] 	Train_Loss: 0.0259
+	[450/600] 	Train_Loss: 0.0237
+	[600/600] 	Train_Loss: 0.0200
+Epoch 35/150 	Time: 345초               	Train_Loss: 0.0275 	Val_Loss: 0.0268
+	[150/600] 	Train_Loss: 0.0304
+	[300/600] 	Train_Loss: 0.0204
+	[450/600] 	Train_Loss: 0.0274
+	[600/600] 	Train_Loss: 0.0250
+Epoch 36/150 	Time: 345초               	Train_Loss: 0.0276 	Val_Loss: 0.0279
+	[150/600] 	Train_Loss: 0.0287
+	[300/600] 	Train_Loss: 0.0225
+	[450/600] 	Train_Loss: 0.0290
+	[600/600] 	Train_Loss: 0.0314
+Epoch 37/150 	Time: 345초               	Train_Loss: 0.0277 	Val_Loss: 0.0284
+	[150/600] 	Train_Loss: 0.0361
+	[300/600] 	Train_Loss: 0.0270
+	[450/600] 	Train_Loss: 0.0280
+	[600/600] 	Train_Loss: 0.0196
+Epoch 38/150 	Time: 345초               	Train_Loss: 0.0272 	Val_Loss: 0.0276
+	[150/600] 	Train_Loss: 0.0140
+	[300/600] 	Train_Loss: 0.0278
+	[450/600] 	Train_Loss: 0.0275
+	[600/600] 	Train_Loss: 0.0176
+Epoch 39/150 	Time: 345초               	Train_Loss: 0.0273 	Val_Loss: 0.0276
+	[150/600] 	Train_Loss: 0.0255
+	[300/600] 	Train_Loss: 0.0249
+	[450/600] 	Train_Loss: 0.0335
+	[600/600] 	Train_Loss: 0.0345
+Epoch 40/150 	Time: 345초               	Train_Loss: 0.0268 	Val_Loss: 0.0264
+	[150/600] 	Train_Loss: 0.0712
+	[300/600] 	Train_Loss: 0.0233
+	[450/600] 	Train_Loss: 0.0405
+	[600/600] 	Train_Loss: 0.0415
+Epoch 41/150 	Time: 345초               	Train_Loss: 0.0276 	Val_Loss: 0.0287
+	[150/600] 	Train_Loss: 0.0252
+	[300/600] 	Train_Loss: 0.0398
+	[450/600] 	Train_Loss: 0.0298
+	[600/600] 	Train_Loss: 0.0496
+Epoch 42/150 	Time: 345초               	Train_Loss: 0.0276 	Val_Loss: 0.0278
+	[150/600] 	Train_Loss: 0.0258
+	[300/600] 	Train_Loss: 0.0172
+	[450/600] 	Train_Loss: 0.0477
+	[600/600] 	Train_Loss: 0.0190
+Epoch 43/150 	Time: 345초               	Train_Loss: 0.0273 	Val_Loss: 0.0259
+43epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0221
+	[300/600] 	Train_Loss: 0.0256
+	[450/600] 	Train_Loss: 0.0231
+	[600/600] 	Train_Loss: 0.0427
+Epoch 44/150 	Time: 345초               	Train_Loss: 0.0272 	Val_Loss: 0.0278
+	[150/600] 	Train_Loss: 0.0216
+	[300/600] 	Train_Loss: 0.0399
+	[450/600] 	Train_Loss: 0.0391
+	[600/600] 	Train_Loss: 0.0310
+Epoch 45/150 	Time: 345초               	Train_Loss: 0.0275 	Val_Loss: 0.0267
+	[150/600] 	Train_Loss: 0.0419
+	[300/600] 	Train_Loss: 0.0312
+	[450/600] 	Train_Loss: 0.0313
+	[600/600] 	Train_Loss: 0.0337
+Epoch 46/150 	Time: 345초               	Train_Loss: 0.0276 	Val_Loss: 0.0260
+	[150/600] 	Train_Loss: 0.0141
+	[300/600] 	Train_Loss: 0.0325
+	[450/600] 	Train_Loss: 0.0250
+	[600/600] 	Train_Loss: 0.0337
+Epoch 47/150 	Time: 345초               	Train_Loss: 0.0268 	Val_Loss: 0.0266
+	[150/600] 	Train_Loss: 0.0320
+	[300/600] 	Train_Loss: 0.0310
+	[450/600] 	Train_Loss: 0.0226
+	[600/600] 	Train_Loss: 0.0327
+Epoch 48/150 	Time: 345초               	Train_Loss: 0.0270 	Val_Loss: 0.0263
+	[150/600] 	Train_Loss: 0.0210
+	[300/600] 	Train_Loss: 0.0320
+	[450/600] 	Train_Loss: 0.0420
+	[600/600] 	Train_Loss: 0.0277
+Epoch 49/150 	Time: 345초               	Train_Loss: 0.0267 	Val_Loss: 0.0274
+	[150/600] 	Train_Loss: 0.0168
+	[300/600] 	Train_Loss: 0.0433
+	[450/600] 	Train_Loss: 0.0348
+	[600/600] 	Train_Loss: 0.0215
+Epoch 50/150 	Time: 345초               	Train_Loss: 0.0273 	Val_Loss: 0.0289
+	[150/600] 	Train_Loss: 0.0620
+	[300/600] 	Train_Loss: 0.0374
+	[450/600] 	Train_Loss: 0.0361
+	[600/600] 	Train_Loss: 0.0166
+Epoch 51/150 	Time: 345초               	Train_Loss: 0.0270 	Val_Loss: 0.0274
+	[150/600] 	Train_Loss: 0.0316
+	[300/600] 	Train_Loss: 0.0319
+	[450/600] 	Train_Loss: 0.0350
+	[600/600] 	Train_Loss: 0.0269
+Epoch 52/150 	Time: 345초               	Train_Loss: 0.0267 	Val_Loss: 0.0268
+	[150/600] 	Train_Loss: 0.0222
+	[300/600] 	Train_Loss: 0.0276
+	[450/600] 	Train_Loss: 0.0299
+	[600/600] 	Train_Loss: 0.0339
+Epoch 53/150 	Time: 345초               	Train_Loss: 0.0273 	Val_Loss: 0.0266
+	[150/600] 	Train_Loss: 0.0161
+	[300/600] 	Train_Loss: 0.0323
+	[450/600] 	Train_Loss: 0.0364
+	[600/600] 	Train_Loss: 0.0196
+Epoch 54/150 	Time: 345초               	Train_Loss: 0.0274 	Val_Loss: 0.0273
+	[150/600] 	Train_Loss: 0.0394
+	[300/600] 	Train_Loss: 0.0249
+	[450/600] 	Train_Loss: 0.0213
+	[600/600] 	Train_Loss: 0.0297
+Epoch 55/150 	Time: 346초               	Train_Loss: 0.0276 	Val_Loss: 0.0270
+	[150/600] 	Train_Loss: 0.0302
+	[300/600] 	Train_Loss: 0.0162
+	[450/600] 	Train_Loss: 0.0253
+	[600/600] 	Train_Loss: 0.0149
+Epoch 56/150 	Time: 346초               	Train_Loss: 0.0269 	Val_Loss: 0.0273
+	[150/600] 	Train_Loss: 0.0257
+	[300/600] 	Train_Loss: 0.0360
+	[450/600] 	Train_Loss: 0.0328
+	[600/600] 	Train_Loss: 0.0230
+Epoch 57/150 	Time: 345초               	Train_Loss: 0.0271 	Val_Loss: 0.0271
+	[150/600] 	Train_Loss: 0.0181
+	[300/600] 	Train_Loss: 0.0172
+	[450/600] 	Train_Loss: 0.0263
+	[600/600] 	Train_Loss: 0.0229
+Epoch 58/150 	Time: 346초               	Train_Loss: 0.0267 	Val_Loss: 0.0267
+	[150/600] 	Train_Loss: 0.0241
+	[300/600] 	Train_Loss: 0.0264
+	[450/600] 	Train_Loss: 0.0192
+	[600/600] 	Train_Loss: 0.0148
+Epoch 59/150 	Time: 346초               	Train_Loss: 0.0272 	Val_Loss: 0.0265
+	[150/600] 	Train_Loss: 0.0210
+	[300/600] 	Train_Loss: 0.0297
+	[450/600] 	Train_Loss: 0.0484
+	[600/600] 	Train_Loss: 0.0256
+Epoch 60/150 	Time: 345초               	Train_Loss: 0.0269 	Val_Loss: 0.0277
+	[150/600] 	Train_Loss: 0.0527
+	[300/600] 	Train_Loss: 0.0245
+	[450/600] 	Train_Loss: 0.0150
+	[600/600] 	Train_Loss: 0.0299
+Epoch 61/150 	Time: 346초               	Train_Loss: 0.0265 	Val_Loss: 0.0268
+	[150/600] 	Train_Loss: 0.0282
+	[300/600] 	Train_Loss: 0.0261
+	[450/600] 	Train_Loss: 0.0277
+	[600/600] 	Train_Loss: 0.0246
+Epoch 62/150 	Time: 345초               	Train_Loss: 0.0269 	Val_Loss: 0.0255
+62epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0497
+	[300/600] 	Train_Loss: 0.0340
+	[450/600] 	Train_Loss: 0.0333
+	[600/600] 	Train_Loss: 0.0180
+Epoch 63/150 	Time: 345초               	Train_Loss: 0.0264 	Val_Loss: 0.0266
+	[150/600] 	Train_Loss: 0.0192
+	[300/600] 	Train_Loss: 0.0203
+	[450/600] 	Train_Loss: 0.0380
+	[600/600] 	Train_Loss: 0.0207
+Epoch 64/150 	Time: 346초               	Train_Loss: 0.0272 	Val_Loss: 0.0268
+	[150/600] 	Train_Loss: 0.0356
+	[300/600] 	Train_Loss: 0.0219
+	[450/600] 	Train_Loss: 0.0159
+	[600/600] 	Train_Loss: 0.0258
+Epoch 65/150 	Time: 346초               	Train_Loss: 0.0269 	Val_Loss: 0.0273
+	[150/600] 	Train_Loss: 0.0227
+	[300/600] 	Train_Loss: 0.0362
+	[450/600] 	Train_Loss: 0.0181
+	[600/600] 	Train_Loss: 0.0222
+Epoch 66/150 	Time: 345초               	Train_Loss: 0.0262 	Val_Loss: 0.0259
+	[150/600] 	Train_Loss: 0.0160
+	[300/600] 	Train_Loss: 0.0194
+	[450/600] 	Train_Loss: 0.0184
+	[600/600] 	Train_Loss: 0.0193
+Epoch 67/150 	Time: 345초               	Train_Loss: 0.0267 	Val_Loss: 0.0267
+	[150/600] 	Train_Loss: 0.0381
+	[300/600] 	Train_Loss: 0.0174
+	[450/600] 	Train_Loss: 0.0252
+	[600/600] 	Train_Loss: 0.0254
+Epoch 68/150 	Time: 346초               	Train_Loss: 0.0263 	Val_Loss: 0.0258
+	[150/600] 	Train_Loss: 0.0230
+	[300/600] 	Train_Loss: 0.0173
+	[450/600] 	Train_Loss: 0.0252
+	[600/600] 	Train_Loss: 0.0437
+Epoch 69/150 	Time: 345초               	Train_Loss: 0.0262 	Val_Loss: 0.0289
+	[150/600] 	Train_Loss: 0.0410
+	[300/600] 	Train_Loss: 0.0281
+	[450/600] 	Train_Loss: 0.0531
+	[600/600] 	Train_Loss: 0.0210
+Epoch 70/150 	Time: 345초               	Train_Loss: 0.0267 	Val_Loss: 0.0264
+	[150/600] 	Train_Loss: 0.0209
+	[300/600] 	Train_Loss: 0.0148
+	[450/600] 	Train_Loss: 0.0265
+	[600/600] 	Train_Loss: 0.0285
+Epoch 71/150 	Time: 345초               	Train_Loss: 0.0269 	Val_Loss: 0.0267
+	[150/600] 	Train_Loss: 0.0170
+	[300/600] 	Train_Loss: 0.0171
+	[450/600] 	Train_Loss: 0.0355
+	[600/600] 	Train_Loss: 0.0407
+Epoch 72/150 	Time: 345초               	Train_Loss: 0.0265 	Val_Loss: 0.0271
+	[150/600] 	Train_Loss: 0.0310
+	[300/600] 	Train_Loss: 0.0276
+	[450/600] 	Train_Loss: 0.0516
+	[600/600] 	Train_Loss: 0.0266
+Epoch 73/150 	Time: 345초               	Train_Loss: 0.0264 	Val_Loss: 0.0253
+73epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0175
+	[300/600] 	Train_Loss: 0.0269
+	[450/600] 	Train_Loss: 0.0228
+	[600/600] 	Train_Loss: 0.0205
+Epoch 74/150 	Time: 345초               	Train_Loss: 0.0269 	Val_Loss: 0.0261
+	[150/600] 	Train_Loss: 0.0501
+	[300/600] 	Train_Loss: 0.0187
+	[450/600] 	Train_Loss: 0.0236
+	[600/600] 	Train_Loss: 0.0247
+Epoch 75/150 	Time: 346초               	Train_Loss: 0.0266 	Val_Loss: 0.0276
+	[150/600] 	Train_Loss: 0.0278
+	[300/600] 	Train_Loss: 0.0273
+	[450/600] 	Train_Loss: 0.0305
+	[600/600] 	Train_Loss: 0.0242
+Epoch 76/150 	Time: 345초               	Train_Loss: 0.0262 	Val_Loss: 0.0249
+76epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0245
+	[300/600] 	Train_Loss: 0.0153
+	[450/600] 	Train_Loss: 0.0252
+	[600/600] 	Train_Loss: 0.0308
+Epoch 77/150 	Time: 345초               	Train_Loss: 0.0262 	Val_Loss: 0.0282
+	[150/600] 	Train_Loss: 0.0346
+	[300/600] 	Train_Loss: 0.0469
+	[450/600] 	Train_Loss: 0.0203
+	[600/600] 	Train_Loss: 0.0194
+Epoch 78/150 	Time: 345초               	Train_Loss: 0.0270 	Val_Loss: 0.0244
+78epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0117
+	[300/600] 	Train_Loss: 0.0289
+	[450/600] 	Train_Loss: 0.0322
+	[600/600] 	Train_Loss: 0.0341
+Epoch 79/150 	Time: 346초               	Train_Loss: 0.0265 	Val_Loss: 0.0273
+	[150/600] 	Train_Loss: 0.0223
+	[300/600] 	Train_Loss: 0.0252
+	[450/600] 	Train_Loss: 0.0315
+	[600/600] 	Train_Loss: 0.0179
+Epoch 80/150 	Time: 345초               	Train_Loss: 0.0256 	Val_Loss: 0.0269
+	[150/600] 	Train_Loss: 0.0133
+	[300/600] 	Train_Loss: 0.0240
+	[450/600] 	Train_Loss: 0.0132
+	[600/600] 	Train_Loss: 0.0378
+Epoch 81/150 	Time: 345초               	Train_Loss: 0.0262 	Val_Loss: 0.0263
+	[150/600] 	Train_Loss: 0.0209
+	[300/600] 	Train_Loss: 0.0334
+	[450/600] 	Train_Loss: 0.0202
+	[600/600] 	Train_Loss: 0.0418
+Epoch 82/150 	Time: 345초               	Train_Loss: 0.0263 	Val_Loss: 0.0269
+	[150/600] 	Train_Loss: 0.0564
+	[300/600] 	Train_Loss: 0.0195
+	[450/600] 	Train_Loss: 0.0185
+	[600/600] 	Train_Loss: 0.0358
+Epoch 83/150 	Time: 345초               	Train_Loss: 0.0262 	Val_Loss: 0.0243
+83epoch 모델 저장 완료
+	[150/600] 	Train_Loss: 0.0516
+	[300/600] 	Train_Loss: 0.0264
+	[450/600] 	Train_Loss: 0.0295
+	[600/600] 	Train_Loss: 0.0214
+Epoch 84/150 	Time: 345초               	Train_Loss: 0.0266 	Val_Loss: 0.0257
+	[150/600] 	Train_Loss: 0.0173
+	[300/600] 	Train_Loss: 0.0192
+	[450/600] 	Train_Loss: 0.0197
+	[600/600] 	Train_Loss: 0.0267
+Epoch 85/150 	Time: 346초               	Train_Loss: 0.0265 	Val_Loss: 0.0262
+	[150/600] 	Train_Loss: 0.0485
+	[300/600] 	Train_Loss: 0.0191
+	[450/600] 	Train_Loss: 0.0228
+	[600/600] 	Train_Loss: 0.0320
+Epoch 86/150 	Time: 345초               	Train_Loss: 0.0261 	Val_Loss: 0.0260
+	[150/600] 	Train_Loss: 0.0187
+	[300/600] 	Train_Loss: 0.0191
+	[450/600] 	Train_Loss: 0.0292
+	[600/600] 	Train_Loss: 0.0167
+Epoch 87/150 	Time: 346초               	Train_Loss: 0.0263 	Val_Loss: 0.0270
+	[150/600] 	Train_Loss: 0.0265
+	[300/600] 	Train_Loss: 0.0478
+	[450/600] 	Train_Loss: 0.0178
+	[600/600] 	Train_Loss: 0.0210
+Epoch 88/150 	Time: 345초               	Train_Loss: 0.0261 	Val_Loss: 0.0260
+	[150/600] 	Train_Loss: 0.0233
+	[300/600] 	Train_Loss: 0.0142
+	[450/600] 	Train_Loss: 0.0271
+	[600/600] 	Train_Loss: 0.0266
+Epoch 89/150 	Time: 345초               	Train_Loss: 0.0262 	Val_Loss: 0.0277
+	[150/600] 	Train_Loss: 0.0183
+	[300/600] 	Train_Loss: 0.0185
+	[450/600] 	Train_Loss: 0.0177
+	[600/600] 	Train_Loss: 0.0221
+Epoch 90/150 	Time: 346초               	Train_Loss: 0.0261 	Val_Loss: 0.0273
+	[150/600] 	Train_Loss: 0.0252
+	[300/600] 	Train_Loss: 0.0299
+	[450/600] 	Train_Loss: 0.0321
+	[600/600] 	Train_Loss: 0.0474
+Epoch 91/150 	Time: 345초               	Train_Loss: 0.0260 	Val_Loss: 0.0264
+	[150/600] 	Train_Loss: 0.0366
+	[300/600] 	Train_Loss: 0.0273
+	[450/600] 	Train_Loss: 0.0208
+	[600/600] 	Train_Loss: 0.0503
+Epoch 92/150 	Time: 345초               	Train_Loss: 0.0258 	Val_Loss: 0.0249
+	[150/600] 	Train_Loss: 0.0309
+	[300/600] 	Train_Loss: 0.0326
+	[450/600] 	Train_Loss: 0.0161
+	[600/600] 	Train_Loss: 0.0303
+Epoch 93/150 	Time: 346초               	Train_Loss: 0.0263 	Val_Loss: 0.0277
+	[150/600] 	Train_Loss: 0.0140
+	[300/600] 	Train_Loss: 0.0259
+	[450/600] 	Train_Loss: 0.0207
+	[600/600] 	Train_Loss: 0.0290
+Epoch 94/150 	Time: 345초               	Train_Loss: 0.0260 	Val_Loss: 0.0265
+	[150/600] 	Train_Loss: 0.0177
+	[300/600] 	Train_Loss: 0.0261
+	[450/600] 	Train_Loss: 0.0253
+	[600/600] 	Train_Loss: 0.0218
+Epoch 95/150 	Time: 346초               	Train_Loss: 0.0263 	Val_Loss: 0.0251
+	[150/600] 	Train_Loss: 0.0417
+	[300/600] 	Train_Loss: 0.0268
+	[450/600] 	Train_Loss: 0.0544
+	[600/600] 	Train_Loss: 0.0340
+Epoch 96/150 	Time: 345초               	Train_Loss: 0.0259 	Val_Loss: 0.0268
+	[150/600] 	Train_Loss: 0.0207
+	[300/600] 	Train_Loss: 0.0236
+	[450/600] 	Train_Loss: 0.0208
+	[600/600] 	Train_Loss: 0.0206
+Epoch 97/150 	Time: 345초               	Train_Loss: 0.0259 	Val_Loss: 0.0255
+	[150/600] 	Train_Loss: 0.0170
+	[300/600] 	Train_Loss: 0.0194
+	[450/600] 	Train_Loss: 0.0345
+	[600/600] 	Train_Loss: 0.0210
+Epoch 98/150 	Time: 346초               	Train_Loss: 0.0257 	Val_Loss: 0.0269
+	[150/600] 	Train_Loss: 0.0393
+	[300/600] 	Train_Loss: 0.0270
+	[450/600] 	Train_Loss: 0.0268
+	[600/600] 	Train_Loss: 0.0362
+Epoch 99/150 	Time: 345초               	Train_Loss: 0.0266 	Val_Loss: 0.0273
+	[150/600] 	Train_Loss: 0.0240
+	[300/600] 	Train_Loss: 0.0173
+	[450/600] 	Train_Loss: 0.0269
+	[600/600] 	Train_Loss: 0.0217
+Epoch 100/150 	Time: 345초               	Train_Loss: 0.0266 	Val_Loss: 0.0265
+	[150/600] 	Train_Loss: 0.0366
+	[300/600] 	Train_Loss: 0.0126
+	[450/600] 	Train_Loss: 0.0269
+	[600/600] 	Train_Loss: 0.0402
+Epoch 101/150 	Time: 346초               	Train_Loss: 0.0258 	Val_Loss: 0.0263
+	[150/600] 	Train_Loss: 0.0220
+	[300/600] 	Train_Loss: 0.0202
+	[450/600] 	Train_Loss: 0.0455
+	[600/600] 	Train_Loss: 0.0272
+Epoch 102/150 	Time: 345초               	Train_Loss: 0.0266 	Val_Loss: 0.0270
+	[150/600] 	Train_Loss: 0.0376
+	[300/600] 	Train_Loss: 0.0329
+	[450/600] 	Train_Loss: 0.0182
+	[600/600] 	Train_Loss: 0.0205
+Epoch 103/150 	Time: 345초               	Train_Loss: 0.0261 	Val_Loss: 0.0275
+	[150/600] 	Train_Loss: 0.0300
+	[300/600] 	Train_Loss: 0.0231
+	[450/600] 	Train_Loss: 0.0202
+	[600/600] 	Train_Loss: 0.0262
+Epoch 104/150 	Time: 346초               	Train_Loss: 0.0260 	Val_Loss: 0.0263
+	[150/600] 	Train_Loss: 0.0291
+	[300/600] 	Train_Loss: 0.0370
+	[450/600] 	Train_Loss: 0.0210
+	[600/600] 	Train_Loss: 0.0248
+Epoch 105/150 	Time: 345초               	Train_Loss: 0.0262 	Val_Loss: 0.0266
+	[150/600] 	Train_Loss: 0.0174
+	[300/600] 	Train_Loss: 0.0299
+	[450/600] 	Train_Loss: 0.0268
+	[600/600] 	Train_Loss: 0.0275
+Epoch 106/150 	Time: 345초               	Train_Loss: 0.0259 	Val_Loss: 0.0261
+	[150/600] 	Train_Loss: 0.0405
+	[300/600] 	Train_Loss: 0.0205
+	[450/600] 	Train_Loss: 0.0208
+	[600/600] 	Train_Loss: 0.0313
+Epoch 107/150 	Time: 346초               	Train_Loss: 0.0257 	Val_Loss: 0.0282
+	[150/600] 	Train_Loss: 0.0389
+	[300/600] 	Train_Loss: 0.0245
+	[450/600] 	Train_Loss: 0.0171
+	[600/600] 	Train_Loss: 0.0180
+Epoch 108/150 	Time: 345초               	Train_Loss: 0.0259 	Val_Loss: 0.0262
+	[150/600] 	Train_Loss: 0.0259
+	[300/600] 	Train_Loss: 0.0553
+	[450/600] 	Train_Loss: 0.0327
+	[600/600] 	Train_Loss: 0.0245
+Epoch 109/150 	Time: 345초               	Train_Loss: 0.0257 	Val_Loss: 0.0258
+	[150/600] 	Train_Loss: 0.0231
+	[300/600] 	Train_Loss: 0.0297
+	[450/600] 	Train_Loss: 0.0229
+	[600/600] 	Train_Loss: 0.0221
+Epoch 110/150 	Time: 346초               	Train_Loss: 0.0257 	Val_Loss: 0.0262
+	[150/600] 	Train_Loss: 0.0311
+	[300/600] 	Train_Loss: 0.0370
+	[450/600] 	Train_Loss: 0.0356
+	[600/600] 	Train_Loss: 0.0227
+Epoch 111/150 	Time: 345초               	Train_Loss: 0.0258 	Val_Loss: 0.0277
+	[150/600] 	Train_Loss: 0.0199
+	[300/600] 	Train_Loss: 0.0418
+	[450/600] 	Train_Loss: 0.0264
+	[600/600] 	Train_Loss: 0.0414
+Epoch 112/150 	Time: 345초               	Train_Loss: 0.0262 	Val_Loss: 0.0270
+	[150/600] 	Train_Loss: 0.0277
+	[300/600] 	Train_Loss: 0.0414
+	[450/600] 	Train_Loss: 0.0246
+	[600/600] 	Train_Loss: 0.0186
+Epoch 113/150 	Time: 345초               	Train_Loss: 0.0260 	Val_Loss: 0.0256
+	[150/600] 	Train_Loss: 0.0231
+	[300/600] 	Train_Loss: 0.0406
+	[450/600] 	Train_Loss: 0.0251
+	[600/600] 	Train_Loss: 0.0180
+Epoch 114/150 	Time: 345초               	Train_Loss: 0.0261 	Val_Loss: 0.0263
+	[150/600] 	Train_Loss: 0.0271
+	[300/600] 	Train_Loss: 0.0226
+	[450/600] 	Train_Loss: 0.0357
+	[600/600] 	Train_Loss: 0.0190
+Epoch 115/150 	Time: 345초               	Train_Loss: 0.0255 	Val_Loss: 0.0282
+	[150/600] 	Train_Loss: 0.0304
+	[300/600] 	Train_Loss: 0.0232
+	[450/600] 	Train_Loss: 0.0332
+	[600/600] 	Train_Loss: 0.0155
+Epoch 116/150 	Time: 345초               	Train_Loss: 0.0255 	Val_Loss: 0.0281
+	[150/600] 	Train_Loss: 0.0118
+	[300/600] 	Train_Loss: 0.0254
+	[450/600] 	Train_Loss: 0.0264
+	[600/600] 	Train_Loss: 0.0168
+Epoch 117/150 	Time: 345초               	Train_Loss: 0.0261 	Val_Loss: 0.0255
+	[150/600] 	Train_Loss: 0.0217
+	[300/600] 	Train_Loss: 0.0245
+	[450/600] 	Train_Loss: 0.0138
+	[600/600] 	Train_Loss: 0.0177
+Epoch 118/150 	Time: 345초               	Train_Loss: 0.0264 	Val_Loss: 0.0258
+	[150/600] 	Train_Loss: 0.0148
+	[300/600] 	Train_Loss: 0.0238
+	[450/600] 	Train_Loss: 0.0364
+	[600/600] 	Train_Loss: 0.0209
+Epoch 119/150 	Time: 345초               	Train_Loss: 0.0259 	Val_Loss: 0.0249
+	[150/600] 	Train_Loss: 0.0155
+	[300/600] 	Train_Loss: 0.0104
+	[450/600] 	Train_Loss: 0.0151
+	[600/600] 	Train_Loss: 0.0340
+Epoch 120/150 	Time: 345초               	Train_Loss: 0.0261 	Val_Loss: 0.0279
+	[150/600] 	Train_Loss: 0.0181
+	[300/600] 	Train_Loss: 0.0330
+	[450/600] 	Train_Loss: 0.0340
+	[600/600] 	Train_Loss: 0.0365
+Epoch 121/150 	Time: 345초               	Train_Loss: 0.0254 	Val_Loss: 0.0266
+	[150/600] 	Train_Loss: 0.0160
+	[300/600] 	Train_Loss: 0.0188
+	[450/600] 	Train_Loss: 0.0204
+	[600/600] 	Train_Loss: 0.0397
+Epoch 122/150 	Time: 345초               	Train_Loss: 0.0255 	Val_Loss: 0.0264
+	[150/600] 	Train_Loss: 0.0197
+	[300/600] 	Train_Loss: 0.0277
+	[450/600] 	Train_Loss: 0.0278
+	[600/600] 	Train_Loss: 0.0176
+Epoch 123/150 	Time: 345초               	Train_Loss: 0.0259 	Val_Loss: 0.0261
+	[150/600] 	Train_Loss: 0.0092
+	[300/600] 	Train_Loss: 0.0348
+	[450/600] 	Train_Loss: 0.0139
+	[600/600] 	Train_Loss: 0.0162
+Epoch 124/150 	Time: 345초               	Train_Loss: 0.0254 	Val_Loss: 0.0258
+	[150/600] 	Train_Loss: 0.0170
+	[300/600] 	Train_Loss: 0.0339
+	[450/600] 	Train_Loss: 0.0209
+	[600/600] 	Train_Loss: 0.0232
+Epoch 125/150 	Time: 345초               	Train_Loss: 0.0261 	Val_Loss: 0.0269
+	[150/600] 	Train_Loss: 0.0243
+	[300/600] 	Train_Loss: 0.0196
+	[450/600] 	Train_Loss: 0.0218
+	[600/600] 	Train_Loss: 0.0172
+Epoch 126/150 	Time: 345초               	Train_Loss: 0.0257 	Val_Loss: 0.0266
+	[150/600] 	Train_Loss: 0.0321
+	[300/600] 	Train_Loss: 0.0351
+	[450/600] 	Train_Loss: 0.0375
+	[600/600] 	Train_Loss: 0.0348
+Epoch 127/150 	Time: 345초               	Train_Loss: 0.0264 	Val_Loss: 0.0270
+	[150/600] 	Train_Loss: 0.0130
+	[300/600] 	Train_Loss: 0.0169
+	[450/600] 	Train_Loss: 0.0196
+	[600/600] 	Train_Loss: 0.0435
+Epoch 128/150 	Time: 345초               	Train_Loss: 0.0253 	Val_Loss: 0.0264
+	[150/600] 	Train_Loss: 0.0209
+	[300/600] 	Train_Loss: 0.0346
+	[450/600] 	Train_Loss: 0.0300
+	[600/600] 	Train_Loss: 0.0234
+Epoch 129/150 	Time: 345초               	Train_Loss: 0.0254 	Val_Loss: 0.0253
+	[150/600] 	Train_Loss: 0.0159
+	[300/600] 	Train_Loss: 0.0374
+	[450/600] 	Train_Loss: 0.0198
+	[600/600] 	Train_Loss: 0.0285
+Epoch 130/150 	Time: 345초               	Train_Loss: 0.0257 	Val_Loss: 0.0268
+	[150/600] 	Train_Loss: 0.0206
+	[300/600] 	Train_Loss: 0.0352
+	[450/600] 	Train_Loss: 0.0206
+	[600/600] 	Train_Loss: 0.0205
+Epoch 131/150 	Time: 345초               	Train_Loss: 0.0257 	Val_Loss: 0.0269
+	[150/600] 	Train_Loss: 0.0104
+	[300/600] 	Train_Loss: 0.0157
+	[450/600] 	Train_Loss: 0.0237
+	[600/600] 	Train_Loss: 0.0216
+Epoch 132/150 	Time: 345초               	Train_Loss: 0.0256 	Val_Loss: 0.0272
+	[150/600] 	Train_Loss: 0.0243
+	[300/600] 	Train_Loss: 0.0415
+	[450/600] 	Train_Loss: 0.0357
+	[600/600] 	Train_Loss: 0.0193
+Epoch 133/150 	Time: 345초               	Train_Loss: 0.0255 	Val_Loss: 0.0247
+	[150/600] 	Train_Loss: 0.0255
+	[300/600] 	Train_Loss: 0.0753
+	[450/600] 	Train_Loss: 0.0504
+	[600/600] 	Train_Loss: 0.0278
+Epoch 134/150 	Time: 345초               	Train_Loss: 0.0252 	Val_Loss: 0.0280
+	[150/600] 	Train_Loss: 0.0174
+	[300/600] 	Train_Loss: 0.0288
+	[450/600] 	Train_Loss: 0.0131
+	[600/600] 	Train_Loss: 0.0279
+Epoch 135/150 	Time: 345초               	Train_Loss: 0.0257 	Val_Loss: 0.0279
+	[150/600] 	Train_Loss: 0.0135
+	[300/600] 	Train_Loss: 0.0183
+	[450/600] 	Train_Loss: 0.0232
+	[600/600] 	Train_Loss: 0.0202
+Epoch 136/150 	Time: 345초               	Train_Loss: 0.0255 	Val_Loss: 0.0244
+	[150/600] 	Train_Loss: 0.0194
+	[300/600] 	Train_Loss: 0.0272
+	[450/600] 	Train_Loss: 0.0445
+	[600/600] 	Train_Loss: 0.0155
+Epoch 137/150 	Time: 345초               	Train_Loss: 0.0253 	Val_Loss: 0.0261
+	[150/600] 	Train_Loss: 0.0261
+	[300/600] 	Train_Loss: 0.0123
+	[450/600] 	Train_Loss: 0.0338
+	[600/600] 	Train_Loss: 0.0381
+Epoch 138/150 	Time: 345초               	Train_Loss: 0.0256 	Val_Loss: 0.0276
+	[150/600] 	Train_Loss: 0.0339
+	[300/600] 	Train_Loss: 0.0111
+	[450/600] 	Train_Loss: 0.0121
+	[600/600] 	Train_Loss: 0.0373
+Epoch 139/150 	Time: 345초               	Train_Loss: 0.0258 	Val_Loss: 0.0256
+	[150/600] 	Train_Loss: 0.0156
+	[300/600] 	Train_Loss: 0.0253
+	[450/600] 	Train_Loss: 0.0195
+	[600/600] 	Train_Loss: 0.0280
+Epoch 140/150 	Time: 345초               	Train_Loss: 0.0250 	Val_Loss: 0.0291
+	[150/600] 	Train_Loss: 0.0131
+	[300/600] 	Train_Loss: 0.0263
+	[450/600] 	Train_Loss: 0.0199
+	[600/600] 	Train_Loss: 0.0350
+Epoch 141/150 	Time: 345초               	Train_Loss: 0.0255 	Val_Loss: 0.0266
+	[150/600] 	Train_Loss: 0.0260
+	[300/600] 	Train_Loss: 0.0204
+	[450/600] 	Train_Loss: 0.0278
+	[600/600] 	Train_Loss: 0.0408
+Epoch 142/150 	Time: 345초               	Train_Loss: 0.0253 	Val_Loss: 0.0269
+	[150/600] 	Train_Loss: 0.0273
+	[300/600] 	Train_Loss: 0.0438
+	[450/600] 	Train_Loss: 0.0362
+	[600/600] 	Train_Loss: 0.0172
+Epoch 143/150 	Time: 345초               	Train_Loss: 0.0256 	Val_Loss: 0.0260
+	[150/600] 	Train_Loss: 0.0160
+	[300/600] 	Train_Loss: 0.0296
+	[450/600] 	Train_Loss: 0.0156
+	[600/600] 	Train_Loss: 0.0292
+Epoch 144/150 	Time: 347초               	Train_Loss: 0.0254 	Val_Loss: 0.0264
+	[150/600] 	Train_Loss: 0.0148
+	[300/600] 	Train_Loss: 0.0345
+	[450/600] 	Train_Loss: 0.0245
+	[600/600] 	Train_Loss: 0.0272
+Epoch 145/150 	Time: 344초               	Train_Loss: 0.0256 	Val_Loss: 0.0249
+	[150/600] 	Train_Loss: 0.0220
+	[300/600] 	Train_Loss: 0.0400
+	[450/600] 	Train_Loss: 0.0320
+	[600/600] 	Train_Loss: 0.0150
+Epoch 146/150 	Time: 345초               	Train_Loss: 0.0251 	Val_Loss: 0.0275
+	[150/600] 	Train_Loss: 0.0144
+	[300/600] 	Train_Loss: 0.0181
+	[450/600] 	Train_Loss: 0.0313
+	[600/600] 	Train_Loss: 0.0203
+Epoch 147/150 	Time: 345초               	Train_Loss: 0.0258 	Val_Loss: 0.0283
+	[150/600] 	Train_Loss: 0.0194
+	[300/600] 	Train_Loss: 0.0567
+	[450/600] 	Train_Loss: 0.0347
+	[600/600] 	Train_Loss: 0.0160
+Epoch 148/150 	Time: 345초               	Train_Loss: 0.0257 	Val_Loss: 0.0247
+	[150/600] 	Train_Loss: 0.0309
+	[300/600] 	Train_Loss: 0.0562
+	[450/600] 	Train_Loss: 0.0180
+	[600/600] 	Train_Loss: 0.0160
+Epoch 149/150 	Time: 345초               	Train_Loss: 0.0254 	Val_Loss: 0.0248
+	[150/600] 	Train_Loss: 0.0313
+	[300/600] 	Train_Loss: 0.0220
+	[450/600] 	Train_Loss: 0.0293
+	[600/600] 	Train_Loss: 0.0303
+Epoch 150/150 	Time: 345초               	Train_Loss: 0.0250 	Val_Loss: 0.0258
+훈련 소요 시간: 14시간 21분 37초
+done

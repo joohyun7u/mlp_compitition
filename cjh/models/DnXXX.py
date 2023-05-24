@@ -7,6 +7,7 @@ import torch.utils.data as data
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, random_split
+import torchvision.transforms as tf
 from torchvision.transforms import ToTensor, Normalize, Compose
 from os.path import join
 from os import listdir
@@ -233,13 +234,15 @@ if __name__ == '__main__':
     # 데이터셋 로드 및 전처리
     train_transform = Compose([
         # BilateralBlur(args.train_img_size),
-        # randaugment.RandAugment(),
+        # tf.ToPILImage(),
+        # tf.RandAugment(),
+        # ToTensor(),
         ToTensor(),
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
     val_transform = Compose([
-        BilateralBlur(args.train_img_size),
+        # BilateralBlur(args.train_img_size),
         ToTensor(),
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])

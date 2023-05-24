@@ -1,0 +1,1553 @@
+activate torch environment
+/data/joohyun7u/cjh/sh/setup.sh: line 7: activate: No such file or directory
+mlp Activate Failed
+20230522-01:39:37
+running: cuda, 	Model: DnCNN 	epoch: 300,            	batch: 48, 	lr: 0.001 	Summary: False
+./save/best_DnCNN_model18.pth
+./loss/DnCNN_model12.pth
+Train Size : 9000 	Validattion Size : 1000
+모든 parameter 개수기준임
+Number of parameters: 559363
+10M 1천만보다 9440637개 여유 있음...
+grad인 parameter 개수기준임
+Number of parameters: 559363
+10M 1천만보다 9440637개 여유 있음...
+/data/joohyun7u/anaconda3/envs/mlp/lib/python3.9/site-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and will be removed in 0.15, please use 'weights' instead.
+  warnings.warn(
+/data/joohyun7u/anaconda3/envs/mlp/lib/python3.9/site-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and will be removed in 0.15. The current behavior is equivalent to passing `weights=VGG16_Weights.IMAGENET1K_V1`. You can also use `weights=VGG16_Weights.DEFAULT` to get the most up-to-date weights.
+  warnings.warn(msg)
+모델 학습 시작
+torch.Size([48, 3, 128, 128]) torch.Size([48, 3, 128, 128])
+	[47/188] 	Train_Loss: 3.0396
+	[94/188] 	Train_Loss: 2.7929
+	[141/188] 	Train_Loss: 3.0203
+	[188/188] 	Train_Loss: 3.0858
+Epoch 1/300 	Time: 90초               	Train_Loss: 3.0354 	Val_Loss: 2.9927
+1epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.9956
+	[94/188] 	Train_Loss: 3.3410
+	[141/188] 	Train_Loss: 3.0886
+	[188/188] 	Train_Loss: 2.5505
+Epoch 2/300 	Time: 88초               	Train_Loss: 2.9225 	Val_Loss: 2.9273
+2epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.7573
+	[94/188] 	Train_Loss: 2.3475
+	[141/188] 	Train_Loss: 2.5671
+	[188/188] 	Train_Loss: 2.4213
+Epoch 3/300 	Time: 88초               	Train_Loss: 2.6877 	Val_Loss: 2.8283
+3epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.7044
+	[94/188] 	Train_Loss: 2.5450
+	[141/188] 	Train_Loss: 2.6816
+	[188/188] 	Train_Loss: 2.4928
+Epoch 4/300 	Time: 88초               	Train_Loss: 2.4985 	Val_Loss: 2.5555
+4epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.4328
+	[94/188] 	Train_Loss: 2.4021
+	[141/188] 	Train_Loss: 2.6517
+	[188/188] 	Train_Loss: 2.5158
+Epoch 5/300 	Time: 88초               	Train_Loss: 2.4419 	Val_Loss: 2.3564
+5epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.1820
+	[94/188] 	Train_Loss: 2.2883
+	[141/188] 	Train_Loss: 2.4481
+	[188/188] 	Train_Loss: 2.4638
+Epoch 6/300 	Time: 88초               	Train_Loss: 2.3587 	Val_Loss: 2.4152
+	[47/188] 	Train_Loss: 2.2806
+	[94/188] 	Train_Loss: 2.2685
+	[141/188] 	Train_Loss: 2.2392
+	[188/188] 	Train_Loss: 2.3776
+Epoch 7/300 	Time: 88초               	Train_Loss: 2.3484 	Val_Loss: 2.4089
+	[47/188] 	Train_Loss: 2.4632
+	[94/188] 	Train_Loss: 2.3636
+	[141/188] 	Train_Loss: 2.2927
+	[188/188] 	Train_Loss: 2.2917
+Epoch 8/300 	Time: 88초               	Train_Loss: 2.3109 	Val_Loss: 2.3668
+	[47/188] 	Train_Loss: 2.2724
+	[94/188] 	Train_Loss: 2.2964
+	[141/188] 	Train_Loss: 2.5728
+	[188/188] 	Train_Loss: 2.0893
+Epoch 9/300 	Time: 88초               	Train_Loss: 2.2827 	Val_Loss: 2.3073
+9epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.5189
+	[94/188] 	Train_Loss: 2.3570
+	[141/188] 	Train_Loss: 2.3416
+	[188/188] 	Train_Loss: 2.3720
+Epoch 10/300 	Time: 88초               	Train_Loss: 2.2662 	Val_Loss: 2.2187
+10epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.2587
+	[94/188] 	Train_Loss: 2.5252
+	[141/188] 	Train_Loss: 2.2792
+	[188/188] 	Train_Loss: 2.3691
+Epoch 11/300 	Time: 88초               	Train_Loss: 2.2468 	Val_Loss: 2.3180
+	[47/188] 	Train_Loss: 2.4535
+	[94/188] 	Train_Loss: 2.5642
+	[141/188] 	Train_Loss: 2.1208
+	[188/188] 	Train_Loss: 2.3900
+Epoch 12/300 	Time: 88초               	Train_Loss: 2.2892 	Val_Loss: 2.3072
+	[47/188] 	Train_Loss: 2.3069
+	[94/188] 	Train_Loss: 2.0809
+	[141/188] 	Train_Loss: 2.4444
+	[188/188] 	Train_Loss: 2.3715
+Epoch 13/300 	Time: 88초               	Train_Loss: 2.2294 	Val_Loss: 2.2278
+	[47/188] 	Train_Loss: 2.0517
+	[94/188] 	Train_Loss: 2.3392
+	[141/188] 	Train_Loss: 2.3325
+	[188/188] 	Train_Loss: 2.0544
+Epoch 14/300 	Time: 88초               	Train_Loss: 2.2140 	Val_Loss: 2.2435
+	[47/188] 	Train_Loss: 2.2446
+	[94/188] 	Train_Loss: 2.0896
+	[141/188] 	Train_Loss: 2.0569
+	[188/188] 	Train_Loss: 2.3506
+Epoch 15/300 	Time: 88초               	Train_Loss: 2.1900 	Val_Loss: 2.2362
+	[47/188] 	Train_Loss: 2.3307
+	[94/188] 	Train_Loss: 2.3263
+	[141/188] 	Train_Loss: 2.3439
+	[188/188] 	Train_Loss: 2.2230
+Epoch 16/300 	Time: 88초               	Train_Loss: 2.2013 	Val_Loss: 2.1546
+16epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.5949
+	[94/188] 	Train_Loss: 1.9386
+	[141/188] 	Train_Loss: 2.3882
+	[188/188] 	Train_Loss: 2.3152
+Epoch 17/300 	Time: 88초               	Train_Loss: 2.1872 	Val_Loss: 2.3294
+	[47/188] 	Train_Loss: 2.1101
+	[94/188] 	Train_Loss: 2.3464
+	[141/188] 	Train_Loss: 2.2430
+	[188/188] 	Train_Loss: 1.9501
+Epoch 18/300 	Time: 88초               	Train_Loss: 2.1729 	Val_Loss: 2.1817
+	[47/188] 	Train_Loss: 2.1220
+	[94/188] 	Train_Loss: 2.3226
+	[141/188] 	Train_Loss: 2.2690
+	[188/188] 	Train_Loss: 2.1167
+Epoch 19/300 	Time: 88초               	Train_Loss: 2.1593 	Val_Loss: 2.1673
+	[47/188] 	Train_Loss: 2.0868
+	[94/188] 	Train_Loss: 1.8678
+	[141/188] 	Train_Loss: 1.9078
+	[188/188] 	Train_Loss: 2.1976
+Epoch 20/300 	Time: 88초               	Train_Loss: 2.1407 	Val_Loss: 2.1761
+	[47/188] 	Train_Loss: 2.0054
+	[94/188] 	Train_Loss: 1.9959
+	[141/188] 	Train_Loss: 2.5043
+	[188/188] 	Train_Loss: 2.1369
+Epoch 21/300 	Time: 88초               	Train_Loss: 2.1321 	Val_Loss: 2.1774
+	[47/188] 	Train_Loss: 2.1191
+	[94/188] 	Train_Loss: 2.0672
+	[141/188] 	Train_Loss: 2.0441
+	[188/188] 	Train_Loss: 2.4797
+Epoch 22/300 	Time: 88초               	Train_Loss: 2.1848 	Val_Loss: 2.9115
+	[47/188] 	Train_Loss: 2.2076
+	[94/188] 	Train_Loss: 2.1893
+	[141/188] 	Train_Loss: 2.1227
+	[188/188] 	Train_Loss: 2.3414
+Epoch 23/300 	Time: 88초               	Train_Loss: 2.2895 	Val_Loss: 2.2175
+	[47/188] 	Train_Loss: 2.5697
+	[94/188] 	Train_Loss: 1.9842
+	[141/188] 	Train_Loss: 2.1152
+	[188/188] 	Train_Loss: 1.9532
+Epoch 24/300 	Time: 88초               	Train_Loss: 2.1921 	Val_Loss: 2.1913
+	[47/188] 	Train_Loss: 1.9495
+	[94/188] 	Train_Loss: 2.1475
+	[141/188] 	Train_Loss: 2.0958
+	[188/188] 	Train_Loss: 2.4678
+Epoch 25/300 	Time: 88초               	Train_Loss: 2.1699 	Val_Loss: 2.2268
+	[47/188] 	Train_Loss: 2.0831
+	[94/188] 	Train_Loss: 2.1977
+	[141/188] 	Train_Loss: 2.1684
+	[188/188] 	Train_Loss: 2.5525
+Epoch 26/300 	Time: 88초               	Train_Loss: 2.1353 	Val_Loss: 2.2086
+	[47/188] 	Train_Loss: 2.3720
+	[94/188] 	Train_Loss: 2.1817
+	[141/188] 	Train_Loss: 1.9824
+	[188/188] 	Train_Loss: 2.0801
+Epoch 27/300 	Time: 88초               	Train_Loss: 2.1288 	Val_Loss: 2.1450
+27epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.1873
+	[94/188] 	Train_Loss: 2.0031
+	[141/188] 	Train_Loss: 2.2283
+	[188/188] 	Train_Loss: 2.2151
+Epoch 28/300 	Time: 88초               	Train_Loss: 2.1203 	Val_Loss: 2.1461
+	[47/188] 	Train_Loss: 2.4043
+	[94/188] 	Train_Loss: 1.9551
+	[141/188] 	Train_Loss: 2.1814
+	[188/188] 	Train_Loss: 2.2104
+Epoch 29/300 	Time: 88초               	Train_Loss: 2.1112 	Val_Loss: 2.2676
+	[47/188] 	Train_Loss: 1.9288
+	[94/188] 	Train_Loss: 2.2921
+	[141/188] 	Train_Loss: 2.0715
+	[188/188] 	Train_Loss: 2.0591
+Epoch 30/300 	Time: 88초               	Train_Loss: 2.1200 	Val_Loss: 2.1350
+30epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.2500
+	[94/188] 	Train_Loss: 1.9589
+	[141/188] 	Train_Loss: 1.9442
+	[188/188] 	Train_Loss: 2.1399
+Epoch 31/300 	Time: 88초               	Train_Loss: 2.1094 	Val_Loss: 2.1344
+31epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.3041
+	[94/188] 	Train_Loss: 1.8744
+	[141/188] 	Train_Loss: 2.1165
+	[188/188] 	Train_Loss: 2.0161
+Epoch 32/300 	Time: 88초               	Train_Loss: 2.0976 	Val_Loss: 2.1784
+	[47/188] 	Train_Loss: 1.9433
+	[94/188] 	Train_Loss: 2.2257
+	[141/188] 	Train_Loss: 1.9587
+	[188/188] 	Train_Loss: 2.0380
+Epoch 33/300 	Time: 88초               	Train_Loss: 2.0903 	Val_Loss: 2.1247
+33epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.2494
+	[94/188] 	Train_Loss: 2.0258
+	[141/188] 	Train_Loss: 2.1826
+	[188/188] 	Train_Loss: 2.2853
+Epoch 34/300 	Time: 88초               	Train_Loss: 2.1222 	Val_Loss: 2.3123
+	[47/188] 	Train_Loss: 2.2836
+	[94/188] 	Train_Loss: 2.1831
+	[141/188] 	Train_Loss: 2.0310
+	[188/188] 	Train_Loss: 2.3549
+Epoch 35/300 	Time: 88초               	Train_Loss: 2.1592 	Val_Loss: 2.3011
+	[47/188] 	Train_Loss: 2.3591
+	[94/188] 	Train_Loss: 2.2135
+	[141/188] 	Train_Loss: 2.2094
+	[188/188] 	Train_Loss: 1.7546
+Epoch 36/300 	Time: 88초               	Train_Loss: 2.1036 	Val_Loss: 2.0653
+36epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.3490
+	[94/188] 	Train_Loss: 2.4782
+	[141/188] 	Train_Loss: 2.0863
+	[188/188] 	Train_Loss: 2.2520
+Epoch 37/300 	Time: 88초               	Train_Loss: 2.1043 	Val_Loss: 2.1949
+	[47/188] 	Train_Loss: 2.1466
+	[94/188] 	Train_Loss: 2.3656
+	[141/188] 	Train_Loss: 2.2632
+	[188/188] 	Train_Loss: 2.0821
+Epoch 38/300 	Time: 88초               	Train_Loss: 2.0919 	Val_Loss: 2.1689
+	[47/188] 	Train_Loss: 2.0687
+	[94/188] 	Train_Loss: 2.0553
+	[141/188] 	Train_Loss: 1.9560
+	[188/188] 	Train_Loss: 2.0705
+Epoch 39/300 	Time: 88초               	Train_Loss: 2.0774 	Val_Loss: 2.1167
+	[47/188] 	Train_Loss: 1.9356
+	[94/188] 	Train_Loss: 2.1086
+	[141/188] 	Train_Loss: 2.1813
+	[188/188] 	Train_Loss: 2.1092
+Epoch 40/300 	Time: 88초               	Train_Loss: 2.0692 	Val_Loss: 2.1893
+	[47/188] 	Train_Loss: 2.2240
+	[94/188] 	Train_Loss: 2.0622
+	[141/188] 	Train_Loss: 2.1682
+	[188/188] 	Train_Loss: 2.0107
+Epoch 41/300 	Time: 88초               	Train_Loss: 2.1429 	Val_Loss: 2.2288
+	[47/188] 	Train_Loss: 2.0100
+	[94/188] 	Train_Loss: 2.2110
+	[141/188] 	Train_Loss: 1.9983
+	[188/188] 	Train_Loss: 1.9052
+Epoch 42/300 	Time: 88초               	Train_Loss: 2.1340 	Val_Loss: 2.1979
+	[47/188] 	Train_Loss: 2.3385
+	[94/188] 	Train_Loss: 2.1643
+	[141/188] 	Train_Loss: 1.9191
+	[188/188] 	Train_Loss: 2.4291
+Epoch 43/300 	Time: 88초               	Train_Loss: 2.1059 	Val_Loss: 2.0886
+	[47/188] 	Train_Loss: 1.9495
+	[94/188] 	Train_Loss: 1.9177
+	[141/188] 	Train_Loss: 2.0047
+	[188/188] 	Train_Loss: 1.9457
+Epoch 44/300 	Time: 88초               	Train_Loss: 2.0795 	Val_Loss: 2.1082
+	[47/188] 	Train_Loss: 1.9414
+	[94/188] 	Train_Loss: 2.2400
+	[141/188] 	Train_Loss: 1.9614
+	[188/188] 	Train_Loss: 1.9468
+Epoch 45/300 	Time: 88초               	Train_Loss: 2.0767 	Val_Loss: 2.1079
+	[47/188] 	Train_Loss: 2.1502
+	[94/188] 	Train_Loss: 2.0133
+	[141/188] 	Train_Loss: 2.1518
+	[188/188] 	Train_Loss: 2.1383
+Epoch 46/300 	Time: 88초               	Train_Loss: 2.0638 	Val_Loss: 2.0642
+46epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.0495
+	[94/188] 	Train_Loss: 2.0707
+	[141/188] 	Train_Loss: 2.1900
+	[188/188] 	Train_Loss: 1.9353
+Epoch 47/300 	Time: 88초               	Train_Loss: 2.0622 	Val_Loss: 2.2029
+	[47/188] 	Train_Loss: 2.1441
+	[94/188] 	Train_Loss: 2.0108
+	[141/188] 	Train_Loss: 1.9696
+	[188/188] 	Train_Loss: 2.7532
+Epoch 48/300 	Time: 89초               	Train_Loss: 2.0636 	Val_Loss: 2.3262
+	[47/188] 	Train_Loss: 1.9803
+	[94/188] 	Train_Loss: 1.8379
+	[141/188] 	Train_Loss: 2.0746
+	[188/188] 	Train_Loss: 2.1639
+Epoch 49/300 	Time: 88초               	Train_Loss: 2.0462 	Val_Loss: 2.1956
+	[47/188] 	Train_Loss: 2.1932
+	[94/188] 	Train_Loss: 2.1353
+	[141/188] 	Train_Loss: 2.3702
+	[188/188] 	Train_Loss: 2.3446
+Epoch 50/300 	Time: 88초               	Train_Loss: 2.1644 	Val_Loss: 2.1539
+	[47/188] 	Train_Loss: 2.0124
+	[94/188] 	Train_Loss: 1.9261
+	[141/188] 	Train_Loss: 2.3088
+	[188/188] 	Train_Loss: 2.2449
+Epoch 51/300 	Time: 88초               	Train_Loss: 2.0933 	Val_Loss: 2.1686
+	[47/188] 	Train_Loss: 1.9769
+	[94/188] 	Train_Loss: 2.1952
+	[141/188] 	Train_Loss: 2.2047
+	[188/188] 	Train_Loss: 2.0594
+Epoch 52/300 	Time: 88초               	Train_Loss: 2.0894 	Val_Loss: 2.1512
+	[47/188] 	Train_Loss: 2.0103
+	[94/188] 	Train_Loss: 1.9661
+	[141/188] 	Train_Loss: 2.0625
+	[188/188] 	Train_Loss: 2.0337
+Epoch 53/300 	Time: 88초               	Train_Loss: 2.0698 	Val_Loss: 2.2304
+	[47/188] 	Train_Loss: 2.2226
+	[94/188] 	Train_Loss: 2.2013
+	[141/188] 	Train_Loss: 1.9873
+	[188/188] 	Train_Loss: 2.1695
+Epoch 54/300 	Time: 88초               	Train_Loss: 2.0597 	Val_Loss: 2.1202
+	[47/188] 	Train_Loss: 2.0117
+	[94/188] 	Train_Loss: 2.0346
+	[141/188] 	Train_Loss: 1.5895
+	[188/188] 	Train_Loss: 1.9460
+Epoch 55/300 	Time: 88초               	Train_Loss: 2.0738 	Val_Loss: 2.2297
+	[47/188] 	Train_Loss: 1.9906
+	[94/188] 	Train_Loss: 2.3281
+	[141/188] 	Train_Loss: 2.0617
+	[188/188] 	Train_Loss: 1.9386
+Epoch 56/300 	Time: 88초               	Train_Loss: 2.0469 	Val_Loss: 2.0621
+56epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.0911
+	[94/188] 	Train_Loss: 2.3636
+	[141/188] 	Train_Loss: 2.4899
+	[188/188] 	Train_Loss: 1.9714
+Epoch 57/300 	Time: 88초               	Train_Loss: 2.0633 	Val_Loss: 2.2002
+	[47/188] 	Train_Loss: 1.9869
+	[94/188] 	Train_Loss: 1.8489
+	[141/188] 	Train_Loss: 2.0768
+	[188/188] 	Train_Loss: 2.0223
+Epoch 58/300 	Time: 88초               	Train_Loss: 2.0610 	Val_Loss: 2.1202
+	[47/188] 	Train_Loss: 2.0922
+	[94/188] 	Train_Loss: 2.3026
+	[141/188] 	Train_Loss: 1.7789
+	[188/188] 	Train_Loss: 2.5007
+Epoch 59/300 	Time: 88초               	Train_Loss: 2.0496 	Val_Loss: 2.0554
+59epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.0303
+	[94/188] 	Train_Loss: 1.9103
+	[141/188] 	Train_Loss: 2.4002
+	[188/188] 	Train_Loss: 2.4044
+Epoch 60/300 	Time: 88초               	Train_Loss: 2.0373 	Val_Loss: 2.0450
+60epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.0662
+	[94/188] 	Train_Loss: 2.2015
+	[141/188] 	Train_Loss: 2.2256
+	[188/188] 	Train_Loss: 2.0633
+Epoch 61/300 	Time: 88초               	Train_Loss: 2.0455 	Val_Loss: 2.0098
+61epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.8592
+	[94/188] 	Train_Loss: 2.3555
+	[141/188] 	Train_Loss: 2.0961
+	[188/188] 	Train_Loss: 2.0015
+Epoch 62/300 	Time: 88초               	Train_Loss: 2.0346 	Val_Loss: 2.0622
+	[47/188] 	Train_Loss: 1.6250
+	[94/188] 	Train_Loss: 1.9796
+	[141/188] 	Train_Loss: 1.9729
+	[188/188] 	Train_Loss: 2.3897
+Epoch 63/300 	Time: 88초               	Train_Loss: 2.0327 	Val_Loss: 2.3561
+	[47/188] 	Train_Loss: 1.8728
+	[94/188] 	Train_Loss: 2.0901
+	[141/188] 	Train_Loss: 1.8402
+	[188/188] 	Train_Loss: 2.1536
+Epoch 64/300 	Time: 88초               	Train_Loss: 2.0985 	Val_Loss: 2.0485
+	[47/188] 	Train_Loss: 1.9490
+	[94/188] 	Train_Loss: 2.2067
+	[141/188] 	Train_Loss: 2.0354
+	[188/188] 	Train_Loss: 2.3150
+Epoch 65/300 	Time: 88초               	Train_Loss: 2.0352 	Val_Loss: 2.1195
+	[47/188] 	Train_Loss: 1.8403
+	[94/188] 	Train_Loss: 2.0571
+	[141/188] 	Train_Loss: 2.1191
+	[188/188] 	Train_Loss: 1.9555
+Epoch 66/300 	Time: 88초               	Train_Loss: 2.0230 	Val_Loss: 2.0228
+	[47/188] 	Train_Loss: 1.8280
+	[94/188] 	Train_Loss: 1.8348
+	[141/188] 	Train_Loss: 2.1238
+	[188/188] 	Train_Loss: 1.9321
+Epoch 67/300 	Time: 88초               	Train_Loss: 2.0128 	Val_Loss: 2.0819
+	[47/188] 	Train_Loss: 2.0723
+	[94/188] 	Train_Loss: 2.0751
+	[141/188] 	Train_Loss: 2.0866
+	[188/188] 	Train_Loss: 2.0563
+Epoch 68/300 	Time: 88초               	Train_Loss: 2.0173 	Val_Loss: 2.0869
+	[47/188] 	Train_Loss: 2.0815
+	[94/188] 	Train_Loss: 1.7357
+	[141/188] 	Train_Loss: 2.1014
+	[188/188] 	Train_Loss: 1.9978
+Epoch 69/300 	Time: 88초               	Train_Loss: 2.0048 	Val_Loss: 2.0539
+	[47/188] 	Train_Loss: 1.9856
+	[94/188] 	Train_Loss: 1.7583
+	[141/188] 	Train_Loss: 1.8421
+	[188/188] 	Train_Loss: 1.8122
+Epoch 70/300 	Time: 88초               	Train_Loss: 1.9971 	Val_Loss: 2.0218
+	[47/188] 	Train_Loss: 2.2582
+	[94/188] 	Train_Loss: 2.0023
+	[141/188] 	Train_Loss: 1.8824
+	[188/188] 	Train_Loss: 1.8665
+Epoch 71/300 	Time: 89초               	Train_Loss: 1.9971 	Val_Loss: 2.0361
+	[47/188] 	Train_Loss: 1.8197
+	[94/188] 	Train_Loss: 1.9618
+	[141/188] 	Train_Loss: 2.5277
+	[188/188] 	Train_Loss: 2.1029
+Epoch 72/300 	Time: 89초               	Train_Loss: 1.9959 	Val_Loss: 2.0653
+	[47/188] 	Train_Loss: 1.9708
+	[94/188] 	Train_Loss: 2.0825
+	[141/188] 	Train_Loss: 2.2416
+	[188/188] 	Train_Loss: 1.7666
+Epoch 73/300 	Time: 88초               	Train_Loss: 1.9788 	Val_Loss: 2.1153
+	[47/188] 	Train_Loss: 2.0230
+	[94/188] 	Train_Loss: 1.7148
+	[141/188] 	Train_Loss: 2.0076
+	[188/188] 	Train_Loss: 1.7849
+Epoch 74/300 	Time: 88초               	Train_Loss: 1.9966 	Val_Loss: 2.0564
+	[47/188] 	Train_Loss: 1.7947
+	[94/188] 	Train_Loss: 1.8331
+	[141/188] 	Train_Loss: 2.1872
+	[188/188] 	Train_Loss: 1.8520
+Epoch 75/300 	Time: 88초               	Train_Loss: 1.9990 	Val_Loss: 2.0403
+	[47/188] 	Train_Loss: 1.9906
+	[94/188] 	Train_Loss: 2.0958
+	[141/188] 	Train_Loss: 2.1371
+	[188/188] 	Train_Loss: 1.8435
+Epoch 76/300 	Time: 88초               	Train_Loss: 1.9913 	Val_Loss: 2.0724
+	[47/188] 	Train_Loss: 1.8578
+	[94/188] 	Train_Loss: 1.8005
+	[141/188] 	Train_Loss: 2.1562
+	[188/188] 	Train_Loss: 2.0971
+Epoch 77/300 	Time: 88초               	Train_Loss: 1.9782 	Val_Loss: 2.0306
+	[47/188] 	Train_Loss: 2.2819
+	[94/188] 	Train_Loss: 2.1486
+	[141/188] 	Train_Loss: 1.9633
+	[188/188] 	Train_Loss: 1.9857
+Epoch 78/300 	Time: 88초               	Train_Loss: 1.9844 	Val_Loss: 2.0871
+	[47/188] 	Train_Loss: 2.2383
+	[94/188] 	Train_Loss: 2.0909
+	[141/188] 	Train_Loss: 1.7848
+	[188/188] 	Train_Loss: 2.0173
+Epoch 79/300 	Time: 88초               	Train_Loss: 1.9925 	Val_Loss: 2.0989
+	[47/188] 	Train_Loss: 1.8608
+	[94/188] 	Train_Loss: 1.9629
+	[141/188] 	Train_Loss: 2.1565
+	[188/188] 	Train_Loss: 1.8395
+Epoch 80/300 	Time: 88초               	Train_Loss: 1.9831 	Val_Loss: 2.0071
+80epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.7960
+	[94/188] 	Train_Loss: 2.0539
+	[141/188] 	Train_Loss: 1.9190
+	[188/188] 	Train_Loss: 2.0831
+Epoch 81/300 	Time: 88초               	Train_Loss: 1.9764 	Val_Loss: 2.0244
+	[47/188] 	Train_Loss: 1.9963
+	[94/188] 	Train_Loss: 1.9353
+	[141/188] 	Train_Loss: 1.9533
+	[188/188] 	Train_Loss: 2.0889
+Epoch 82/300 	Time: 88초               	Train_Loss: 1.9878 	Val_Loss: 2.0283
+	[47/188] 	Train_Loss: 2.0132
+	[94/188] 	Train_Loss: 1.9188
+	[141/188] 	Train_Loss: 1.8264
+	[188/188] 	Train_Loss: 2.1465
+Epoch 83/300 	Time: 88초               	Train_Loss: 1.9642 	Val_Loss: 2.0023
+83epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.9231
+	[94/188] 	Train_Loss: 1.8669
+	[141/188] 	Train_Loss: 1.9454
+	[188/188] 	Train_Loss: 2.0841
+Epoch 84/300 	Time: 88초               	Train_Loss: 1.9624 	Val_Loss: 2.0383
+	[47/188] 	Train_Loss: 1.9536
+	[94/188] 	Train_Loss: 2.0244
+	[141/188] 	Train_Loss: 2.0523
+	[188/188] 	Train_Loss: 1.8418
+Epoch 85/300 	Time: 88초               	Train_Loss: 1.9654 	Val_Loss: 2.0500
+	[47/188] 	Train_Loss: 2.0161
+	[94/188] 	Train_Loss: 1.8401
+	[141/188] 	Train_Loss: 2.0074
+	[188/188] 	Train_Loss: 1.6327
+Epoch 86/300 	Time: 88초               	Train_Loss: 1.9582 	Val_Loss: 1.9775
+86epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 2.0916
+	[94/188] 	Train_Loss: 2.1448
+	[141/188] 	Train_Loss: 1.9785
+	[188/188] 	Train_Loss: 1.8187
+Epoch 87/300 	Time: 88초               	Train_Loss: 1.9515 	Val_Loss: 2.0712
+	[47/188] 	Train_Loss: 1.9354
+	[94/188] 	Train_Loss: 1.9118
+	[141/188] 	Train_Loss: 1.8864
+	[188/188] 	Train_Loss: 2.3795
+Epoch 88/300 	Time: 88초               	Train_Loss: 1.9492 	Val_Loss: 2.0061
+	[47/188] 	Train_Loss: 1.9020
+	[94/188] 	Train_Loss: 2.0759
+	[141/188] 	Train_Loss: 2.0601
+	[188/188] 	Train_Loss: 2.0460
+Epoch 89/300 	Time: 88초               	Train_Loss: 1.9500 	Val_Loss: 1.9432
+89epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.9167
+	[94/188] 	Train_Loss: 1.7530
+	[141/188] 	Train_Loss: 1.9117
+	[188/188] 	Train_Loss: 1.7072
+Epoch 90/300 	Time: 88초               	Train_Loss: 1.9459 	Val_Loss: 1.9899
+	[47/188] 	Train_Loss: 2.1076
+	[94/188] 	Train_Loss: 2.2492
+	[141/188] 	Train_Loss: 2.0254
+	[188/188] 	Train_Loss: 2.0342
+Epoch 91/300 	Time: 88초               	Train_Loss: 2.0065 	Val_Loss: 2.0055
+	[47/188] 	Train_Loss: 2.0325
+	[94/188] 	Train_Loss: 2.0951
+	[141/188] 	Train_Loss: 2.2828
+	[188/188] 	Train_Loss: 2.2161
+Epoch 92/300 	Time: 88초               	Train_Loss: 1.9782 	Val_Loss: 1.9580
+	[47/188] 	Train_Loss: 2.0607
+	[94/188] 	Train_Loss: 1.8717
+	[141/188] 	Train_Loss: 1.8823
+	[188/188] 	Train_Loss: 2.2553
+Epoch 93/300 	Time: 88초               	Train_Loss: 1.9600 	Val_Loss: 2.0157
+	[47/188] 	Train_Loss: 1.9482
+	[94/188] 	Train_Loss: 1.8863
+	[141/188] 	Train_Loss: 1.9244
+	[188/188] 	Train_Loss: 1.6103
+Epoch 94/300 	Time: 88초               	Train_Loss: 1.9386 	Val_Loss: 2.0185
+	[47/188] 	Train_Loss: 1.9295
+	[94/188] 	Train_Loss: 1.7304
+	[141/188] 	Train_Loss: 2.0024
+	[188/188] 	Train_Loss: 2.1081
+Epoch 95/300 	Time: 88초               	Train_Loss: 1.9463 	Val_Loss: 2.0083
+	[47/188] 	Train_Loss: 1.7280
+	[94/188] 	Train_Loss: 1.6876
+	[141/188] 	Train_Loss: 2.0070
+	[188/188] 	Train_Loss: 1.5965
+Epoch 96/300 	Time: 89초               	Train_Loss: 1.9415 	Val_Loss: 2.0003
+	[47/188] 	Train_Loss: 2.0029
+	[94/188] 	Train_Loss: 1.9577
+	[141/188] 	Train_Loss: 1.8721
+	[188/188] 	Train_Loss: 2.0248
+Epoch 97/300 	Time: 88초               	Train_Loss: 1.9290 	Val_Loss: 2.0664
+	[47/188] 	Train_Loss: 1.9998
+	[94/188] 	Train_Loss: 1.5852
+	[141/188] 	Train_Loss: 2.0665
+	[188/188] 	Train_Loss: 2.4993
+Epoch 98/300 	Time: 88초               	Train_Loss: 1.9477 	Val_Loss: 1.9292
+98epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.9706
+	[94/188] 	Train_Loss: 2.0607
+	[141/188] 	Train_Loss: 1.7906
+	[188/188] 	Train_Loss: 1.7815
+Epoch 99/300 	Time: 88초               	Train_Loss: 1.9290 	Val_Loss: 1.9521
+	[47/188] 	Train_Loss: 2.0162
+	[94/188] 	Train_Loss: 1.8249
+	[141/188] 	Train_Loss: 1.6877
+	[188/188] 	Train_Loss: 1.8585
+Epoch 100/300 	Time: 88초               	Train_Loss: 1.9382 	Val_Loss: 1.9770
+	[47/188] 	Train_Loss: 1.9172
+	[94/188] 	Train_Loss: 1.8041
+	[141/188] 	Train_Loss: 2.1055
+	[188/188] 	Train_Loss: 2.0161
+Epoch 101/300 	Time: 88초               	Train_Loss: 1.9423 	Val_Loss: 2.1606
+	[47/188] 	Train_Loss: 1.9299
+	[94/188] 	Train_Loss: 2.0154
+	[141/188] 	Train_Loss: 2.0353
+	[188/188] 	Train_Loss: 1.8421
+Epoch 102/300 	Time: 88초               	Train_Loss: 1.9460 	Val_Loss: 2.4489
+	[47/188] 	Train_Loss: 2.0182
+	[94/188] 	Train_Loss: 1.9956
+	[141/188] 	Train_Loss: 2.1480
+	[188/188] 	Train_Loss: 1.5508
+Epoch 103/300 	Time: 88초               	Train_Loss: 1.9369 	Val_Loss: 1.9205
+103epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.7681
+	[94/188] 	Train_Loss: 1.8935
+	[141/188] 	Train_Loss: 1.7498
+	[188/188] 	Train_Loss: 2.3532
+Epoch 104/300 	Time: 88초               	Train_Loss: 1.9368 	Val_Loss: 2.0678
+	[47/188] 	Train_Loss: 2.0291
+	[94/188] 	Train_Loss: 1.9225
+	[141/188] 	Train_Loss: 1.9299
+	[188/188] 	Train_Loss: 1.8787
+Epoch 105/300 	Time: 88초               	Train_Loss: 1.9177 	Val_Loss: 1.9687
+	[47/188] 	Train_Loss: 2.1208
+	[94/188] 	Train_Loss: 2.0680
+	[141/188] 	Train_Loss: 1.8712
+	[188/188] 	Train_Loss: 2.1468
+Epoch 106/300 	Time: 88초               	Train_Loss: 1.9398 	Val_Loss: 1.9628
+	[47/188] 	Train_Loss: 2.1248
+	[94/188] 	Train_Loss: 2.0126
+	[141/188] 	Train_Loss: 2.0157
+	[188/188] 	Train_Loss: 1.9808
+Epoch 107/300 	Time: 88초               	Train_Loss: 1.9234 	Val_Loss: 2.0046
+	[47/188] 	Train_Loss: 2.1481
+	[94/188] 	Train_Loss: 1.7431
+	[141/188] 	Train_Loss: 2.0247
+	[188/188] 	Train_Loss: 1.7865
+Epoch 108/300 	Time: 88초               	Train_Loss: 1.9315 	Val_Loss: 1.9594
+	[47/188] 	Train_Loss: 2.0775
+	[94/188] 	Train_Loss: 1.8892
+	[141/188] 	Train_Loss: 2.2073
+	[188/188] 	Train_Loss: 1.9950
+Epoch 109/300 	Time: 88초               	Train_Loss: 1.9209 	Val_Loss: 1.9587
+	[47/188] 	Train_Loss: 1.8299
+	[94/188] 	Train_Loss: 1.8668
+	[141/188] 	Train_Loss: 2.0704
+	[188/188] 	Train_Loss: 2.0056
+Epoch 110/300 	Time: 88초               	Train_Loss: 1.9303 	Val_Loss: 2.0483
+	[47/188] 	Train_Loss: 2.2574
+	[94/188] 	Train_Loss: 2.0133
+	[141/188] 	Train_Loss: 2.0226
+	[188/188] 	Train_Loss: 1.9242
+Epoch 111/300 	Time: 88초               	Train_Loss: 1.9234 	Val_Loss: 1.9918
+	[47/188] 	Train_Loss: 1.9032
+	[94/188] 	Train_Loss: 1.7260
+	[141/188] 	Train_Loss: 2.1311
+	[188/188] 	Train_Loss: 2.1006
+Epoch 112/300 	Time: 88초               	Train_Loss: 1.9093 	Val_Loss: 2.0068
+	[47/188] 	Train_Loss: 1.8235
+	[94/188] 	Train_Loss: 1.8774
+	[141/188] 	Train_Loss: 1.9312
+	[188/188] 	Train_Loss: 1.8988
+Epoch 113/300 	Time: 88초               	Train_Loss: 1.9206 	Val_Loss: 2.0227
+	[47/188] 	Train_Loss: 1.6741
+	[94/188] 	Train_Loss: 1.9355
+	[141/188] 	Train_Loss: 1.9605
+	[188/188] 	Train_Loss: 1.9685
+Epoch 114/300 	Time: 88초               	Train_Loss: 1.9313 	Val_Loss: 2.0774
+	[47/188] 	Train_Loss: 1.9992
+	[94/188] 	Train_Loss: 1.8104
+	[141/188] 	Train_Loss: 2.3234
+	[188/188] 	Train_Loss: 1.6666
+Epoch 115/300 	Time: 88초               	Train_Loss: 1.9207 	Val_Loss: 1.9814
+	[47/188] 	Train_Loss: 1.6925
+	[94/188] 	Train_Loss: 1.8417
+	[141/188] 	Train_Loss: 2.0669
+	[188/188] 	Train_Loss: 2.1458
+Epoch 116/300 	Time: 88초               	Train_Loss: 1.9152 	Val_Loss: 1.9719
+	[47/188] 	Train_Loss: 2.0754
+	[94/188] 	Train_Loss: 1.9640
+	[141/188] 	Train_Loss: 2.0121
+	[188/188] 	Train_Loss: 1.9325
+Epoch 117/300 	Time: 88초               	Train_Loss: 1.9208 	Val_Loss: 2.1956
+	[47/188] 	Train_Loss: 1.7888
+	[94/188] 	Train_Loss: 1.7446
+	[141/188] 	Train_Loss: 1.6303
+	[188/188] 	Train_Loss: 2.4914
+Epoch 118/300 	Time: 88초               	Train_Loss: 1.9031 	Val_Loss: 1.9700
+	[47/188] 	Train_Loss: 1.7701
+	[94/188] 	Train_Loss: 1.7078
+	[141/188] 	Train_Loss: 1.9550
+	[188/188] 	Train_Loss: 1.6745
+Epoch 119/300 	Time: 88초               	Train_Loss: 1.9058 	Val_Loss: 1.9640
+	[47/188] 	Train_Loss: 1.7363
+	[94/188] 	Train_Loss: 1.8990
+	[141/188] 	Train_Loss: 1.8172
+	[188/188] 	Train_Loss: 1.9216
+Epoch 120/300 	Time: 88초               	Train_Loss: 1.9099 	Val_Loss: 2.1341
+	[47/188] 	Train_Loss: 1.6153
+	[94/188] 	Train_Loss: 1.8998
+	[141/188] 	Train_Loss: 1.9078
+	[188/188] 	Train_Loss: 2.3300
+Epoch 121/300 	Time: 88초               	Train_Loss: 1.9069 	Val_Loss: 1.9287
+	[47/188] 	Train_Loss: 1.7639
+	[94/188] 	Train_Loss: 2.0367
+	[141/188] 	Train_Loss: 2.1011
+	[188/188] 	Train_Loss: 2.2902
+Epoch 122/300 	Time: 88초               	Train_Loss: 1.9145 	Val_Loss: 1.9356
+	[47/188] 	Train_Loss: 1.7308
+	[94/188] 	Train_Loss: 1.8647
+	[141/188] 	Train_Loss: 2.0554
+	[188/188] 	Train_Loss: 1.7477
+Epoch 123/300 	Time: 88초               	Train_Loss: 1.8927 	Val_Loss: 1.9509
+	[47/188] 	Train_Loss: 1.7860
+	[94/188] 	Train_Loss: 1.7635
+	[141/188] 	Train_Loss: 2.0266
+	[188/188] 	Train_Loss: 1.9103
+Epoch 124/300 	Time: 88초               	Train_Loss: 1.8998 	Val_Loss: 1.9381
+	[47/188] 	Train_Loss: 2.0079
+	[94/188] 	Train_Loss: 1.8747
+	[141/188] 	Train_Loss: 1.7529
+	[188/188] 	Train_Loss: 2.1412
+Epoch 125/300 	Time: 88초               	Train_Loss: 1.9200 	Val_Loss: 2.0563
+	[47/188] 	Train_Loss: 1.7922
+	[94/188] 	Train_Loss: 2.3618
+	[141/188] 	Train_Loss: 2.0787
+	[188/188] 	Train_Loss: 1.6031
+Epoch 126/300 	Time: 89초               	Train_Loss: 2.0322 	Val_Loss: 2.0183
+	[47/188] 	Train_Loss: 2.1477
+	[94/188] 	Train_Loss: 2.0156
+	[141/188] 	Train_Loss: 2.3364
+	[188/188] 	Train_Loss: 1.9328
+Epoch 127/300 	Time: 89초               	Train_Loss: 1.9596 	Val_Loss: 1.9755
+	[47/188] 	Train_Loss: 1.8925
+	[94/188] 	Train_Loss: 1.8985
+	[141/188] 	Train_Loss: 1.9238
+	[188/188] 	Train_Loss: 2.0058
+Epoch 128/300 	Time: 89초               	Train_Loss: 1.9381 	Val_Loss: 1.9326
+	[47/188] 	Train_Loss: 1.6801
+	[94/188] 	Train_Loss: 1.9015
+	[141/188] 	Train_Loss: 1.9576
+	[188/188] 	Train_Loss: 1.6970
+Epoch 129/300 	Time: 89초               	Train_Loss: 1.9179 	Val_Loss: 1.9224
+	[47/188] 	Train_Loss: 1.8753
+	[94/188] 	Train_Loss: 1.9250
+	[141/188] 	Train_Loss: 1.8289
+	[188/188] 	Train_Loss: 2.0198
+Epoch 130/300 	Time: 89초               	Train_Loss: 1.9091 	Val_Loss: 1.9589
+	[47/188] 	Train_Loss: 1.8988
+	[94/188] 	Train_Loss: 2.2767
+	[141/188] 	Train_Loss: 1.9852
+	[188/188] 	Train_Loss: 2.2380
+Epoch 131/300 	Time: 89초               	Train_Loss: 1.9163 	Val_Loss: 1.9559
+	[47/188] 	Train_Loss: 1.8634
+	[94/188] 	Train_Loss: 1.9758
+	[141/188] 	Train_Loss: 2.2464
+	[188/188] 	Train_Loss: 2.0754
+Epoch 132/300 	Time: 89초               	Train_Loss: 1.9115 	Val_Loss: 1.9171
+132epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.9401
+	[94/188] 	Train_Loss: 2.2260
+	[141/188] 	Train_Loss: 1.9186
+	[188/188] 	Train_Loss: 2.1533
+Epoch 133/300 	Time: 89초               	Train_Loss: 1.9102 	Val_Loss: 1.9369
+	[47/188] 	Train_Loss: 2.1779
+	[94/188] 	Train_Loss: 2.0275
+	[141/188] 	Train_Loss: 1.9069
+	[188/188] 	Train_Loss: 2.0944
+Epoch 134/300 	Time: 89초               	Train_Loss: 1.9217 	Val_Loss: 1.9476
+	[47/188] 	Train_Loss: 1.6875
+	[94/188] 	Train_Loss: 1.8256
+	[141/188] 	Train_Loss: 1.7040
+	[188/188] 	Train_Loss: 1.9439
+Epoch 135/300 	Time: 89초               	Train_Loss: 1.9047 	Val_Loss: 1.8896
+135epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.9735
+	[94/188] 	Train_Loss: 1.7865
+	[141/188] 	Train_Loss: 1.8256
+	[188/188] 	Train_Loss: 2.0048
+Epoch 136/300 	Time: 89초               	Train_Loss: 1.9092 	Val_Loss: 1.9241
+	[47/188] 	Train_Loss: 1.8095
+	[94/188] 	Train_Loss: 1.9855
+	[141/188] 	Train_Loss: 2.1340
+	[188/188] 	Train_Loss: 1.8571
+Epoch 137/300 	Time: 89초               	Train_Loss: 1.9054 	Val_Loss: 1.9204
+	[47/188] 	Train_Loss: 1.6250
+	[94/188] 	Train_Loss: 2.0223
+	[141/188] 	Train_Loss: 2.1225
+	[188/188] 	Train_Loss: 1.9689
+Epoch 138/300 	Time: 89초               	Train_Loss: 1.9148 	Val_Loss: 1.9410
+	[47/188] 	Train_Loss: 1.8536
+	[94/188] 	Train_Loss: 1.8954
+	[141/188] 	Train_Loss: 1.7175
+	[188/188] 	Train_Loss: 2.0215
+Epoch 139/300 	Time: 89초               	Train_Loss: 1.8956 	Val_Loss: 1.9531
+	[47/188] 	Train_Loss: 1.9312
+	[94/188] 	Train_Loss: 1.9532
+	[141/188] 	Train_Loss: 1.7559
+	[188/188] 	Train_Loss: 1.8718
+Epoch 140/300 	Time: 89초               	Train_Loss: 1.8956 	Val_Loss: 1.9512
+	[47/188] 	Train_Loss: 1.8861
+	[94/188] 	Train_Loss: 1.7265
+	[141/188] 	Train_Loss: 1.9450
+	[188/188] 	Train_Loss: 1.7537
+Epoch 141/300 	Time: 89초               	Train_Loss: 1.8837 	Val_Loss: 1.9211
+	[47/188] 	Train_Loss: 2.2978
+	[94/188] 	Train_Loss: 1.9019
+	[141/188] 	Train_Loss: 1.8200
+	[188/188] 	Train_Loss: 1.7644
+Epoch 142/300 	Time: 89초               	Train_Loss: 1.8938 	Val_Loss: 1.9339
+	[47/188] 	Train_Loss: 1.7863
+	[94/188] 	Train_Loss: 2.0153
+	[141/188] 	Train_Loss: 1.8716
+	[188/188] 	Train_Loss: 2.3705
+Epoch 143/300 	Time: 89초               	Train_Loss: 1.8907 	Val_Loss: 1.9300
+	[47/188] 	Train_Loss: 1.8786
+	[94/188] 	Train_Loss: 1.8448
+	[141/188] 	Train_Loss: 2.2554
+	[188/188] 	Train_Loss: 2.2189
+Epoch 144/300 	Time: 89초               	Train_Loss: 1.8897 	Val_Loss: 2.0033
+	[47/188] 	Train_Loss: 1.6120
+	[94/188] 	Train_Loss: 1.8283
+	[141/188] 	Train_Loss: 1.8694
+	[188/188] 	Train_Loss: 2.0642
+Epoch 145/300 	Time: 89초               	Train_Loss: 1.9040 	Val_Loss: 1.8836
+145epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.9387
+	[94/188] 	Train_Loss: 2.1486
+	[141/188] 	Train_Loss: 1.6448
+	[188/188] 	Train_Loss: 2.0572
+Epoch 146/300 	Time: 89초               	Train_Loss: 1.8860 	Val_Loss: 1.9053
+	[47/188] 	Train_Loss: 1.7054
+	[94/188] 	Train_Loss: 1.8991
+	[141/188] 	Train_Loss: 1.7988
+	[188/188] 	Train_Loss: 1.7251
+Epoch 147/300 	Time: 89초               	Train_Loss: 1.9096 	Val_Loss: 1.9171
+	[47/188] 	Train_Loss: 1.6750
+	[94/188] 	Train_Loss: 1.9606
+	[141/188] 	Train_Loss: 1.8217
+	[188/188] 	Train_Loss: 1.8978
+Epoch 148/300 	Time: 89초               	Train_Loss: 1.9009 	Val_Loss: 1.8940
+	[47/188] 	Train_Loss: 1.7971
+	[94/188] 	Train_Loss: 1.8882
+	[141/188] 	Train_Loss: 1.6715
+	[188/188] 	Train_Loss: 1.9133
+Epoch 149/300 	Time: 89초               	Train_Loss: 1.8905 	Val_Loss: 1.9106
+	[47/188] 	Train_Loss: 1.6311
+	[94/188] 	Train_Loss: 1.9555
+	[141/188] 	Train_Loss: 1.8722
+	[188/188] 	Train_Loss: 1.7912
+Epoch 150/300 	Time: 89초               	Train_Loss: 1.8885 	Val_Loss: 1.9582
+	[47/188] 	Train_Loss: 1.9983
+	[94/188] 	Train_Loss: 2.1527
+	[141/188] 	Train_Loss: 1.9144
+	[188/188] 	Train_Loss: 2.2629
+Epoch 151/300 	Time: 89초               	Train_Loss: 1.8962 	Val_Loss: 1.9624
+	[47/188] 	Train_Loss: 1.7830
+	[94/188] 	Train_Loss: 2.1829
+	[141/188] 	Train_Loss: 1.7512
+	[188/188] 	Train_Loss: 1.7613
+Epoch 152/300 	Time: 89초               	Train_Loss: 1.8865 	Val_Loss: 1.9234
+	[47/188] 	Train_Loss: 2.0105
+	[94/188] 	Train_Loss: 1.7964
+	[141/188] 	Train_Loss: 1.8199
+	[188/188] 	Train_Loss: 2.1067
+Epoch 153/300 	Time: 89초               	Train_Loss: 1.8794 	Val_Loss: 1.9001
+	[47/188] 	Train_Loss: 1.9569
+	[94/188] 	Train_Loss: 2.1346
+	[141/188] 	Train_Loss: 1.5271
+	[188/188] 	Train_Loss: 1.7238
+Epoch 154/300 	Time: 89초               	Train_Loss: 1.8777 	Val_Loss: 1.9777
+	[47/188] 	Train_Loss: 2.0675
+	[94/188] 	Train_Loss: 1.7792
+	[141/188] 	Train_Loss: 1.7515
+	[188/188] 	Train_Loss: 1.3517
+Epoch 155/300 	Time: 89초               	Train_Loss: 1.8992 	Val_Loss: 1.9604
+	[47/188] 	Train_Loss: 2.1706
+	[94/188] 	Train_Loss: 2.0730
+	[141/188] 	Train_Loss: 2.1703
+	[188/188] 	Train_Loss: 2.1567
+Epoch 156/300 	Time: 89초               	Train_Loss: 1.8904 	Val_Loss: 1.9628
+	[47/188] 	Train_Loss: 1.8351
+	[94/188] 	Train_Loss: 1.9482
+	[141/188] 	Train_Loss: 1.7709
+	[188/188] 	Train_Loss: 2.0633
+Epoch 157/300 	Time: 89초               	Train_Loss: 1.8829 	Val_Loss: 1.8996
+	[47/188] 	Train_Loss: 2.0643
+	[94/188] 	Train_Loss: 1.7776
+	[141/188] 	Train_Loss: 1.8246
+	[188/188] 	Train_Loss: 1.5394
+Epoch 158/300 	Time: 89초               	Train_Loss: 1.8779 	Val_Loss: 1.8970
+	[47/188] 	Train_Loss: 1.6558
+	[94/188] 	Train_Loss: 2.0341
+	[141/188] 	Train_Loss: 1.9175
+	[188/188] 	Train_Loss: 1.7814
+Epoch 159/300 	Time: 89초               	Train_Loss: 1.8860 	Val_Loss: 1.9719
+	[47/188] 	Train_Loss: 2.0215
+	[94/188] 	Train_Loss: 1.9136
+	[141/188] 	Train_Loss: 1.7674
+	[188/188] 	Train_Loss: 1.9277
+Epoch 160/300 	Time: 89초               	Train_Loss: 1.8840 	Val_Loss: 1.9709
+	[47/188] 	Train_Loss: 1.7315
+	[94/188] 	Train_Loss: 1.7179
+	[141/188] 	Train_Loss: 2.0057
+	[188/188] 	Train_Loss: 1.6521
+Epoch 161/300 	Time: 89초               	Train_Loss: 1.8704 	Val_Loss: 1.9349
+	[47/188] 	Train_Loss: 1.7210
+	[94/188] 	Train_Loss: 1.7594
+	[141/188] 	Train_Loss: 1.6889
+	[188/188] 	Train_Loss: 1.9814
+Epoch 162/300 	Time: 89초               	Train_Loss: 1.8765 	Val_Loss: 1.9577
+	[47/188] 	Train_Loss: 1.7832
+	[94/188] 	Train_Loss: 1.6872
+	[141/188] 	Train_Loss: 1.9408
+	[188/188] 	Train_Loss: 1.6290
+Epoch 163/300 	Time: 89초               	Train_Loss: 1.8735 	Val_Loss: 1.9382
+	[47/188] 	Train_Loss: 1.6957
+	[94/188] 	Train_Loss: 1.7268
+	[141/188] 	Train_Loss: 2.0614
+	[188/188] 	Train_Loss: 1.9539
+Epoch 164/300 	Time: 89초               	Train_Loss: 1.9435 	Val_Loss: 2.0519
+	[47/188] 	Train_Loss: 1.7316
+	[94/188] 	Train_Loss: 2.0299
+	[141/188] 	Train_Loss: 2.0036
+	[188/188] 	Train_Loss: 2.1012
+Epoch 165/300 	Time: 89초               	Train_Loss: 1.9308 	Val_Loss: 1.9600
+	[47/188] 	Train_Loss: 1.8240
+	[94/188] 	Train_Loss: 1.8223
+	[141/188] 	Train_Loss: 1.9537
+	[188/188] 	Train_Loss: 1.9399
+Epoch 166/300 	Time: 89초               	Train_Loss: 1.8951 	Val_Loss: 1.8645
+166epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.9543
+	[94/188] 	Train_Loss: 2.0138
+	[141/188] 	Train_Loss: 1.8334
+	[188/188] 	Train_Loss: 2.1594
+Epoch 167/300 	Time: 89초               	Train_Loss: 1.8930 	Val_Loss: 1.8809
+	[47/188] 	Train_Loss: 2.0913
+	[94/188] 	Train_Loss: 2.1641
+	[141/188] 	Train_Loss: 1.6929
+	[188/188] 	Train_Loss: 1.8836
+Epoch 168/300 	Time: 89초               	Train_Loss: 1.8878 	Val_Loss: 1.9348
+	[47/188] 	Train_Loss: 2.1060
+	[94/188] 	Train_Loss: 1.8136
+	[141/188] 	Train_Loss: 1.6896
+	[188/188] 	Train_Loss: 1.7235
+Epoch 169/300 	Time: 89초               	Train_Loss: 1.8906 	Val_Loss: 1.9441
+	[47/188] 	Train_Loss: 1.9468
+	[94/188] 	Train_Loss: 1.8855
+	[141/188] 	Train_Loss: 1.8991
+	[188/188] 	Train_Loss: 2.0915
+Epoch 170/300 	Time: 89초               	Train_Loss: 1.8827 	Val_Loss: 2.8577
+	[47/188] 	Train_Loss: 2.0118
+	[94/188] 	Train_Loss: 1.9044
+	[141/188] 	Train_Loss: 1.7989
+	[188/188] 	Train_Loss: 1.9082
+Epoch 171/300 	Time: 89초               	Train_Loss: 1.9275 	Val_Loss: 1.8793
+	[47/188] 	Train_Loss: 1.6313
+	[94/188] 	Train_Loss: 2.0416
+	[141/188] 	Train_Loss: 1.7366
+	[188/188] 	Train_Loss: 1.9972
+Epoch 172/300 	Time: 89초               	Train_Loss: 1.8746 	Val_Loss: 1.9038
+	[47/188] 	Train_Loss: 1.8240
+	[94/188] 	Train_Loss: 2.1177
+	[141/188] 	Train_Loss: 1.8408
+	[188/188] 	Train_Loss: 1.8581
+Epoch 173/300 	Time: 89초               	Train_Loss: 1.8903 	Val_Loss: 1.8905
+	[47/188] 	Train_Loss: 1.7949
+	[94/188] 	Train_Loss: 1.8611
+	[141/188] 	Train_Loss: 1.9254
+	[188/188] 	Train_Loss: 1.7328
+Epoch 174/300 	Time: 89초               	Train_Loss: 1.8829 	Val_Loss: 1.9266
+	[47/188] 	Train_Loss: 1.7228
+	[94/188] 	Train_Loss: 1.7394
+	[141/188] 	Train_Loss: 1.9732
+	[188/188] 	Train_Loss: 2.0151
+Epoch 175/300 	Time: 89초               	Train_Loss: 1.8704 	Val_Loss: 1.9027
+	[47/188] 	Train_Loss: 2.2026
+	[94/188] 	Train_Loss: 1.9579
+	[141/188] 	Train_Loss: 1.8534
+	[188/188] 	Train_Loss: 1.8396
+Epoch 176/300 	Time: 89초               	Train_Loss: 1.8878 	Val_Loss: 1.9400
+	[47/188] 	Train_Loss: 1.7387
+	[94/188] 	Train_Loss: 1.8188
+	[141/188] 	Train_Loss: 1.7202
+	[188/188] 	Train_Loss: 2.1148
+Epoch 177/300 	Time: 89초               	Train_Loss: 1.8678 	Val_Loss: 1.9144
+	[47/188] 	Train_Loss: 1.8193
+	[94/188] 	Train_Loss: 1.9432
+	[141/188] 	Train_Loss: 1.9486
+	[188/188] 	Train_Loss: 2.1989
+Epoch 178/300 	Time: 89초               	Train_Loss: 1.8687 	Val_Loss: 1.9162
+	[47/188] 	Train_Loss: 2.0468
+	[94/188] 	Train_Loss: 1.6431
+	[141/188] 	Train_Loss: 1.9713
+	[188/188] 	Train_Loss: 2.1468
+Epoch 179/300 	Time: 89초               	Train_Loss: 1.8650 	Val_Loss: 1.9137
+	[47/188] 	Train_Loss: 1.9054
+	[94/188] 	Train_Loss: 2.1641
+	[141/188] 	Train_Loss: 1.8887
+	[188/188] 	Train_Loss: 1.7136
+Epoch 180/300 	Time: 89초               	Train_Loss: 1.8680 	Val_Loss: 1.9076
+	[47/188] 	Train_Loss: 2.0081
+	[94/188] 	Train_Loss: 1.9490
+	[141/188] 	Train_Loss: 1.7956
+	[188/188] 	Train_Loss: 1.8081
+Epoch 181/300 	Time: 89초               	Train_Loss: 1.8677 	Val_Loss: 1.8995
+	[47/188] 	Train_Loss: 1.7526
+	[94/188] 	Train_Loss: 2.0610
+	[141/188] 	Train_Loss: 2.0498
+	[188/188] 	Train_Loss: 1.6291
+Epoch 182/300 	Time: 89초               	Train_Loss: 1.8666 	Val_Loss: 1.8857
+	[47/188] 	Train_Loss: 1.7083
+	[94/188] 	Train_Loss: 1.8989
+	[141/188] 	Train_Loss: 2.0367
+	[188/188] 	Train_Loss: 1.7293
+Epoch 183/300 	Time: 89초               	Train_Loss: 1.8774 	Val_Loss: 1.8972
+	[47/188] 	Train_Loss: 1.9555
+	[94/188] 	Train_Loss: 1.9422
+	[141/188] 	Train_Loss: 1.6373
+	[188/188] 	Train_Loss: 1.9358
+Epoch 184/300 	Time: 89초               	Train_Loss: 1.8725 	Val_Loss: 1.9096
+	[47/188] 	Train_Loss: 1.9965
+	[94/188] 	Train_Loss: 2.3091
+	[141/188] 	Train_Loss: 1.8894
+	[188/188] 	Train_Loss: 1.8053
+Epoch 185/300 	Time: 89초               	Train_Loss: 1.8736 	Val_Loss: 1.8754
+	[47/188] 	Train_Loss: 1.8984
+	[94/188] 	Train_Loss: 1.8507
+	[141/188] 	Train_Loss: 2.0002
+	[188/188] 	Train_Loss: 1.8318
+Epoch 186/300 	Time: 89초               	Train_Loss: 1.8681 	Val_Loss: 1.8882
+	[47/188] 	Train_Loss: 1.8913
+	[94/188] 	Train_Loss: 1.8950
+	[141/188] 	Train_Loss: 1.8946
+	[188/188] 	Train_Loss: 1.8388
+Epoch 187/300 	Time: 89초               	Train_Loss: 1.8649 	Val_Loss: 1.8929
+	[47/188] 	Train_Loss: 1.8658
+	[94/188] 	Train_Loss: 2.0612
+	[141/188] 	Train_Loss: 2.3732
+	[188/188] 	Train_Loss: 1.8084
+Epoch 188/300 	Time: 89초               	Train_Loss: 1.8619 	Val_Loss: 1.9250
+	[47/188] 	Train_Loss: 2.0136
+	[94/188] 	Train_Loss: 1.8474
+	[141/188] 	Train_Loss: 1.8519
+	[188/188] 	Train_Loss: 1.6336
+Epoch 189/300 	Time: 89초               	Train_Loss: 1.8710 	Val_Loss: 1.9677
+	[47/188] 	Train_Loss: 1.7932
+	[94/188] 	Train_Loss: 1.9081
+	[141/188] 	Train_Loss: 2.0754
+	[188/188] 	Train_Loss: 1.8450
+Epoch 190/300 	Time: 89초               	Train_Loss: 1.8737 	Val_Loss: 1.9275
+	[47/188] 	Train_Loss: 1.7805
+	[94/188] 	Train_Loss: 1.7738
+	[141/188] 	Train_Loss: 1.8703
+	[188/188] 	Train_Loss: 2.0226
+Epoch 191/300 	Time: 89초               	Train_Loss: 1.8698 	Val_Loss: 1.8887
+	[47/188] 	Train_Loss: 1.9039
+	[94/188] 	Train_Loss: 1.8243
+	[141/188] 	Train_Loss: 1.8512
+	[188/188] 	Train_Loss: 1.7698
+Epoch 192/300 	Time: 89초               	Train_Loss: 1.8629 	Val_Loss: 1.9065
+	[47/188] 	Train_Loss: 1.4929
+	[94/188] 	Train_Loss: 1.9657
+	[141/188] 	Train_Loss: 1.8593
+	[188/188] 	Train_Loss: 1.6358
+Epoch 193/300 	Time: 89초               	Train_Loss: 1.8603 	Val_Loss: 1.9094
+	[47/188] 	Train_Loss: 1.8427
+	[94/188] 	Train_Loss: 2.0642
+	[141/188] 	Train_Loss: 2.3528
+	[188/188] 	Train_Loss: 2.3719
+Epoch 194/300 	Time: 89초               	Train_Loss: 2.0386 	Val_Loss: 2.3062
+	[47/188] 	Train_Loss: 2.2554
+	[94/188] 	Train_Loss: 1.7517
+	[141/188] 	Train_Loss: 1.9908
+	[188/188] 	Train_Loss: 1.9629
+Epoch 195/300 	Time: 89초               	Train_Loss: 2.0414 	Val_Loss: 1.9567
+	[47/188] 	Train_Loss: 2.0621
+	[94/188] 	Train_Loss: 1.9490
+	[141/188] 	Train_Loss: 1.8460
+	[188/188] 	Train_Loss: 2.4042
+Epoch 196/300 	Time: 89초               	Train_Loss: 1.9573 	Val_Loss: 1.9845
+	[47/188] 	Train_Loss: 2.0813
+	[94/188] 	Train_Loss: 1.9804
+	[141/188] 	Train_Loss: 1.9081
+	[188/188] 	Train_Loss: 1.9436
+Epoch 197/300 	Time: 89초               	Train_Loss: 1.9983 	Val_Loss: 1.9552
+	[47/188] 	Train_Loss: 1.9497
+	[94/188] 	Train_Loss: 1.9646
+	[141/188] 	Train_Loss: 1.9878
+	[188/188] 	Train_Loss: 1.7203
+Epoch 198/300 	Time: 89초               	Train_Loss: 1.9129 	Val_Loss: 1.9355
+	[47/188] 	Train_Loss: 1.8103
+	[94/188] 	Train_Loss: 2.0449
+	[141/188] 	Train_Loss: 1.9328
+	[188/188] 	Train_Loss: 1.5998
+Epoch 199/300 	Time: 89초               	Train_Loss: 1.9234 	Val_Loss: 1.9303
+	[47/188] 	Train_Loss: 1.7392
+	[94/188] 	Train_Loss: 2.0396
+	[141/188] 	Train_Loss: 1.9305
+	[188/188] 	Train_Loss: 1.6553
+Epoch 200/300 	Time: 89초               	Train_Loss: 1.8945 	Val_Loss: 1.8956
+	[47/188] 	Train_Loss: 1.8278
+	[94/188] 	Train_Loss: 1.8213
+	[141/188] 	Train_Loss: 1.6845
+	[188/188] 	Train_Loss: 2.0000
+Epoch 201/300 	Time: 89초               	Train_Loss: 1.8878 	Val_Loss: 1.9143
+	[47/188] 	Train_Loss: 1.7630
+	[94/188] 	Train_Loss: 2.0078
+	[141/188] 	Train_Loss: 2.0189
+	[188/188] 	Train_Loss: 2.0018
+Epoch 202/300 	Time: 89초               	Train_Loss: 1.8885 	Val_Loss: 1.9440
+	[47/188] 	Train_Loss: 2.0162
+	[94/188] 	Train_Loss: 1.8469
+	[141/188] 	Train_Loss: 2.0728
+	[188/188] 	Train_Loss: 1.6161
+Epoch 203/300 	Time: 89초               	Train_Loss: 1.8770 	Val_Loss: 1.9001
+	[47/188] 	Train_Loss: 2.0239
+	[94/188] 	Train_Loss: 1.7464
+	[141/188] 	Train_Loss: 2.0263
+	[188/188] 	Train_Loss: 1.8241
+Epoch 204/300 	Time: 89초               	Train_Loss: 1.8727 	Val_Loss: 1.9772
+	[47/188] 	Train_Loss: 1.8292
+	[94/188] 	Train_Loss: 2.0585
+	[141/188] 	Train_Loss: 2.1385
+	[188/188] 	Train_Loss: 1.7636
+Epoch 205/300 	Time: 89초               	Train_Loss: 1.8792 	Val_Loss: 1.8693
+	[47/188] 	Train_Loss: 1.8314
+	[94/188] 	Train_Loss: 1.8213
+	[141/188] 	Train_Loss: 1.8426
+	[188/188] 	Train_Loss: 1.9351
+Epoch 206/300 	Time: 89초               	Train_Loss: 1.8738 	Val_Loss: 1.8862
+	[47/188] 	Train_Loss: 1.6645
+	[94/188] 	Train_Loss: 1.8688
+	[141/188] 	Train_Loss: 1.8973
+	[188/188] 	Train_Loss: 2.1245
+Epoch 207/300 	Time: 89초               	Train_Loss: 1.8732 	Val_Loss: 1.8802
+	[47/188] 	Train_Loss: 1.7464
+	[94/188] 	Train_Loss: 1.6980
+	[141/188] 	Train_Loss: 1.6769
+	[188/188] 	Train_Loss: 1.9202
+Epoch 208/300 	Time: 89초               	Train_Loss: 1.8676 	Val_Loss: 1.9060
+	[47/188] 	Train_Loss: 2.1134
+	[94/188] 	Train_Loss: 1.7312
+	[141/188] 	Train_Loss: 1.7764
+	[188/188] 	Train_Loss: 2.2409
+Epoch 209/300 	Time: 89초               	Train_Loss: 1.8771 	Val_Loss: 1.9327
+	[47/188] 	Train_Loss: 1.9237
+	[94/188] 	Train_Loss: 2.0885
+	[141/188] 	Train_Loss: 1.9782
+	[188/188] 	Train_Loss: 1.8422
+Epoch 210/300 	Time: 89초               	Train_Loss: 1.8769 	Val_Loss: 1.8867
+	[47/188] 	Train_Loss: 1.7203
+	[94/188] 	Train_Loss: 2.1096
+	[141/188] 	Train_Loss: 1.8527
+	[188/188] 	Train_Loss: 1.7461
+Epoch 211/300 	Time: 89초               	Train_Loss: 1.8507 	Val_Loss: 1.9384
+	[47/188] 	Train_Loss: 1.8309
+	[94/188] 	Train_Loss: 1.6525
+	[141/188] 	Train_Loss: 1.7469
+	[188/188] 	Train_Loss: 2.0985
+Epoch 212/300 	Time: 89초               	Train_Loss: 1.8756 	Val_Loss: 1.9126
+	[47/188] 	Train_Loss: 2.3771
+	[94/188] 	Train_Loss: 1.9410
+	[141/188] 	Train_Loss: 1.9708
+	[188/188] 	Train_Loss: 2.0717
+Epoch 213/300 	Time: 89초               	Train_Loss: 1.8700 	Val_Loss: 1.8743
+	[47/188] 	Train_Loss: 2.0067
+	[94/188] 	Train_Loss: 1.7115
+	[141/188] 	Train_Loss: 2.0300
+	[188/188] 	Train_Loss: 1.8217
+Epoch 214/300 	Time: 89초               	Train_Loss: 1.8632 	Val_Loss: 1.9215
+	[47/188] 	Train_Loss: 1.9526
+	[94/188] 	Train_Loss: 2.0822
+	[141/188] 	Train_Loss: 1.8317
+	[188/188] 	Train_Loss: 1.6247
+Epoch 215/300 	Time: 89초               	Train_Loss: 1.8657 	Val_Loss: 1.9304
+	[47/188] 	Train_Loss: 1.8937
+	[94/188] 	Train_Loss: 1.9138
+	[141/188] 	Train_Loss: 1.9922
+	[188/188] 	Train_Loss: 1.8212
+Epoch 216/300 	Time: 89초               	Train_Loss: 1.8589 	Val_Loss: 1.9005
+	[47/188] 	Train_Loss: 1.8142
+	[94/188] 	Train_Loss: 1.6897
+	[141/188] 	Train_Loss: 1.8641
+	[188/188] 	Train_Loss: 1.8149
+Epoch 217/300 	Time: 89초               	Train_Loss: 1.8656 	Val_Loss: 1.8927
+	[47/188] 	Train_Loss: 1.9016
+	[94/188] 	Train_Loss: 1.9459
+	[141/188] 	Train_Loss: 1.7084
+	[188/188] 	Train_Loss: 2.0982
+Epoch 218/300 	Time: 89초               	Train_Loss: 1.8760 	Val_Loss: 1.9110
+	[47/188] 	Train_Loss: 1.9410
+	[94/188] 	Train_Loss: 1.8851
+	[141/188] 	Train_Loss: 1.8415
+	[188/188] 	Train_Loss: 2.3158
+Epoch 219/300 	Time: 89초               	Train_Loss: 1.8778 	Val_Loss: 1.9140
+	[47/188] 	Train_Loss: 1.7004
+	[94/188] 	Train_Loss: 1.8881
+	[141/188] 	Train_Loss: 1.8717
+	[188/188] 	Train_Loss: 1.6968
+Epoch 220/300 	Time: 89초               	Train_Loss: 1.8578 	Val_Loss: 1.8611
+220epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.7745
+	[94/188] 	Train_Loss: 1.8321
+	[141/188] 	Train_Loss: 1.7565
+	[188/188] 	Train_Loss: 1.8509
+Epoch 221/300 	Time: 89초               	Train_Loss: 1.8648 	Val_Loss: 1.9774
+	[47/188] 	Train_Loss: 1.8817
+	[94/188] 	Train_Loss: 1.9781
+	[141/188] 	Train_Loss: 1.7240
+	[188/188] 	Train_Loss: 1.6292
+Epoch 222/300 	Time: 89초               	Train_Loss: 1.8743 	Val_Loss: 1.9267
+	[47/188] 	Train_Loss: 1.9061
+	[94/188] 	Train_Loss: 2.1565
+	[141/188] 	Train_Loss: 1.7027
+	[188/188] 	Train_Loss: 2.0425
+Epoch 223/300 	Time: 89초               	Train_Loss: 1.8686 	Val_Loss: 1.8984
+	[47/188] 	Train_Loss: 1.9185
+	[94/188] 	Train_Loss: 2.0144
+	[141/188] 	Train_Loss: 1.8728
+	[188/188] 	Train_Loss: 2.0861
+Epoch 224/300 	Time: 89초               	Train_Loss: 1.8604 	Val_Loss: 1.8164
+224epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.9087
+	[94/188] 	Train_Loss: 1.7885
+	[141/188] 	Train_Loss: 1.8825
+	[188/188] 	Train_Loss: 1.9874
+Epoch 225/300 	Time: 89초               	Train_Loss: 1.8710 	Val_Loss: 1.9364
+	[47/188] 	Train_Loss: 1.6045
+	[94/188] 	Train_Loss: 1.9437
+	[141/188] 	Train_Loss: 1.7473
+	[188/188] 	Train_Loss: 1.5768
+Epoch 226/300 	Time: 89초               	Train_Loss: 1.8709 	Val_Loss: 1.8424
+	[47/188] 	Train_Loss: 1.9289
+	[94/188] 	Train_Loss: 2.0213
+	[141/188] 	Train_Loss: 1.6377
+	[188/188] 	Train_Loss: 1.5619
+Epoch 227/300 	Time: 89초               	Train_Loss: 1.8530 	Val_Loss: 1.8621
+	[47/188] 	Train_Loss: 1.7603
+	[94/188] 	Train_Loss: 1.8130
+	[141/188] 	Train_Loss: 1.6430
+	[188/188] 	Train_Loss: 1.5806
+Epoch 228/300 	Time: 89초               	Train_Loss: 1.8619 	Val_Loss: 1.8954
+	[47/188] 	Train_Loss: 1.8445
+	[94/188] 	Train_Loss: 1.7522
+	[141/188] 	Train_Loss: 1.9664
+	[188/188] 	Train_Loss: 1.7792
+Epoch 229/300 	Time: 89초               	Train_Loss: 1.8657 	Val_Loss: 1.9065
+	[47/188] 	Train_Loss: 1.8364
+	[94/188] 	Train_Loss: 1.7922
+	[141/188] 	Train_Loss: 1.8848
+	[188/188] 	Train_Loss: 1.8333
+Epoch 230/300 	Time: 89초               	Train_Loss: 1.8620 	Val_Loss: 1.9307
+	[47/188] 	Train_Loss: 1.8985
+	[94/188] 	Train_Loss: 2.1325
+	[141/188] 	Train_Loss: 2.0599
+	[188/188] 	Train_Loss: 1.7095
+Epoch 231/300 	Time: 89초               	Train_Loss: 1.8503 	Val_Loss: 1.8863
+	[47/188] 	Train_Loss: 1.8707
+	[94/188] 	Train_Loss: 1.9123
+	[141/188] 	Train_Loss: 2.0587
+	[188/188] 	Train_Loss: 1.7781
+Epoch 232/300 	Time: 89초               	Train_Loss: 1.8640 	Val_Loss: 1.9350
+	[47/188] 	Train_Loss: 1.8734
+	[94/188] 	Train_Loss: 1.8600
+	[141/188] 	Train_Loss: 1.9431
+	[188/188] 	Train_Loss: 1.6536
+Epoch 233/300 	Time: 89초               	Train_Loss: 1.8808 	Val_Loss: 1.8976
+	[47/188] 	Train_Loss: 1.8580
+	[94/188] 	Train_Loss: 1.7993
+	[141/188] 	Train_Loss: 1.6519
+	[188/188] 	Train_Loss: 1.8409
+Epoch 234/300 	Time: 89초               	Train_Loss: 1.8645 	Val_Loss: 1.8873
+	[47/188] 	Train_Loss: 1.9243
+	[94/188] 	Train_Loss: 1.7362
+	[141/188] 	Train_Loss: 1.8154
+	[188/188] 	Train_Loss: 1.9415
+Epoch 235/300 	Time: 89초               	Train_Loss: 1.8612 	Val_Loss: 1.8907
+	[47/188] 	Train_Loss: 1.8493
+	[94/188] 	Train_Loss: 1.9334
+	[141/188] 	Train_Loss: 1.8745
+	[188/188] 	Train_Loss: 1.5566
+Epoch 236/300 	Time: 89초               	Train_Loss: 1.8529 	Val_Loss: 1.8875
+	[47/188] 	Train_Loss: 1.8468
+	[94/188] 	Train_Loss: 1.7386
+	[141/188] 	Train_Loss: 1.7780
+	[188/188] 	Train_Loss: 1.9356
+Epoch 237/300 	Time: 89초               	Train_Loss: 1.8512 	Val_Loss: 1.9085
+	[47/188] 	Train_Loss: 1.9640
+	[94/188] 	Train_Loss: 2.2380
+	[141/188] 	Train_Loss: 1.8130
+	[188/188] 	Train_Loss: 1.8778
+Epoch 238/300 	Time: 89초               	Train_Loss: 1.8630 	Val_Loss: 1.8947
+	[47/188] 	Train_Loss: 1.6239
+	[94/188] 	Train_Loss: 1.7525
+	[141/188] 	Train_Loss: 2.0134
+	[188/188] 	Train_Loss: 2.2030
+Epoch 239/300 	Time: 89초               	Train_Loss: 1.8551 	Val_Loss: 1.8616
+	[47/188] 	Train_Loss: 1.7212
+	[94/188] 	Train_Loss: 1.9678
+	[141/188] 	Train_Loss: 1.6461
+	[188/188] 	Train_Loss: 1.8281
+Epoch 240/300 	Time: 89초               	Train_Loss: 1.8423 	Val_Loss: 1.8642
+	[47/188] 	Train_Loss: 1.7685
+	[94/188] 	Train_Loss: 1.7924
+	[141/188] 	Train_Loss: 1.7443
+	[188/188] 	Train_Loss: 1.7703
+Epoch 241/300 	Time: 89초               	Train_Loss: 1.8509 	Val_Loss: 1.9954
+	[47/188] 	Train_Loss: 1.8475
+	[94/188] 	Train_Loss: 1.6339
+	[141/188] 	Train_Loss: 1.9331
+	[188/188] 	Train_Loss: 2.5035
+Epoch 242/300 	Time: 89초               	Train_Loss: 1.8544 	Val_Loss: 1.9310
+	[47/188] 	Train_Loss: 1.8451
+	[94/188] 	Train_Loss: 1.8023
+	[141/188] 	Train_Loss: 1.9014
+	[188/188] 	Train_Loss: 2.2003
+Epoch 243/300 	Time: 89초               	Train_Loss: 1.8601 	Val_Loss: 1.8501
+	[47/188] 	Train_Loss: 1.6843
+	[94/188] 	Train_Loss: 1.6818
+	[141/188] 	Train_Loss: 1.6927
+	[188/188] 	Train_Loss: 2.0811
+Epoch 244/300 	Time: 89초               	Train_Loss: 1.8443 	Val_Loss: 1.9476
+	[47/188] 	Train_Loss: 1.5620
+	[94/188] 	Train_Loss: 1.7871
+	[141/188] 	Train_Loss: 1.7620
+	[188/188] 	Train_Loss: 1.9583
+Epoch 245/300 	Time: 89초               	Train_Loss: 1.8469 	Val_Loss: 1.8686
+	[47/188] 	Train_Loss: 2.0500
+	[94/188] 	Train_Loss: 1.8335
+	[141/188] 	Train_Loss: 1.7916
+	[188/188] 	Train_Loss: 1.7156
+Epoch 246/300 	Time: 89초               	Train_Loss: 1.8526 	Val_Loss: 1.8616
+	[47/188] 	Train_Loss: 1.8872
+	[94/188] 	Train_Loss: 2.0677
+	[141/188] 	Train_Loss: 1.7369
+	[188/188] 	Train_Loss: 1.9458
+Epoch 247/300 	Time: 89초               	Train_Loss: 1.8494 	Val_Loss: 1.9051
+	[47/188] 	Train_Loss: 1.9977
+	[94/188] 	Train_Loss: 1.6840
+	[141/188] 	Train_Loss: 2.2204
+	[188/188] 	Train_Loss: 2.1748
+Epoch 248/300 	Time: 89초               	Train_Loss: 1.9305 	Val_Loss: 2.0588
+	[47/188] 	Train_Loss: 2.1498
+	[94/188] 	Train_Loss: 1.9089
+	[141/188] 	Train_Loss: 2.0056
+	[188/188] 	Train_Loss: 2.0572
+Epoch 249/300 	Time: 89초               	Train_Loss: 1.9455 	Val_Loss: 1.9202
+	[47/188] 	Train_Loss: 2.1482
+	[94/188] 	Train_Loss: 1.9974
+	[141/188] 	Train_Loss: 1.9135
+	[188/188] 	Train_Loss: 2.1004
+Epoch 250/300 	Time: 89초               	Train_Loss: 1.8857 	Val_Loss: 1.8323
+	[47/188] 	Train_Loss: 1.8399
+	[94/188] 	Train_Loss: 1.6120
+	[141/188] 	Train_Loss: 1.9186
+	[188/188] 	Train_Loss: 2.1369
+Epoch 251/300 	Time: 89초               	Train_Loss: 1.8755 	Val_Loss: 1.8766
+	[47/188] 	Train_Loss: 2.1096
+	[94/188] 	Train_Loss: 1.9105
+	[141/188] 	Train_Loss: 1.9569
+	[188/188] 	Train_Loss: 2.0948
+Epoch 252/300 	Time: 89초               	Train_Loss: 1.8705 	Val_Loss: 1.8956
+	[47/188] 	Train_Loss: 1.8712
+	[94/188] 	Train_Loss: 1.8794
+	[141/188] 	Train_Loss: 1.9805
+	[188/188] 	Train_Loss: 2.0217
+Epoch 253/300 	Time: 89초               	Train_Loss: 1.8713 	Val_Loss: 1.8357
+	[47/188] 	Train_Loss: 1.8039
+	[94/188] 	Train_Loss: 2.0506
+	[141/188] 	Train_Loss: 1.7376
+	[188/188] 	Train_Loss: 1.7342
+Epoch 254/300 	Time: 89초               	Train_Loss: 1.8542 	Val_Loss: 1.9129
+	[47/188] 	Train_Loss: 1.9585
+	[94/188] 	Train_Loss: 1.9261
+	[141/188] 	Train_Loss: 2.0398
+	[188/188] 	Train_Loss: 1.8637
+Epoch 255/300 	Time: 89초               	Train_Loss: 1.8603 	Val_Loss: 1.8812
+	[47/188] 	Train_Loss: 1.8727
+	[94/188] 	Train_Loss: 1.7954
+	[141/188] 	Train_Loss: 1.8076
+	[188/188] 	Train_Loss: 1.7496
+Epoch 256/300 	Time: 89초               	Train_Loss: 1.8574 	Val_Loss: 1.8596
+	[47/188] 	Train_Loss: 1.7686
+	[94/188] 	Train_Loss: 2.0270
+	[141/188] 	Train_Loss: 2.1663
+	[188/188] 	Train_Loss: 1.8016
+Epoch 257/300 	Time: 89초               	Train_Loss: 1.8475 	Val_Loss: 1.8746
+	[47/188] 	Train_Loss: 2.1003
+	[94/188] 	Train_Loss: 1.7765
+	[141/188] 	Train_Loss: 2.0693
+	[188/188] 	Train_Loss: 2.0757
+Epoch 258/300 	Time: 89초               	Train_Loss: 1.8567 	Val_Loss: 1.8801
+	[47/188] 	Train_Loss: 1.6839
+	[94/188] 	Train_Loss: 2.1910
+	[141/188] 	Train_Loss: 1.8762
+	[188/188] 	Train_Loss: 1.7694
+Epoch 259/300 	Time: 89초               	Train_Loss: 1.8633 	Val_Loss: 2.0001
+	[47/188] 	Train_Loss: 1.6643
+	[94/188] 	Train_Loss: 1.8974
+	[141/188] 	Train_Loss: 1.7811
+	[188/188] 	Train_Loss: 2.3648
+Epoch 260/300 	Time: 89초               	Train_Loss: 1.8474 	Val_Loss: 2.0525
+	[47/188] 	Train_Loss: 1.9713
+	[94/188] 	Train_Loss: 1.6591
+	[141/188] 	Train_Loss: 1.6617
+	[188/188] 	Train_Loss: 1.8319
+Epoch 261/300 	Time: 89초               	Train_Loss: 1.8592 	Val_Loss: 1.8574
+	[47/188] 	Train_Loss: 1.7320
+	[94/188] 	Train_Loss: 1.7700
+	[141/188] 	Train_Loss: 1.8298
+	[188/188] 	Train_Loss: 2.2628
+Epoch 262/300 	Time: 89초               	Train_Loss: 1.8508 	Val_Loss: 1.9015
+	[47/188] 	Train_Loss: 1.9492
+	[94/188] 	Train_Loss: 1.6848
+	[141/188] 	Train_Loss: 1.6750
+	[188/188] 	Train_Loss: 1.7141
+Epoch 263/300 	Time: 89초               	Train_Loss: 1.8420 	Val_Loss: 1.9069
+	[47/188] 	Train_Loss: 1.7371
+	[94/188] 	Train_Loss: 2.0297
+	[141/188] 	Train_Loss: 1.8783
+	[188/188] 	Train_Loss: 1.8546
+Epoch 264/300 	Time: 89초               	Train_Loss: 1.8510 	Val_Loss: 1.8531
+	[47/188] 	Train_Loss: 1.8809
+	[94/188] 	Train_Loss: 1.7789
+	[141/188] 	Train_Loss: 1.8318
+	[188/188] 	Train_Loss: 1.7311
+Epoch 265/300 	Time: 89초               	Train_Loss: 1.8390 	Val_Loss: 1.8567
+	[47/188] 	Train_Loss: 2.1612
+	[94/188] 	Train_Loss: 2.0350
+	[141/188] 	Train_Loss: 1.9235
+	[188/188] 	Train_Loss: 1.7554
+Epoch 266/300 	Time: 89초               	Train_Loss: 1.8612 	Val_Loss: 1.8882
+	[47/188] 	Train_Loss: 2.1373
+	[94/188] 	Train_Loss: 1.7587
+	[141/188] 	Train_Loss: 2.1144
+	[188/188] 	Train_Loss: 1.7325
+Epoch 267/300 	Time: 89초               	Train_Loss: 1.8478 	Val_Loss: 1.8491
+	[47/188] 	Train_Loss: 2.0286
+	[94/188] 	Train_Loss: 1.9097
+	[141/188] 	Train_Loss: 2.0323
+	[188/188] 	Train_Loss: 2.0241
+Epoch 268/300 	Time: 89초               	Train_Loss: 1.8513 	Val_Loss: 1.8714
+	[47/188] 	Train_Loss: 2.0762
+	[94/188] 	Train_Loss: 1.5402
+	[141/188] 	Train_Loss: 1.8527
+	[188/188] 	Train_Loss: 1.7905
+Epoch 269/300 	Time: 89초               	Train_Loss: 1.8553 	Val_Loss: 1.8713
+	[47/188] 	Train_Loss: 1.6454
+	[94/188] 	Train_Loss: 1.9960
+	[141/188] 	Train_Loss: 1.6988
+	[188/188] 	Train_Loss: 1.6462
+Epoch 270/300 	Time: 89초               	Train_Loss: 1.8431 	Val_Loss: 1.8743
+	[47/188] 	Train_Loss: 1.5862
+	[94/188] 	Train_Loss: 1.7423
+	[141/188] 	Train_Loss: 1.8656
+	[188/188] 	Train_Loss: 1.6832
+Epoch 271/300 	Time: 89초               	Train_Loss: 1.8379 	Val_Loss: 1.9026
+	[47/188] 	Train_Loss: 1.8465
+	[94/188] 	Train_Loss: 1.8303
+	[141/188] 	Train_Loss: 1.7277
+	[188/188] 	Train_Loss: 1.5365
+Epoch 272/300 	Time: 89초               	Train_Loss: 1.8424 	Val_Loss: 1.9019
+	[47/188] 	Train_Loss: 1.6798
+	[94/188] 	Train_Loss: 1.7009
+	[141/188] 	Train_Loss: 1.9902
+	[188/188] 	Train_Loss: 2.0371
+Epoch 273/300 	Time: 89초               	Train_Loss: 1.8800 	Val_Loss: 1.8751
+	[47/188] 	Train_Loss: 1.8054
+	[94/188] 	Train_Loss: 1.7869
+	[141/188] 	Train_Loss: 1.4760
+	[188/188] 	Train_Loss: 1.6860
+Epoch 274/300 	Time: 89초               	Train_Loss: 1.8660 	Val_Loss: 1.8315
+	[47/188] 	Train_Loss: 1.6996
+	[94/188] 	Train_Loss: 1.8955
+	[141/188] 	Train_Loss: 1.8258
+	[188/188] 	Train_Loss: 1.9943
+Epoch 275/300 	Time: 89초               	Train_Loss: 1.8293 	Val_Loss: 1.8566
+	[47/188] 	Train_Loss: 1.8684
+	[94/188] 	Train_Loss: 1.8335
+	[141/188] 	Train_Loss: 1.9184
+	[188/188] 	Train_Loss: 1.7988
+Epoch 276/300 	Time: 89초               	Train_Loss: 1.8495 	Val_Loss: 1.8795
+	[47/188] 	Train_Loss: 1.8628
+	[94/188] 	Train_Loss: 1.8976
+	[141/188] 	Train_Loss: 1.8042
+	[188/188] 	Train_Loss: 1.6425
+Epoch 277/300 	Time: 89초               	Train_Loss: 1.8419 	Val_Loss: 1.8693
+	[47/188] 	Train_Loss: 1.6748
+	[94/188] 	Train_Loss: 1.6107
+	[141/188] 	Train_Loss: 1.5951
+	[188/188] 	Train_Loss: 2.1907
+Epoch 278/300 	Time: 89초               	Train_Loss: 1.8508 	Val_Loss: 1.8701
+	[47/188] 	Train_Loss: 1.8802
+	[94/188] 	Train_Loss: 1.9670
+	[141/188] 	Train_Loss: 1.8008
+	[188/188] 	Train_Loss: 1.5827
+Epoch 279/300 	Time: 89초               	Train_Loss: 1.8483 	Val_Loss: 1.8924
+	[47/188] 	Train_Loss: 1.7960
+	[94/188] 	Train_Loss: 1.9080
+	[141/188] 	Train_Loss: 1.9433
+	[188/188] 	Train_Loss: 1.9762
+Epoch 280/300 	Time: 89초               	Train_Loss: 1.8415 	Val_Loss: 1.8237
+	[47/188] 	Train_Loss: 1.8495
+	[94/188] 	Train_Loss: 2.1120
+	[141/188] 	Train_Loss: 2.1037
+	[188/188] 	Train_Loss: 1.7879
+Epoch 281/300 	Time: 89초               	Train_Loss: 1.8422 	Val_Loss: 1.8998
+	[47/188] 	Train_Loss: 1.9945
+	[94/188] 	Train_Loss: 1.8624
+	[141/188] 	Train_Loss: 1.8581
+	[188/188] 	Train_Loss: 2.3909
+Epoch 282/300 	Time: 89초               	Train_Loss: 1.8427 	Val_Loss: 1.8839
+	[47/188] 	Train_Loss: 1.8761
+	[94/188] 	Train_Loss: 1.9081
+	[141/188] 	Train_Loss: 1.7339
+	[188/188] 	Train_Loss: 1.8924
+Epoch 283/300 	Time: 89초               	Train_Loss: 1.8406 	Val_Loss: 1.8650
+	[47/188] 	Train_Loss: 1.8912
+	[94/188] 	Train_Loss: 2.0065
+	[141/188] 	Train_Loss: 2.1373
+	[188/188] 	Train_Loss: 2.3924
+Epoch 284/300 	Time: 89초               	Train_Loss: 1.8440 	Val_Loss: 1.8776
+	[47/188] 	Train_Loss: 2.0178
+	[94/188] 	Train_Loss: 1.8301
+	[141/188] 	Train_Loss: 2.0799
+	[188/188] 	Train_Loss: 1.8081
+Epoch 285/300 	Time: 89초               	Train_Loss: 1.8371 	Val_Loss: 1.9085
+	[47/188] 	Train_Loss: 1.8537
+	[94/188] 	Train_Loss: 1.7230
+	[141/188] 	Train_Loss: 2.0160
+	[188/188] 	Train_Loss: 2.3422
+Epoch 286/300 	Time: 89초               	Train_Loss: 1.8428 	Val_Loss: 1.8586
+	[47/188] 	Train_Loss: 1.8487
+	[94/188] 	Train_Loss: 1.6770
+	[141/188] 	Train_Loss: 1.8265
+	[188/188] 	Train_Loss: 1.6099
+Epoch 287/300 	Time: 89초               	Train_Loss: 1.8407 	Val_Loss: 1.8391
+	[47/188] 	Train_Loss: 1.7143
+	[94/188] 	Train_Loss: 1.9652
+	[141/188] 	Train_Loss: 1.8397
+	[188/188] 	Train_Loss: 1.9866
+Epoch 288/300 	Time: 89초               	Train_Loss: 1.8402 	Val_Loss: 1.8240
+	[47/188] 	Train_Loss: 1.8614
+	[94/188] 	Train_Loss: 2.0118
+	[141/188] 	Train_Loss: 1.9609
+	[188/188] 	Train_Loss: 1.6980
+Epoch 289/300 	Time: 89초               	Train_Loss: 1.8536 	Val_Loss: 1.8883
+	[47/188] 	Train_Loss: 2.0626
+	[94/188] 	Train_Loss: 1.8232
+	[141/188] 	Train_Loss: 1.6619
+	[188/188] 	Train_Loss: 1.7398
+Epoch 290/300 	Time: 89초               	Train_Loss: 1.8597 	Val_Loss: 1.8473
+	[47/188] 	Train_Loss: 1.8126
+	[94/188] 	Train_Loss: 1.6815
+	[141/188] 	Train_Loss: 1.6495
+	[188/188] 	Train_Loss: 1.7026
+Epoch 291/300 	Time: 89초               	Train_Loss: 1.8401 	Val_Loss: 1.8546
+	[47/188] 	Train_Loss: 1.7091
+	[94/188] 	Train_Loss: 1.8677
+	[141/188] 	Train_Loss: 1.7379
+	[188/188] 	Train_Loss: 2.1370
+Epoch 292/300 	Time: 89초               	Train_Loss: 1.8493 	Val_Loss: 1.8053
+292epoch 모델 저장 완료
+	[47/188] 	Train_Loss: 1.8851
+	[94/188] 	Train_Loss: 1.8973
+	[141/188] 	Train_Loss: 1.7411
+	[188/188] 	Train_Loss: 2.4818
+Epoch 293/300 	Time: 89초               	Train_Loss: 1.8472 	Val_Loss: 1.9487
+	[47/188] 	Train_Loss: 1.7275
+	[94/188] 	Train_Loss: 1.8692
+	[141/188] 	Train_Loss: 1.6371
+	[188/188] 	Train_Loss: 1.6320
+Epoch 294/300 	Time: 89초               	Train_Loss: 1.8456 	Val_Loss: 1.8710
+	[47/188] 	Train_Loss: 1.8088
+	[94/188] 	Train_Loss: 1.8486
+	[141/188] 	Train_Loss: 1.8325
+	[188/188] 	Train_Loss: 1.8548
+Epoch 295/300 	Time: 89초               	Train_Loss: 1.8440 	Val_Loss: 1.8855
+	[47/188] 	Train_Loss: 1.9204
+	[94/188] 	Train_Loss: 1.7416
+	[141/188] 	Train_Loss: 1.9801
+	[188/188] 	Train_Loss: 1.8455
+Epoch 296/300 	Time: 89초               	Train_Loss: 1.8436 	Val_Loss: 1.9127
+	[47/188] 	Train_Loss: 1.6284
+	[94/188] 	Train_Loss: 1.6750
+	[141/188] 	Train_Loss: 1.8706
+	[188/188] 	Train_Loss: 1.8454
+Epoch 297/300 	Time: 89초               	Train_Loss: 1.8369 	Val_Loss: 1.8315
+	[47/188] 	Train_Loss: 1.9391
+	[94/188] 	Train_Loss: 2.0765
+	[141/188] 	Train_Loss: 1.8191
+	[188/188] 	Train_Loss: 1.8699
+Epoch 298/300 	Time: 89초               	Train_Loss: 1.8388 	Val_Loss: 1.8564
+	[47/188] 	Train_Loss: 1.5980
+	[94/188] 	Train_Loss: 1.8359
+	[141/188] 	Train_Loss: 1.8873
+	[188/188] 	Train_Loss: 1.9550
+Epoch 299/300 	Time: 89초               	Train_Loss: 1.8476 	Val_Loss: 1.8843
+	[47/188] 	Train_Loss: 1.6820
+	[94/188] 	Train_Loss: 2.0016
+	[141/188] 	Train_Loss: 1.5147
+	[188/188] 	Train_Loss: 1.5181
+Epoch 300/300 	Time: 89초               	Train_Loss: 1.8453 	Val_Loss: 1.8580
+훈련 소요 시간: 7시간 22분 55초
+done
