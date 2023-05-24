@@ -25,6 +25,6 @@ python -u tester.py \
         --model_save_dir=$model_save_dir \
         --model_pth_name=$model_pth_name \
         --output_dir=$output_dir \
-        --display_num=$dis
+        --display_num=$display_num
         
 exit 0

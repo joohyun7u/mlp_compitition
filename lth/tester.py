@@ -15,7 +15,7 @@ if __name__ == '__main__':
     parser.add_argument('--model_save_dir', type=str)
     parser.add_argument('--model_pth_name', type=str)
     parser.add_argument('--output_dir',     type=str)
-    parser.add_argument('--display_num',    type=str)
+    parser.add_argument('--display_num',    type=int)
 
     args = parser.parse_args()
 
@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
     # 모델 로딩
     model = importlib.import_module('.' + model_name, '.models').model
-    model.load_state_dict(torch.load(join(model_save_path,model_name + ".pth")))
+    model.load_state_dict(torch.load(join(model_save_path, model_pth_name + ".pth")))
     model.eval()
 
     # 전처리
@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     # 데이터셋 설정
     noisy_dataset = T.TestDatastLoader(
-        noisy_image_paths = args.datasets_dir, 
+        noisy_image_paths = dataset_dir, 
         noisy_transform = noisy_transform
     )
 
@@ -66,6 +66,8 @@ if __name__ == '__main__':
     tester = T.Tester(
         model = model,
         model_name = model_name,
+        model_save_dir = model_save_path,
+        model_pth_name = model_pth_name,
         test_data_loader = noisy_loader,
         image_output_dir = image_output_dir,
         display_num = display_num

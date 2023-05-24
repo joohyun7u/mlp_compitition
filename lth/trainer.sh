@@ -9,15 +9,15 @@
 #SBATCH -w moana-y1
 #SBATCH -o /data/worrospeed/logs/%x-%2t.out
 
-version=alpha
+version=.VLoss
 
 epoch=200
 batch_size=64
 lr=0.1
 val_rate=0.1
 isCV=0
-datasets_dir=C:/local_datasets/MLinP/
-model_name=DnCNN
+datasets_dir=/local_datasets/MLinP/
+model_name=UNetV2
 model_save_dir=./model_save/    
 loss_save_dir=./loss_save/    
 
