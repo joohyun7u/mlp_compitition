@@ -14,7 +14,7 @@ device = torch.device('cuda' if torch.cuda.is_available()  else 'cpu')
 
 class CustomDataset(data.Dataset):
     def __init__(self, noisy_image_paths, noise_image_paths, patch_size = 128, noisy_transform=None, noise_transform=None):
-        "It is not noisy_image, It is noise_image"
+        "note that It is not noisy_image, It is noise_image"
         self.noisy_image_paths = [join(noisy_image_paths, x) for x in listdir(noisy_image_paths)]
         self.noise_image_paths = [join(noise_image_paths, x) for x in listdir(noise_image_paths)]
         self.noisy_transform = noisy_transform
@@ -37,19 +37,21 @@ class CustomDataset(data.Dataset):
         noisy_image = noisy_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
         noise_image = noise_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
 
+        # transform 적용
+        if self.noisy_transform:
+            noisy_image = self.noisy_transform(noisy_image)
+        if self.noise_transform:
+            noise_image = self.noise_transform(noise_image)
+
+
         # 이미지 랜덤 플립
         if torch.rand(1) < self.p:
             noisy_image = F.flip(noisy_image)
             noise_image = F.flip(noise_image)
         
         
-        # transform 적용
-        if self.noisy_transform:
-            noisy_image = self.noisy_transform(noisy_image)
-        if self.noise_transform:
-            noise_image = self.noise_transform(noise_image)
-        
         return noisy_image, noise_image
+    
     
 class Trainer():
     def __init__(self, model, version, model_name, num_epochs, train_data_loader, valid_data_loader , optimizer, criterion, scheduler, model_save_dir,loss_save_dir):
