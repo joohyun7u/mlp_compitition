@@ -120,11 +120,10 @@ def train(num_epochs, noise = True, save_val=True):
                 loss = criterion(outputs, clean_images)
             loss.backward()
             optimizer.step()
-            scheduler.step()
             running_loss += loss.item() * noisy_images.size(0)
             if (iter+1) % int(total_iter/4) == 0:
-                print(f'\t[{iter+1}/{total_iter}] \tTrain_Loss: {loss.item():.4f}')
-
+                print(f"\t[{iter+1}/{total_iter}] \tlr: {optimizer.param_groups[0]['lr']} \tTrain_Loss: {loss.item():.4f}")
+        scheduler.step()
         epoch_loss = running_loss / len(train_dataset)
         val_loss = val(noise)
         loss_pth.add(args.model,epoch,epoch_loss,val_loss,loss_file)
@@ -308,8 +307,9 @@ if __name__ == '__main__':
         criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss(model=vgg_model).to(device)
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
     # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
-    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
-
+    # scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
+    scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, 'min')
+    print("lr: ", optimizer.param_groups[0]['lr'])
 
     # 모델 학습
     print("모델 학습 시작")

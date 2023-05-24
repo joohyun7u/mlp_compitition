@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#SBATCH --job-name RFDN_800
+#SBATCH --job-name DRLN_800
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
 #SBATCH --mem-per-gpu=29G
 #SBATCH --time 1-0
 #SBATCH --partition batch_ugrad
-#SBATCH -w ariel-v8
+#SBATCH -w ariel-g1
 #SBATCH -o logs/slurm-%A-%x.out
 
 source /data/joohyun7u/cjh/sh/setup.sh
@@ -16,13 +16,13 @@ echo $current_time
 py_dir=./models/DnXXX.py
 dataset_dir=/home/joohyun7u/dataset/ff
 # DnCNN, ResNet18 34 50 101 152, RFDN, DRLN
-model=RFDN
+model=DRLN
 
 #tar -xcvf /data/datasets/ImageNet.tar -C /local_datasets/
 
 python -u $py_dir \
         --epoch=800 \
-        --batch_size=32 \
+        --batch_size=16 \
         --lr=0.001 \
         --model=$model \
         --summary=False \
