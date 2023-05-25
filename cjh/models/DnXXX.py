@@ -96,6 +96,19 @@ class BilateralBlur(object):
 
         return cv2.bilateralFilter(image,-1,10,5)
 
+def tensor_to_yuv(image):
+    image = tf.ToPILImage()(image*0.5+0.5)
+    image = np.array(image)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
+    return image
+
+def cal_mae_loss(p,t, y=False):
+    if not y:
+        p = p[:, :, 0]
+        t = t[:, :, 0]
+    return abs(np.mean(p.flatten()) - np.mean(t.flatten()))
+
+
 # 모델 학습
 def train(num_epochs, noise = True, save_val=True):
     best_loss = 9999.0
@@ -107,6 +120,7 @@ def train(num_epochs, noise = True, save_val=True):
         model.train()
         epoch_time = time.time()
         running_loss = 0.0
+        tot_mae = 0.0
         for iter, (noisy_images, clean_images) in enumerate(train_loader):
             noisy_images, clean_images = noisy_images.to(device), clean_images.to(device)
             optimizer.zero_grad()
@@ -120,6 +134,7 @@ def train(num_epochs, noise = True, save_val=True):
                 loss = criterion(outputs, clean_images)
             loss.backward()
             optimizer.step()
+            tot_mae += cal_mae_loss(tensor_to_yuv(noisy_images),tensor_to_yuv(clean_images))
             running_loss += loss.item() * noisy_images.size(0)
             if (iter+1) % int(total_iter/4) == 0:
                 print(f"\t[{iter+1}/{total_iter}] \tlr: {optimizer.param_groups[0]['lr']} \tTrain_Loss: {loss.item():.4f}")
@@ -128,7 +143,7 @@ def train(num_epochs, noise = True, save_val=True):
         val_loss = val(noise)
         loss_pth.add(args.model,epoch,epoch_loss,val_loss,loss_file)
         print(f'Epoch {epoch+1}/{num_epochs} \tTime: {time.time()-epoch_time:.0f}초 \
-              \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f}')
+              \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f} \tMAE : {tot_mae:.5f}')
 
     # 현재 epoch의 loss가 최소 loss보다 작으면 모델 갱신
         if save_val:

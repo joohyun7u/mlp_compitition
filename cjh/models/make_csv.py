@@ -11,8 +11,11 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import ToTensor
 from torchvision.datasets import ImageFolder
 from torchvision.transforms import ToTensor, Normalize, Compose
-import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN, models.DRLN as DRLN
+import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN, models.DRLN as DRLN, models.pix2pix as pix2pix
 import argparse
+import gc
+gc.collect()
+torch.cuda.empty_cache()
 
 # 랜덤 시드 고정
 np.random.seed(42)
@@ -101,6 +104,8 @@ elif m == 'RFDN':
     model = RFDN.RFDN()
 elif m == 'DRLN':
     model = DRLN.DRLN()
+elif m == 'pix2pix':
+    model = pix2pix.Generator()
 else:
     model = DnCNN.DnCNN()
 print(args.csv+args.load_pth)
@@ -132,60 +137,6 @@ noisy_dataset = CustomDatasetTest(noisy_data_path, transform=test_transform)
 noisy_loader = DataLoader(noisy_dataset, batch_size=1, shuffle=False)
 
 
-# 이건 안쓰는거
-# def make_csv(save_img=False):
-#     folder_path = args.output_dir
-#     out_num = 1
-#     output_file = args.csv + 'output' + str(out_num) + '.csv'
-#     while (os.path.isfile(folder_path + output_file)):
-#         out_num += 1
-#         output_file = args.csv + 'output' + str(out_num) + '.csv'
-
-
-#     # CSV 파일을 작성하기 위해 오픈
-#     with open(output_file, 'w', newline='') as csvfile:
-#         writer = csv.writer(csvfile)
-#         writer.writerow(['Image File', 'Y Channel Value'])
-
-
-#         for noisy_image, noisy_image_path in noisy_loader:
-#             noisy_image = noisy_image.to(device)
-#             noise = model(noisy_image)
-
-#             denoised_image = noisy_image - noise
-            
-#             # denoised_image를 CPU로 이동하여 이미지 저장
-#             denoised_image = denoised_image.cpu().squeeze(0)
-#             denoised_image = torch.clamp(denoised_image, 0, 1)  # 이미지 값을 0과 1 사이로 클램핑
-#             denoised_image = transforms.ToPILImage()(denoised_image)
-
-#             output_filename = noisy_image_path[0]
-#             file_name = output_filename.split('/')[-1][:-4]
-
-#             if save_img:
-#                 denoised_filename = output_path + '/' + output_filename.split('/')[-1][:-4] + '.png'
-#                 denoised_image.save(denoised_filename) 
-                
-#                 print(f'Saved denoised image: {denoised_filename}')
-
-#             # 이미지 로드
-#             # image = cv2.imread(denoised_image)
-
-#             # 이미지를 YUV 색 공간으로 변환
-#             image_yuv = cv2.cvtColor(np.array(denoised_image), cv2.COLOR_BGR2YUV)
-
-#             # Y 채널 추출
-#             y_channel = image_yuv[:, :, 0]
-
-#             # Y 채널을 1차원 배열로 변환
-#             y_values = np.mean(y_channel.flatten())
-
-#             print(y_values)
-
-#             # 파일 이름과 Y 채널 값을 CSV 파일에 작성
-#             writer.writerow([file_name, y_values])
-
-#     print('CSV file created successfully.')
 
 if True:
     # 이미지 denoising 및 저장
@@ -252,4 +203,5 @@ if True:
             writer.writerow([file_name[:-4], y_values])
 
     print('CSV file created successfully.')
+    print(output_file)
 

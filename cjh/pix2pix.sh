@@ -1,12 +1,12 @@
 #!/bin/bash
 
-#SBATCH --job-name pp-n_800
+#SBATCH --job-name pp-c_800
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
 #SBATCH --mem-per-gpu=29G
 #SBATCH --time 1-0
 #SBATCH --partition batch_ugrad
-#SBATCH -w ariel-g1
+#SBATCH -w ariel-v8
 #SBATCH -o logs/slurm-%A-%x.out
 
 source /data/joohyun7u/cjh/sh/setup.sh
@@ -22,13 +22,13 @@ model=pix2pix
 
 python -u $py_dir \
         --epoch=800 \
-        --batch_size=1 \
+        --batch_size=32 \
         --lr=0.001 \
         --model=$model \
         --summary=False \
         --val=0.001 \
         --loss=2 \
-        --noise_train=True \
+        --noise_train=False \
         --val_best_save=False \
         --train_img_size=256 \
 

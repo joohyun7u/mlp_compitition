@@ -3,18 +3,18 @@
 #SBATCH --job-name Make_CSV
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
-#SBATCH --mem-per-gpu=24G
+#SBATCH --mem-per-gpu=32G
 #SBATCH --time 1-0
 #SBATCH --partition batch_ugrad
-#SBATCH -w ariel-g1
+#SBATCH -w ariel-v2
 #SBATCH -o ./logs/slurm-%A-%x.out
 
 dataset_dir=/home/joohyun7u/dataset/ff
 
 py_dir=./models/make_csv.py
 save_dir=./save/
-load_pth=best_DRLN_model3.pth
-# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN
+load_pth=best_pix2pix_model1_g.pth
+# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix
 model=DRLN
 
 

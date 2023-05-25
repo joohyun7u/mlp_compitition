@@ -6,6 +6,9 @@ logs/
 local_datasets/
 .vscode/
 cjh/.vscode/
+cjh/save/
+cjh/기록용/
+cjh/__pycache__
 
 
 # Byte-compiled / optimized / DLL files

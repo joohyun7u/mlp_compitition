@@ -327,7 +327,7 @@ if __name__ == '__main__':
     elif m == 'pix2pix':
         G = pix2pix.Generator().to(device)
         D = pix2pix.Discriminator().to(device)
-        args.batch_size = 1
+        # args.batch_size = 1
         end_pth = '_g.pth'
     else:
         model = DnCNN.DnCNN().to(device)
