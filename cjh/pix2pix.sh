@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name pp-c_800
+#SBATCH --job-name pp2-c_800
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
 #SBATCH --mem-per-gpu=29G
@@ -13,17 +13,17 @@ source /data/joohyun7u/cjh/sh/setup.sh
 
 current_time=$(date "+%Y%m%d-%H:%M:%S")
 echo $current_time
-py_dir=./models/pix2pix.py
+py_dir=./models/pix2pix2.py
 dataset_dir=/home/joohyun7u/dataset/ff
-# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix
-model=pix2pix
+# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix, pix2pix2
+model=pix2pix2
 
 #tar -xcvf /data/datasets/ImageNet.tar -C /local_datasets/
 
 python -u $py_dir \
         --epoch=800 \
-        --batch_size=32 \
-        --lr=0.001 \
+        --batch_size=1 \
+        --lr=0.01 \
         --model=$model \
         --summary=False \
         --val=0.001 \

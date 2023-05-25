@@ -14,7 +14,8 @@ from os import listdir
 from torchsummary import summary
 import time
 import argparse
-import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN, models.DRLN as DRLN, models.pix2pix as pix2pix
+import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN
+import models.DRLN as DRLN, models.pix2pix as pix2pix, models.pix2pix2 as pix2pix2
 import utils.randaugment as randaugment
 from utils.param import param_check, seed_everything
 import utils.vgg_loss, utils.vgg_perceptual_loss
@@ -113,20 +114,23 @@ class loss_save():
             }, save_dir
     )
 
-class BilateralBlur(object):
-    def __init__(self, output_size):
-        assert isinstance(output_size, int)
-        if isinstance(output_size, int):
-            self.output_size = (output_size, output_size)
-        else:
-            assert len(output_size) == 2
-            self.output_size = output_size
+def tensor_to_yuv(images):
+    i =[]
+    for image in images:
+        image = tf.ToPILImage()(image)
+        image = np.array(image)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
+        i.append(image)
+    return i
 
-    def __call__(self,sample):
-        image = sample
-        h, w = image.shape[:2]
-
-        return cv2.bilateralFilter(image,-1,10,5)
+def cal_mae_loss(ps,ts, y=False):
+    abss = 0.0
+    for p, t in zip(ps,ts):
+        if not y:
+            p = p[:, :, 0]
+            t = t[:, :, 0]
+        abss += abs(np.mean(p.flatten()) - np.mean(t.flatten()))
+    return abss
 
 # 모델 학습
 def train(num_epochs, noise = True, save_val=True, model_type=False):
@@ -141,6 +145,7 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
             model.train()
             epoch_time = time.time()
             running_loss = 0.0
+            tot_mae = 0.0
             for iter, (noisy_images, clean_images) in enumerate(train_loader):
                 noisy_images, clean_images = noisy_images.to(device), clean_images.to(device)
                 optimizer.zero_grad()
@@ -155,6 +160,7 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
                 loss.backward()
                 optimizer.step()
                 running_loss += loss.item() * noisy_images.size(0)
+                tot_mae += cal_mae_loss(tensor_to_yuv(outputs),tensor_to_yuv(clean_images)) / len(train_dataset)
                 if (iter+1) % int(total_iter/4) == 0:
                     print(f"\t[{iter+1}/{total_iter}] \tlr: {optimizer.param_groups[0]['lr']} \tTrain_Loss: {loss.item():.4f}")
             scheduler.step()
@@ -162,7 +168,7 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
             val_loss = val(noise)
             loss_pth.add(args.model,epoch,epoch_loss,val_loss,loss_file)
             print(f'Epoch {epoch+1}/{num_epochs} \tTime: {time.time()-epoch_time:.0f}초 \
-                \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f}')
+                \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f} \tMAE : {tot_mae:.5f}')
 
         # 현재 epoch의 loss가 최소 loss보다 작으면 모델 갱신
             if save_val:
@@ -183,6 +189,7 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
             epoch_time = time.time()
             running_d_loss = 0.0
             running_g_loss = 0.0
+            # tot_mae = 0.0
             for iter, (noisy_images, clean_images) in enumerate(train_loader):
                 real_n, real_c = noisy_images.to(device), clean_images.to(device)
                 real_label = torch.ones(1).cuda()
@@ -227,13 +234,14 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
                 g_optimizer.step()
                 running_d_loss += loss_d.item() * noisy_images.size(0)
                 running_g_loss += loss_g.item() * noisy_images.size(0)
+                # tot_mae += cal_mae_loss(tensor_to_yuv(noisy_images),tensor_to_yuv(clean_images))
                 if (iter+1) % int(total_iter/2) == 0:
                     print('Epoch [%d/%d], Step[%d/%d], %.0f초, d_loss: %.4f, g_loss: %.4f'
                         % (epoch, args.epoch, iter, len(train_loader),time.time()-epoch_time, loss_d.item(), loss_g.item()))
                     # show_images(denorm(real_n.squeeze()), denorm(real_c.squeeze()), denorm(fake_c.squeeze()))
             epoch_d_loss = running_d_loss / len(train_dataset)
             epoch_g_loss = running_g_loss / len(train_dataset)
-            print(f'\tepoch_d_loss {epoch_d_loss:.4f}, epoch_g_loss {epoch_g_loss:.4f}')
+            print(f'\tepoch_d_loss {epoch_d_loss:.4f}, \tepoch_g_loss {epoch_g_loss:.4f}')
             loss_pth.add(args.model,epoch,epoch_d_loss,epoch_g_loss,loss_file)
             if epoch_g_loss < best_loss:
                     best_loss = epoch_g_loss
@@ -277,10 +285,7 @@ if __name__ == '__main__':
     parser.add_argument('--output_dir',     type=str,   default='~/output')
     args = parser.parse_args()
     device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
-    print(f"running: {device}, \nModel: {args.model} \nepoch: {args.epoch},  \
-          \nbatch: {args.batch_size}, \nlr: {args.lr} \nSummary: {args.summary} \
-          \nloss: {loss_list[args.loss]}, \nNoise_train: {args.noise_train}")
-
+    
     # 랜덤 시드 고정
     seed_everything(42)
     bools = {'true' : True, 'True' : True, 'TRUE' : True, 'false' : False, 'False' : False, 'FALSE' : False}
@@ -329,16 +334,21 @@ if __name__ == '__main__':
         D = pix2pix.Discriminator().to(device)
         # args.batch_size = 1
         end_pth = '_g.pth'
+    elif m == 'pix2pix2':
+        G = pix2pix2.GeneratorUNet().to(device)
+        D = pix2pix2.Discriminator().to(device)
+        # args.batch_size = 1
+        end_pth = '_g.pth'
     else:
         model = DnCNN.DnCNN().to(device)
-    if m == 'pix2pix': 
+    if m == 'pix2pix' or m == 'pix2pix2': 
         print('성공)')
         model_type = True
         print('총 : ',param_check(G) + param_check(D))
         print('총 : ',param_check(G, True) + param_check(D, True))
         if args.summary == 'True' or args.summary == 'true':
             print(summary(G, (3, 128, 128)))
-            print(summary(D, (3, 128, 128)))
+            print(summary(D, (6, 128, 128)))
         criterionL1 = nn.L1Loss().to(device)
         criterionMSE = nn.MSELoss().to(device)
 
@@ -440,6 +450,9 @@ if __name__ == '__main__':
 
 
 
+    print(f"running: {device}, \nModel: {args.model} \nepoch: {args.epoch},  \
+            \nbatch: {args.batch_size}, \nlr: {args.lr} \nSummary: {args.summary} \
+            \nloss: {loss_list[args.loss]}, \nNoise_train: {args.noise_train}")
 
     # ?///////////////////////#
 

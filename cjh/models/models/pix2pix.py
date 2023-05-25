@@ -8,7 +8,7 @@ import torch
 코드 단순화를 위한 convolution block 생성을 위한 함수
 Encoder에서 사용될 예정
 '''
-def conv(c_in, c_out, k_size, stride=2, pad=1, bn=True, activation='relu'):
+def conv(c_in, c_out, k_size, stride=2, pad=1, bn=True, activation='relu', dropout=0.0):
     layers = []
     
     # Conv layer
@@ -17,6 +17,9 @@ def conv(c_in, c_out, k_size, stride=2, pad=1, bn=True, activation='relu'):
     # Batch Normalization
     if bn:
         layers.append(nn.BatchNorm2d(c_out))
+
+    if dropout:
+        layers.append(nn.Dropout(dropout))
     
     # Activation
     if activation == 'lrelu':
@@ -27,7 +30,7 @@ def conv(c_in, c_out, k_size, stride=2, pad=1, bn=True, activation='relu'):
         layers.append(nn.Tanh())
     elif activation == 'none':
         pass
-    
+
     return nn.Sequential(*layers)
 
 # Deconv -> BatchNorm -> Activate function Layer
@@ -35,7 +38,7 @@ def conv(c_in, c_out, k_size, stride=2, pad=1, bn=True, activation='relu'):
 코드 단순화를 위한 convolution block 생성을 위한 함수
 Decoder에서 이미지 복원을 위해 사용될 예정
 '''
-def deconv(c_in, c_out, k_size, stride=2, pad=1, bn=True, activation='lrelu'):
+def deconv(c_in, c_out, k_size, stride=2, pad=1, bn=True, activation='lrelu', dropout=0.0):
     layers = []
     
     # Deconv.
@@ -45,6 +48,9 @@ def deconv(c_in, c_out, k_size, stride=2, pad=1, bn=True, activation='lrelu'):
     if bn:
         layers.append(nn.BatchNorm2d(c_out))
     
+    if dropout:
+        layers.append(nn.Dropout(dropout))
+
     # Activation
     if activation == 'lrelu':
         layers.append(nn.LeakyReLU(0.2))
