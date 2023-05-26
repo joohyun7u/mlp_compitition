@@ -11,7 +11,8 @@ from torch.utils.data import DataLoader
 from torchvision.transforms import ToTensor
 from torchvision.datasets import ImageFolder
 from torchvision.transforms import ToTensor, Normalize, Compose
-import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN, models.DRLN as DRLN, models.pix2pix as pix2pix
+import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN
+import models.DRLN as DRLN, models.pix2pix as pix2pix, models.pix2pix2 as pix2pix2
 import argparse
 import gc
 gc.collect()
@@ -106,6 +107,8 @@ elif m == 'DRLN':
     model = DRLN.DRLN()
 elif m == 'pix2pix':
     model = pix2pix.Generator()
+elif m == 'pix2pix2':
+    model = pix2pix2.GeneratorUNet()
 else:
     model = DnCNN.DnCNN()
 print(args.csv+args.load_pth)

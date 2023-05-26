@@ -13,9 +13,9 @@ dataset_dir=/home/joohyun7u/dataset/ff
 
 py_dir=./models/make_csv.py
 save_dir=./save/
-load_pth=best_pix2pix_model1_g.pth
-# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix
-model=DRLN
+load_pth=best_pix2pix2_model2_g.pth
+# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix, pix2pix2
+model=pix2pix2
 
 
 source /data/joohyun7u/cjh/sh/setup.sh
