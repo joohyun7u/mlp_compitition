@@ -18,7 +18,7 @@ else
     mkdir -p $fold
 fi
 
-file=$fold'/BookOfMaking.00016.01.tif'
+file=$fold'/Wireframe57.00108.02.tif'
 target_zip='test_scan.zip'
 if [ -f $file ]; then
     echo $target_zip' 이미 압축 해제 되었음'

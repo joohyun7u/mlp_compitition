@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 # if [ ! -f './gdown.pl' ]; then
 #     wget https://raw.github.com/circulosmeos/gdown.pl/master/gdown.pl
 #     chmod u+x gdown.pl
@@ -10,7 +10,7 @@ if [ -f $file ]; then
 else
     echo $file+' not exist'
     # gdown https://drive.google.com/uc?id=1uuuvlmPtrjGuG83tAzxMbHBqHSlFpGjr test_scan.zip
-    wget --load-cookies ~/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies ~/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1uuuvlmPtrjGuG83tAzxMbHBqHSlFpGjr' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1uuuvlmPtrjGuG83tAzxMbHBqHSlFpGjr" -O test_scan.zip && rm -rf ~/cookies.txt
+    wget --load-cookies ~/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies ~/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1DEavUuFh6x7n1XEMQCaW8yaU3wQxqfBu' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1DEavUuFh6x7n1XEMQCaW8yaU3wQxqfBu" -O test_scan.zip && rm -rf ~/cookies.txt
     chmod 755 $file
     # gdown https://drive.google.com/uc?id=1zmfrXzT9lnLg7NlQ-hXekZlyX9aGNNqj
 fi
