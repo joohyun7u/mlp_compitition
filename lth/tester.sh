@@ -1,20 +1,20 @@
 #!/bin/bash
 
-#SBATCH --job-name UNetV2
+#SBATCH --job-name UNetV2.Adam
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=4
 #SBATCH --mem-per-gpu=32G
 #SBATCH --time 1-0
 #SBATCH --partition batch_ce_ugrad
 #SBATCH -w moana-y1
-#SBATCH -o /data/worrospeed/logs/test-%x-%2t.out
+#SBATCH -o /data/worrospeed/logs/test-%x.out
 
-version=alpha
+version=.Adam
 
 datasets_dir=/local_datasets/MLinP/train/scan/
 model_name=UNetV2
 model_save_dir=./model_save    
-model_pth_name=UNetV2alpha
+model_pth_name=UNetV2.Adam
 output_dir=/data/worrospeed/outputs/
 display_num=5
 

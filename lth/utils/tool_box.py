@@ -152,13 +152,22 @@ class Tester():
         self.image_output_dir = image_output_dir
         self.display_num = display_num
 
+
+        # 모델 파라미터 로딩
         pth_filename = join(model_save_dir, model_pth_name + '.pth')
-        print(pth_filename)
+        print(f"pth_filename: {pth_filename}")
         model.load_state_dict(torch.load(pth_filename))
         model.eval()
 
-        if not os.path.exists(self.image_output_dir):
-            os.makedirs(self.image_output_dir)
+        # 비교할 스캔 이미지, 디노이즈드 이미지 경로
+        self.scan_output_dir = join(self.image_output_dir, 'scan/')
+        self.denoise_output_dir = join(self.image_output_dir, 'denoise/')
+
+        if not os.path.exists(self.scan_output_dir):
+            os.makedirs(self.scan_output_dir)
+
+        if not os.path.exists(self.denoise_output_dir):
+            os.makedirs(self.denoise_output_dir)
 
     def test(self):
         self.model.eval()
@@ -166,8 +175,6 @@ class Tester():
 
             if iter+1 > self.display_num:
                 break
-
-            print(iter)
 
             noisy_image = noisy_image.to(device)
             noise = self.model(noisy_image)
@@ -178,11 +185,20 @@ class Tester():
             denoised_image = torch.clamp(denoised_image, 0, 1)  
             denoised_image = transforms.ToPILImage()(denoised_image)
 
+            scanned_image = noisy_image.cpu().squeeze(0)
+            scanned_image = torch.clamp(scanned_image, 0, 1)
+            scanned_image = transforms.ToPILImage()(scanned_image)
+
             output_filename = noisy_image_path[0]
-            denoised_filename = join(self.image_output_dir, output_filename.replace('\\','/').split('/')[-1][:-4] + '.png')
+
+            denoised_filename = join(self.denoise_output_dir, output_filename.replace('\\','/').split('/')[-1][:-4] + '.png')
             denoised_image.save(denoised_filename)
+
+            scaned_filename = join(self.scan_output_dir, output_filename.replace('\\','/').split('/')[-1][:-4] + '.png')
+            scanned_image.save(scaned_filename)
         
-        print(f'Saved denoised image: {denoised_filename}')
+            print(f'Saved scanned  image: {scaned_filename}')
+            print(f'Saved denoised image: {denoised_filename}')
 
 
 ############## 유틸리티 ################

@@ -1,18 +1,18 @@
 #!/bin/bash
 
-#SBATCH --job-name UNetV2
+#SBATCH --job-name UNetV2.Adam
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=4
 #SBATCH --mem-per-gpu=32G
 #SBATCH --time 1-0
 #SBATCH --partition batch_ce_ugrad
 #SBATCH -w moana-y1
-#SBATCH -o /data/worrospeed/logs/%x-%2t.out
+#SBATCH -o /data/worrospeed/logs/%x.out
 
-version=.VLoss
+version=.Adam
 
 epoch=200
-batch_size=64
+batch_size=32
 lr=0.1
 val_rate=0.1
 isCV=0

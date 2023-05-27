@@ -65,8 +65,7 @@ if __name__ == '__main__':
     ])
     noise_transform = Compose([
         ToTensor(),
-        NoiseReconstruct(),
-        Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+        NoiseReconstruct()
     ])
 
     # 데이터셋 설정
@@ -82,8 +81,8 @@ if __name__ == '__main__':
     val_size = len(dataset) - train_size
     train_set, valid_set = random_split(dataset,[train_size,val_size])
 
-    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True)
-    valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=True)
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=4)
+    valid_loader = DataLoader(valid_set, batch_size=batch_size, shuffle=True, num_workers=4)
 
 
     criterion_name = str(criterion).split('\n')[0]
