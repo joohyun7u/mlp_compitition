@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name pp2-c_800
+#SBATCH --job-name pp2-8
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
 #SBATCH --mem-per-gpu=29G
@@ -21,7 +21,7 @@ model=pix2pix2
 #tar -xcvf /data/datasets/ImageNet.tar -C /local_datasets/
 
 python -u $py_dir \
-        --epoch=800 \
+        --epoch=1600 \
         --batch_size=1 \
         --lr=0.01 \
         --model=$model \

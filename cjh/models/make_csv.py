@@ -30,7 +30,10 @@ parser.add_argument('--csv',            type=str,   default='./save/')
 parser.add_argument('--model',          type=str,   default='DnCNN')
 parser.add_argument('--output_dir',     type=str,   default='../../output')
 parser.add_argument('--load_pth',       type=str,   default='best_dncnn_model1.pth')
+parser.add_argument('--noise_train',    type=str,   default='False')
 args = parser.parse_args()
+bools = {'true' : True, 'True' : True, 'TRUE' : True, 'false' : False, 'False' : False, 'FALSE' : False}
+print('noise학습',args.noise_train)
 
 def load_img(filepath):
     img = cv2.imread(filepath)
@@ -147,7 +150,10 @@ if True:
         noisy_image = noisy_image.to(device)
         noise = model(noisy_image)
 
-        denoised_image = noisy_image - noise
+        if bools[args.noise_train]:
+            denoised_image = noisy_image - noise
+        else:
+            denoised_image = noise
         
         # denoised_image를 CPU로 이동하여 이미지 저장
         denoised_image = denoised_image.cpu().squeeze(0)

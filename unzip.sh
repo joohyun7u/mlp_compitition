@@ -74,5 +74,5 @@ else
     unzip $target_zip -d $fold
 fi
 stat $fold
-
+chmod 755 $base_dir -R
 du $base_dir
