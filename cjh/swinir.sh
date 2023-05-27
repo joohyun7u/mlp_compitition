@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name sir2
+#SBATCH --job-name sir230
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
 #SBATCH --mem-per-gpu=29G
@@ -31,7 +31,7 @@ python -u $py_dir \
         --noise_train=False \
         --val_best_save=False \
         --train_img_size=128 \
-        --noise=0 \
+        --noise=30 \
 
 
 echo 'done'
