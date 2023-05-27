@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 # if [ ! -f './gdown.pl' ]; then
 #     wget https://raw.github.com/circulosmeos/gdown.pl/master/gdown.pl
 #     chmod u+x gdown.pl
