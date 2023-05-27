@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name sir4
+#SBATCH --job-name sir2
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
 #SBATCH --mem-per-gpu=29G
@@ -22,7 +22,7 @@ model=swinir
 
 python -u $py_dir \
         --epoch=800 \
-        --batch_size=4 \
+        --batch_size=2 \
         --lr=2e-4 \
         --model=$model \
         --summary=False \

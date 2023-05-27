@@ -176,8 +176,8 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
                 optimizer.step()
                 running_loss += loss.item() * noisy_images.size(0)
                 tot_mae += cal_mae_loss(tensor_to_yuv(outputs),tensor_to_yuv(clean_images)) / len(train_dataset)
-                # if (iter+1) % int(total_iter/4) == 0:
-                print(f"\t[{iter+1}/{total_iter}] \tlr: {optimizer.param_groups[0]['lr']} \tTrain_Loss: {loss.item():.4f}")
+                if (iter+1) % int(total_iter/8) == 0:
+                    print(f"\t[{iter+1}/{total_iter}] \tlr: {optimizer.param_groups[0]['lr']} \tTrain_Loss: {loss.item():.4f}")
                 scheduler.step()
             epoch_loss = running_loss / len(train_dataset)
             val_loss = val(noise)
