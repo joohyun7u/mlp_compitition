@@ -2,15 +2,12 @@
 # SwinIR: Image Restoration Using Swin Transformer, https://arxiv.org/abs/2108.10257
 # Originally Written by Ze Liu, Modified by Jingyun Liang.
 # -----------------------------------------------------------------------------------
-
 import math
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import torch.utils.checkpoint as checkpoint
 from timm.models.layers import DropPath, to_2tuple, trunc_normal_
 
-import torchsummary
 
 class Mlp(nn.Module):
     def __init__(self, in_features, hidden_features=None, out_features=None, act_layer=nn.GELU, drop=0.):
@@ -398,7 +395,7 @@ class BasicLayer(nn.Module):
     def forward(self, x, x_size):
         for blk in self.blocks:
             if self.use_checkpoint:
-                x = checkpoint.checkpoint(blk, x, x_size)
+                x = checkpoint.checkpoint(blk, x)
             else:
                 x = blk(x, x_size)
         if self.downsample is not None:
@@ -617,40 +614,14 @@ class UpsampleOneStep(nn.Sequential):
 
 
 class SwinIR(nn.Module):
-    r""" SwinIR
-        A PyTorch impl of : `SwinIR: Image Restoration Using Swin Transformer`, based on Swin Transformer.
-
-    Args:
-        img_size (int | tuple(int)): Input image size. Default 64
-        patch_size (int | tuple(int)): Patch size. Default: 1
-        in_chans (int): Number of input image channels. Default: 3
-        embed_dim (int): Patch embedding dimension. Default: 96
-        depths (tuple(int)): Depth of each Swin Transformer layer.
-        num_heads (tuple(int)): Number of attention heads in different layers.
-        window_size (int): Window size. Default: 7
-        mlp_ratio (float): Ratio of mlp hidden dim to embedding dim. Default: 4
-        qkv_bias (bool): If True, add a learnable bias to query, key, value. Default: True
-        qk_scale (float): Override default qk scale of head_dim ** -0.5 if set. Default: None
-        drop_rate (float): Dropout rate. Default: 0
-        attn_drop_rate (float): Attention dropout rate. Default: 0
-        drop_path_rate (float): Stochastic depth rate. Default: 0.1
-        norm_layer (nn.Module): Normalization layer. Default: nn.LayerNorm.
-        ape (bool): If True, add absolute position embedding to the patch embedding. Default: False
-        patch_norm (bool): If True, add normalization after patch embedding. Default: True
-        use_checkpoint (bool): Whether to use checkpointing to save memory. Default: False
-        upscale: Upscale factor. 2/3/4/8 for image SR, 1 for denoising and compress artifact reduction
-        img_range: Image range. 1. or 255.
-        upsampler: The reconstruction reconstruction module. 'pixelshuffle'/'pixelshuffledirect'/'nearest+conv'/None
-        resi_connection: The convolutional block before residual connection. '1conv'/'3conv'
-    """
-
     def __init__(self, img_size=64, patch_size=1, in_chans=3,
                  embed_dim=96, depths=[6, 6, 6, 6], num_heads=[6, 6, 6, 6],
                  window_size=7, mlp_ratio=4., qkv_bias=True, qk_scale=None,
                  drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1,
                  norm_layer=nn.LayerNorm, ape=False, patch_norm=True,
-                 use_checkpoint=False, upscale=2, img_range=1., upsampler='', resi_connection='1conv',
+                 use_checkpoint=False, upscale=2, img_range=1., resi_connection='1conv',
                  **kwargs):
+        
         super(SwinIR, self).__init__()
         num_in_ch = in_chans
         num_out_ch = in_chans
@@ -662,8 +633,6 @@ class SwinIR(nn.Module):
         else:
             self.mean = torch.zeros(1, 1, 1, 1)
         self.upscale = upscale
-        self.upsampler = upsampler
-        self.window_size = window_size
 
         #####################################################################################################
         ################################### 1, shallow feature extraction ###################################
@@ -738,29 +707,8 @@ class SwinIR(nn.Module):
 
         #####################################################################################################
         ################################ 3, high quality image reconstruction ################################
-        if self.upsampler == 'pixelshuffle':
-            # for classical SR
-            self.conv_before_upsample = nn.Sequential(nn.Conv2d(embed_dim, num_feat, 3, 1, 1),
-                                                      nn.LeakyReLU(inplace=True))
-            self.upsample = Upsample(upscale, num_feat)
-            self.conv_last = nn.Conv2d(num_feat, num_out_ch, 3, 1, 1)
-        elif self.upsampler == 'pixelshuffledirect':
-            # for lightweight SR (to save parameters)
-            self.upsample = UpsampleOneStep(upscale, embed_dim, num_out_ch,
-                                            (patches_resolution[0], patches_resolution[1]))
-        elif self.upsampler == 'nearest+conv':
-            # for real-world SR (less artifacts)
-            self.conv_before_upsample = nn.Sequential(nn.Conv2d(embed_dim, num_feat, 3, 1, 1),
-                                                      nn.LeakyReLU(inplace=True))
-            self.conv_up1 = nn.Conv2d(num_feat, num_feat, 3, 1, 1)
-            if self.upscale == 4:
-                self.conv_up2 = nn.Conv2d(num_feat, num_feat, 3, 1, 1)
-            self.conv_hr = nn.Conv2d(num_feat, num_feat, 3, 1, 1)
-            self.conv_last = nn.Conv2d(num_feat, num_out_ch, 3, 1, 1)
-            self.lrelu = nn.LeakyReLU(negative_slope=0.2, inplace=True)
-        else:
-            # for image denoising and JPEG compression artifact reduction
-            self.conv_last = nn.Conv2d(embed_dim, num_out_ch, 3, 1, 1)
+
+        self.conv_last = nn.Conv2d(embed_dim, num_out_ch, 3, 1, 1)
 
         self.apply(self._init_weights)
 
@@ -781,13 +729,6 @@ class SwinIR(nn.Module):
     def no_weight_decay_keywords(self):
         return {'relative_position_bias_table'}
 
-    def check_image_size(self, x):
-        _, _, h, w = x.size()
-        mod_pad_h = (self.window_size - h % self.window_size) % self.window_size
-        mod_pad_w = (self.window_size - w % self.window_size) % self.window_size
-        x = F.pad(x, (0, mod_pad_w, 0, mod_pad_h), 'reflect')
-        return x
-
     def forward_features(self, x):
         x_size = (x.shape[2], x.shape[3])
         x = self.patch_embed(x)
@@ -804,41 +745,17 @@ class SwinIR(nn.Module):
         return x
 
     def forward(self, x):
-        H, W = x.shape[2:]
-        x = self.check_image_size(x)
-        
         self.mean = self.mean.type_as(x)
         x = (x - self.mean) * self.img_range
 
-        if self.upsampler == 'pixelshuffle':
-            # for classical SR
-            x = self.conv_first(x)
-            x = self.conv_after_body(self.forward_features(x)) + x
-            x = self.conv_before_upsample(x)
-            x = self.conv_last(self.upsample(x))
-        elif self.upsampler == 'pixelshuffledirect':
-            # for lightweight SR
-            x = self.conv_first(x)
-            x = self.conv_after_body(self.forward_features(x)) + x
-            x = self.upsample(x)
-        elif self.upsampler == 'nearest+conv':
-            # for real-world SR
-            x = self.conv_first(x)
-            x = self.conv_after_body(self.forward_features(x)) + x
-            x = self.conv_before_upsample(x)
-            x = self.lrelu(self.conv_up1(torch.nn.functional.interpolate(x, scale_factor=2, mode='nearest')))
-            if self.upscale == 4:
-                x = self.lrelu(self.conv_up2(torch.nn.functional.interpolate(x, scale_factor=2, mode='nearest')))
-            x = self.conv_last(self.lrelu(self.conv_hr(x)))
-        else:
-            # for image denoising and JPEG compression artifact reduction
-            x_first = self.conv_first(x)
-            res = self.conv_after_body(self.forward_features(x_first)) + x_first
-            x = x + self.conv_last(res)
+        x_first = self.conv_first(x)
+        res = self.conv_after_body(self.forward_features(x_first)) + x_first
+        x = x + self.conv_last(res)
 
         x = x / self.img_range + self.mean
 
-        return x[:, :, :H*self.upscale, :W*self.upscale]
+        return x
+    
 
     def flops(self):
         flops = 0
@@ -848,18 +765,17 @@ class SwinIR(nn.Module):
         for i, layer in enumerate(self.layers):
             flops += layer.flops()
         flops += H * W * 3 * self.embed_dim * self.embed_dim
-        flops += self.upsample.flops()
         return flops
-
-
-if __name__ == '__main__':
-    window_size = 1
-    height = 400
-    width = 400
-    model = SwinIR(upscale=1, img_size=(height, width),
-                   window_size=window_size, img_range=1., depths=[6, 6, 6, 6],
-                   embed_dim=60, num_heads=[6, 6, 6, 6], mlp_ratio=2, upsampler='pixelshuffledirect').to(device='cuda')
     
-    print(height, width, model.flops() / 1e6)
+##################################################################################################33
 
-    torchsummary.summary(model,input_size=(3,400,400))
+window_size = 8
+height = 64
+width = 64
+model = SwinIR(img_size= (height,  width),
+               window_size=window_size, img_range=1., depths=[6, 6, 6, 6, 6],
+               embed_dim=180, num_heads=[6, 6, 6, 6, 6], mlp_ratio=2).to('cuda')
+
+
+
+    

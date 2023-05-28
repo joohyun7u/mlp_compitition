@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name UNetV2.Adam
+#SBATCH --job-name SwinIR.init
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=4
 #SBATCH --mem-per-gpu=32G
@@ -9,13 +9,13 @@
 #SBATCH -w moana-y1
 #SBATCH -o /data/worrospeed/logs/test-%x.out
 
-version=.Adam
+version=.init
 
-datasets_dir=/local_datasets/MLinP/train/scan/
-model_name=UNetV2
+datasets_dir=/local_datasets/MLinP/test/scan/
+model_name=SwinIR
 model_save_dir=./model_save    
-model_pth_name=UNetV2.Adam
-output_dir=/data/worrospeed/outputs/
+model_pth_name=SwinIR.init
+output_dir=./test_output
 display_num=5
 
 python -u tester.py \

@@ -48,28 +48,33 @@ if __name__ == '__main__':
     model.eval()
 
     # 전처리
-    noisy_transform = Compose([
+    test_transform = Compose([
         ToTensor(),
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
     # 데이터셋 설정
-    noisy_dataset = T.TestDatastLoader(
+    test_dataset = T.TestDatastLoader(
         noisy_image_paths = dataset_dir, 
-        noisy_transform = noisy_transform
+        noisy_transform = test_transform
     )
 
     # 데이터 로더 설정
-    noisy_loader = DataLoader(noisy_dataset, batch_size=1, shuffle=False)
+    test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
     # 테스트
     tester = T.Tester(
         model = model,
         model_name = model_name,
+        image_size = (512,512),
+        window_size = 64, 
         model_save_dir = model_save_path,
         model_pth_name = model_pth_name,
-        test_data_loader = noisy_loader,
+        test_data_loader = test_loader,
         image_output_dir = image_output_dir,
         display_num = display_num
     )
+    
     tester.test()
+
+    tester.make_csv()

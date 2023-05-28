@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name UNetV2.Adam
+#SBATCH --job-name SwinIR.init
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=4
 #SBATCH --mem-per-gpu=32G
@@ -9,28 +9,26 @@
 #SBATCH -w moana-y1
 #SBATCH -o /data/worrospeed/logs/%x.out
 
-version=.Adam
+version=.init
 
-epoch=200
-batch_size=32
-lr=0.1
+total_iteration=1800000
+batch_size=16
+learning_rate=2e-4
 val_rate=0.1
-isCV=0
 datasets_dir=/local_datasets/MLinP/
-model_name=UNetV2
+model_name=SwinIR
 model_save_dir=./model_save/    
-loss_save_dir=./loss_save/    
+validation_output_dir=./valid_output/    
 
 python -u trainer.py \
         --version=$version \
-        --epoch=$epoch \
+        --total_iteration=$total_iteration \
         --batch_size=$batch_size \
-        --lr=$lr \
+        --learning_rate=$learning_rate \
         --val_rate=$val_rate \
-        --isCV=$isCV \
         --datasets_dir=$datasets_dir \
-        --model=$model_name \
+        --model_name=$model_name \
         --model_save_dir=$model_save_dir \
-        --loss_save_dir=$loss_save_dir  
+        --validation_output_dir=$validation_output_dir  
         
 exit 0
