@@ -97,7 +97,7 @@ if __name__ == '__main__':
         train_data_loader = train_loader,
         valid_data_loader = valid_loader,
         validation_output_dir = validation_output_dir,
-        validation_checkpoint = 50,
+        validation_checkpoint = 10000,
         optimizer = optimizer,
         criterion = criterion,
         scheduler = scheduler,

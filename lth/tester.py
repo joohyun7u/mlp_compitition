@@ -76,5 +76,4 @@ if __name__ == '__main__':
     )
     
     tester.test()
-
     tester.make_csv()
