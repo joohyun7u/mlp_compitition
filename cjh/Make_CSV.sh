@@ -13,15 +13,15 @@ dataset_dir=/home/joohyun7u/dataset/ff
 
 py_dir=./models/make_csv.py
 save_dir=./save/
-load_pth=best_pix2pix2_model6_g.pth
-# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix
-model=pix2pix2
+load_pth=best_swinir_model22_clean.pth
+# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix, swinir
+model=swinir
 
 
 source /data/joohyun7u/cjh/sh/setup.sh
 current_time=$(date "+%Y%m%d-%H:%M:%S")
 echo $current_time
-output_dir='../../output'
+output_dir='./output'
 rm -rf $output_dir
 #lrs=(4e-2, 8e-2, 4e-3, 8e-3, 4e-4, 4e-5)
 #lr="{lrs[SLURM_ARRAY_TASK_ID]}"

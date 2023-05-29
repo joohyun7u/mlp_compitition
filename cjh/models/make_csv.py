@@ -13,6 +13,8 @@ from torchvision.datasets import ImageFolder
 from torchvision.transforms import ToTensor, Normalize, Compose
 import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN
 import models.DRLN as DRLN, models.pix2pix as pix2pix, models.pix2pix2 as pix2pix2
+from models.network_swinir import SwinIR as net
+from utils import util_calculate_psnr_ssim as util
 import argparse
 import gc
 gc.collect()
@@ -112,6 +114,10 @@ elif m == 'pix2pix':
     model = pix2pix.Generator()
 elif m == 'pix2pix2':
     model = pix2pix2.GeneratorUNet()
+elif m == 'swinir':
+    model = net(upscale=1, in_chans=3, img_size=128, window_size=8,
+                    img_range=1., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
+                    mlp_ratio=2, upsampler='', resi_connection='1conv')
 else:
     model = DnCNN.DnCNN()
 print(args.csv+args.load_pth)
@@ -144,7 +150,7 @@ noisy_loader = DataLoader(noisy_dataset, batch_size=1, shuffle=False)
 
 
 
-if True:
+with torch.no_grad():
     # 이미지 denoising 및 저장
     for noisy_image, noisy_image_path in noisy_loader:
         noisy_image = noisy_image.to(device)

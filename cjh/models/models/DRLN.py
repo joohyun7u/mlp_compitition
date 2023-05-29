@@ -78,47 +78,47 @@ class DRLN(nn.Module):
         
         self.head = nn.Conv2d(3, chs, 3, 1, 1)
 
-        # self.b1 = Block(chs, chs)
-        # self.b2 = Block(chs, chs)
-        # self.b3 = Block(chs, chs)
-        # self.b4 = Block(chs, chs)
-        # self.b5 = Block(chs, chs)
-        # self.b6 = Block(chs, chs)
+        self.b1 = Block(chs, chs)
+        self.b2 = Block(chs, chs)
+        self.b3 = Block(chs, chs)
+        self.b4 = Block(chs, chs)
+        self.b5 = Block(chs, chs)
+        self.b6 = Block(chs, chs)
         self.b7 = Block(chs, chs)
         self.b8 = Block(chs, chs)
-        # self.b9 = Block(chs, chs)
-        # self.b10 = Block(chs, chs)
-        # self.b11 = Block(chs, chs)
-        # self.b12 = Block(chs, chs)
-        # self.b13 = Block(chs, chs)
-        # self.b14 = Block(chs, chs)
-        # self.b15 = Block(chs, chs)
-        # self.b16 = Block(chs, chs)
+        self.b9 = Block(chs, chs)
+        self.b10 = Block(chs, chs)
+        self.b11 = Block(chs, chs)
+        self.b12 = Block(chs, chs)
+        self.b13 = Block(chs, chs)
+        self.b14 = Block(chs, chs)
+        self.b15 = Block(chs, chs)
+        self.b16 = Block(chs, chs)
         self.b17 = Block(chs, chs)
         self.b18 = Block(chs, chs)
         self.b19 = Block(chs, chs)
-        # self.b20 = Block(chs, chs)
+        self.b20 = Block(chs, chs)
 
-        # self.c1 = ops.BasicBlock(chs*2, chs, 3, 1, 1)
-        # self.c2 = ops.BasicBlock(chs*3, chs, 3, 1, 1)
-        # self.c3 = ops.BasicBlock(chs*4, chs, 3, 1, 1)
-        # self.c4 = ops.BasicBlock(chs*2, chs, 3, 1, 1)
-        # self.c5 = ops.BasicBlock(chs*3, chs, 3, 1, 1)
-        # self.c6 = ops.BasicBlock(chs*4, chs, 3, 1, 1)
+        self.c1 = ops.BasicBlock(chs*2, chs, 3, 1, 1)
+        self.c2 = ops.BasicBlock(chs*3, chs, 3, 1, 1)
+        self.c3 = ops.BasicBlock(chs*4, chs, 3, 1, 1)
+        self.c4 = ops.BasicBlock(chs*2, chs, 3, 1, 1)
+        self.c5 = ops.BasicBlock(chs*3, chs, 3, 1, 1)
+        self.c6 = ops.BasicBlock(chs*4, chs, 3, 1, 1)
         self.c7 = ops.BasicBlock(chs*2, chs, 3, 1, 1)
         self.c8 = ops.BasicBlock(chs*3, chs, 3, 1, 1)
-        # self.c9 = ops.BasicBlock(chs*4, chs, 3, 1, 1)
-        # self.c10 = ops.BasicBlock(chs*2, chs, 3, 1, 1)
-        # self.c11 = ops.BasicBlock(chs*3, chs, 3, 1, 1)
-        # self.c12 = ops.BasicBlock(chs*4, chs, 3, 1, 1)
-        # self.c13 = ops.BasicBlock(chs*2, chs, 3, 1, 1)
-        # self.c14 = ops.BasicBlock(chs*3, chs, 3, 1, 1)
-        # self.c15 = ops.BasicBlock(chs*4, chs, 3, 1, 1)
-        # self.c16 = ops.BasicBlock(chs*5, chs, 3, 1, 1)
+        self.c9 = ops.BasicBlock(chs*4, chs, 3, 1, 1)
+        self.c10 = ops.BasicBlock(chs*2, chs, 3, 1, 1)
+        self.c11 = ops.BasicBlock(chs*3, chs, 3, 1, 1)
+        self.c12 = ops.BasicBlock(chs*4, chs, 3, 1, 1)
+        self.c13 = ops.BasicBlock(chs*2, chs, 3, 1, 1)
+        self.c14 = ops.BasicBlock(chs*3, chs, 3, 1, 1)
+        self.c15 = ops.BasicBlock(chs*4, chs, 3, 1, 1)
+        self.c16 = ops.BasicBlock(chs*5, chs, 3, 1, 1)
         self.c17 = ops.BasicBlock(chs*2, chs, 3, 1, 1)
         self.c18 = ops.BasicBlock(chs*3, chs, 3, 1, 1)
         self.c19 = ops.BasicBlock(chs*4, chs, 3, 1, 1)
-        # self.c20 = ops.BasicBlock(chs*5, chs, 3, 1, 1)
+        self.c20 = ops.BasicBlock(chs*5, chs, 3, 1, 1)
 
         self.upsample = ops.UpsampleBlock(chs, self.scale , multi_scale=False)
         #self.convert = ops.ConvertBlock(chs, chs, 20)
@@ -129,85 +129,81 @@ class DRLN(nn.Module):
         x = self.head(x)
         c0 = o0 = x
 
-        # b1 = self.b1(o0)
-        # c1 = torch.cat([c0, b1], dim=1)
-        # o1 = self.c1(c1)
+        b1 = self.b1(o0)
+        c1 = torch.cat([c0, b1], dim=1)
+        o1 = self.c1(c1)
         
-        # b2 = self.b2(o1)
-        # c2 = torch.cat([c1, b2], dim=1)
-        # o2 = self.c2(c2)
+        b2 = self.b2(o1)
+        c2 = torch.cat([c1, b2], dim=1)
+        o2 = self.c2(c2)
         
-        # b3 = self.b3(o2)
-        # c3 = torch.cat([c2, b3], dim=1)
-        # o3 = self.c3(c3)
-        # a1 = o3 + c0
+        b3 = self.b3(o2)
+        c3 = torch.cat([c2, b3], dim=1)
+        o3 = self.c3(c3)
+        a1 = o3 + c0
 
-        # b4 = self.b4(a1)
-        # c4 = torch.cat([o3, b4], dim=1)
-        # o4 = self.c4(c4)
+        b4 = self.b4(a1)
+        c4 = torch.cat([o3, b4], dim=1)
+        o4 = self.c4(c4)
  
-        # b5 = self.b5(a1)
-        # c5 = torch.cat([c4, b5], dim=1)
-        # o5 = self.c5(c5)
+        b5 = self.b5(a1)
+        c5 = torch.cat([c4, b5], dim=1)
+        o5 = self.c5(c5)
 
-        # b6 = self.b6(o5)
-        # c6 = torch.cat([c5, b6], dim=1)
-        # o6 = self.c6(c6)
-        # a2 = o6 + a1
+        b6 = self.b6(o5)
+        c6 = torch.cat([c5, b6], dim=1)
+        o6 = self.c6(c6)
+        a2 = o6 + a1
 
-        b7 = self.b7(o0)
-        c7 = torch.cat([c0, b7], dim=1)
-        # b7 = self.b7(a2)
-        # c7 = torch.cat([o6, b7], dim=1)
+        b7 = self.b7(a2)
+        c7 = torch.cat([o6, b7], dim=1)
         o7 = self.c7(c7)
 
         b8 = self.b8(o7)
         c8 = torch.cat([c7, b8], dim=1)
         o8 = self.c8(c8)
 
-        # b9 = self.b9(o8)
-        # c9 = torch.cat([c8, b9], dim=1)
-        # o9 = self.c9(c9)
-        a3 = o8 + c0
-        # a3 = o9 + a2
+        b9 = self.b9(o8)
+        c9 = torch.cat([c8, b9], dim=1)
+        o9 = self.c9(c9)
+        a3 = o9 + a2
 
-        # b10 = self.b10(a3)
-        # c10 = torch.cat([o9, b10], dim=1)
-        # o10 = self.c10(c10)
-
-
-        # b11 = self.b11(o10)
-        # c11 = torch.cat([c10, b11], dim=1)
-        # o11 = self.c11(c11)
-
-        # b12 = self.b12(o11)
-        # c12 = torch.cat([c11, b12], dim=1)
-        # o12 = self.c12(c12)
-        # a4 = o12 + a3
+        b10 = self.b10(a3)
+        c10 = torch.cat([o9, b10], dim=1)
+        o10 = self.c10(c10)
 
 
-        # b13 = self.b13(a4)
-        # c13 = torch.cat([o12, b13], dim=1)
-        # o13 = self.c13(c13)
+        b11 = self.b11(o10)
+        c11 = torch.cat([c10, b11], dim=1)
+        o11 = self.c11(c11)
 
-        # b14 = self.b14(o13)
-        # c14 = torch.cat([c13, b14], dim=1)
-        # o14 = self.c14(c14)
+        b12 = self.b12(o11)
+        c12 = torch.cat([c11, b12], dim=1)
+        o12 = self.c12(c12)
+        a4 = o12 + a3
 
 
-        # b15 = self.b15(o14)
-        # c15 = torch.cat([c14, b15], dim=1)
-        # o15 = self.c15(c15)
+        b13 = self.b13(a4)
+        c13 = torch.cat([o12, b13], dim=1)
+        o13 = self.c13(c13)
 
-        # b16 = self.b16(o15)
-        # c16 = torch.cat([c15, b16], dim=1)
-        # o16 = self.c16(c16)
-        # a5 = o16 + a4
+        b14 = self.b14(o13)
+        c14 = torch.cat([c13, b14], dim=1)
+        o14 = self.c14(c14)
 
-        b17 = self.b17(a3)
-        c17 = torch.cat([o8, b17], dim=1)
-        # b17 = self.b17(a5)
-        # c17 = torch.cat([o16, b17], dim=1)
+
+        b15 = self.b15(o14)
+        c15 = torch.cat([c14, b15], dim=1)
+        o15 = self.c15(c15)
+
+        b16 = self.b16(o15)
+        c16 = torch.cat([c15, b16], dim=1)
+        o16 = self.c16(c16)
+        a5 = o16 + a4
+
+
+        b17 = self.b17(a5)
+        c17 = torch.cat([o16, b17], dim=1)
         o17 = self.c17(c17)
 
         b18 = self.b18(o17)
@@ -219,11 +215,10 @@ class DRLN(nn.Module):
         c19 = torch.cat([c18, b19], dim=1)
         o19 = self.c19(c19)
 
-        # b20 = self.b20(o19)
-        # c20 = torch.cat([c19, b20], dim=1)
-        # o20 = self.c20(c20)
-        a6 = o19 + a3
-        # a6 = o20 + a5
+        b20 = self.b20(o19)
+        c20 = torch.cat([c19, b20], dim=1)
+        o20 = self.c20(c20)
+        a6 = o20 + a5
 
         #c_out = torch.cat([b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15, b16, b17, b18, b19, b20], dim=1)
         

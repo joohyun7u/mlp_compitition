@@ -70,20 +70,18 @@ def show_images(real_a, real_b, fake_b):
 # 이미지 로드 함수 정의
 def load_img(filepath, noise=0):
     img = cv2.imread(filepath)
-    if noise:
-        img = img + np.random.normal(0, noise , img.shape)
-    img = img.astype(np.float32)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     return img
 
 
 # 커스텀 데이터셋 클래스 정의
 class CustomDataset(data.Dataset):
-    def __init__(self, noisy_image_paths, clean_image_paths, patch_size = 128, transform=None, noisy_train = False):
+    def __init__(self, noisy_image_paths, clean_image_paths, patch_size = 128, transform=None, clean_transform=None, noisy_train = False):
         # super(Dataset, self).__init__() # 초기화 상속
         self.clean_image_paths = [join(clean_image_paths, x) for x in listdir(clean_image_paths)]# a는 건물 사진
         self.noisy_image_paths = [join(noisy_image_paths, x) for x in listdir(noisy_image_paths)]# b는 Segmentation Mask
         self.transform = transform
+        self.clean_transform = clean_transform
         self.patch_size = patch_size
         self.noisy_train = noisy_train
         # self.image_filenames = [x for x in os.listdir(self.a_path)] # a 폴더에 있는 파일 목록
@@ -109,7 +107,7 @@ class CustomDataset(data.Dataset):
         # transform 적용
         if self.transform:
             noisy_image = self.transform(noisy_image)
-            clean_image = self.transform(clean_image)
+            clean_image = self.clean_transform(clean_image)
         
         return noisy_image, clean_image
 
@@ -135,6 +133,7 @@ class loss_save():
 def tensor_to_yuv(images):
     i =[]
     for image in images:
+        image = torch.clamp(image, 0, 1)  # 이미지 값을 0과 1 사이로 클램핑
         image = tf.ToPILImage()(image)
         image = np.array(image)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
@@ -174,11 +173,12 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
                     loss = criterion(outputs, clean_images)
                 loss.backward()
                 optimizer.step()
+                scheduler.step()
                 running_loss += loss.item() * noisy_images.size(0)
                 tot_mae += cal_mae_loss(tensor_to_yuv(outputs),tensor_to_yuv(clean_images)) / len(train_dataset)
                 if (iter+1) % int(total_iter/8) == 0:
                     print(f"\t[{iter+1}/{total_iter}] \tlr: {optimizer.param_groups[0]['lr']} \tTrain_Loss: {loss.item():.4f}")
-                scheduler.step()
+                
             epoch_loss = running_loss / len(train_dataset)
             val_loss = val(noise)
             loss_pth.add(args.model,epoch,epoch_loss,val_loss,loss_file)
@@ -261,6 +261,10 @@ if __name__ == '__main__':
     model = net(upscale=1, in_chans=3, img_size=args.train_img_size, window_size=8,
                     img_range=1., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
                     mlp_ratio=2, upsampler='', resi_connection='1conv').to(device)
+    
+    # model = net(upscale=1, in_chans=3, img_size=args.train_img_size, window_size=8,
+    #                 img_range=1., embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
+    #                 ).to(device)
     # img_E = utils_model.test_mode(model, img_L, mode=2, min_size=480, sf=sf)  # use this to avoid 'out of memery' issue.
 
     param_key_g = 'params'
@@ -305,7 +309,7 @@ if __name__ == '__main__':
     # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
     # scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
     # scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, 'min')
-    criterion = CharbonnierLoss(1e-9)
+    criterion = CharbonnierLoss(1e-3)
     args.loss = 'CharbonnierLoss'
     scheduler = optim.lr_scheduler.MultiStepLR(optimizer,[800000, 1200000, 1400000, 1500000, 1600000],
                                                0.5)
@@ -322,6 +326,14 @@ if __name__ == '__main__':
         Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
 
+    train_clean_transform = Compose([
+        # BilateralBlur(args.train_img_size),
+        # tf.ToPILImage(),
+        # tf.RandAugment(),
+        # ToTensor(),
+        ToTensor()
+    ])
+
     val_transform = Compose([
         # BilateralBlur(args.train_img_size),
         ToTensor(),
@@ -329,7 +341,7 @@ if __name__ == '__main__':
     ])
 
     # 커스텀 데이터셋 인스턴스 생성
-    dataset = CustomDataset(noisy_image_paths, clean_image_paths, args.train_img_size, transform=train_transform, noisy_train = bools[args.noise_train])
+    dataset = CustomDataset(noisy_image_paths, clean_image_paths, args.train_img_size, transform=train_transform, clean_transform = train_clean_transform, noisy_train = bools[args.noise_train])
     
     # val 분할
     train_size = int(len(dataset)*(1-args.val))
