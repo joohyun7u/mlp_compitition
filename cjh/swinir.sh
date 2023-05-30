@@ -15,14 +15,14 @@ current_time=$(date "+%Y%m%d-%H:%M:%S")
 echo $current_time
 py_dir=./models/swinir.py
 dataset_dir=/home/joohyun7u/dataset/ff
-# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix, pix2pix2, swinir
-model=swinir
+# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix, pix2pix2, swinir, swinirv2
+model=swinirv2
 
 #tar -xcvf /data/datasets/ImageNet.tar -C /local_datasets/
 
 python -u $py_dir \
         --epoch=800 \
-        --batch_size=2 \
+        --batch_size=32 \
         --lr=2e-4 \
         --model=$model \
         --summary=False \
@@ -30,7 +30,7 @@ python -u $py_dir \
         --loss=2 \
         --noise_train=False \
         --val_best_save=False \
-        --train_img_size=128 \
+        --train_img_size=32 \
 
 
 echo 'done'

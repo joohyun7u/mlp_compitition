@@ -18,6 +18,7 @@ import os
 import torch
 import requests
 from models.network_swinir import SwinIR as net
+from models.swin_transformer_v2 import SwinTransformerV2 as net2
 from utils import util_calculate_psnr_ssim as util
 from utils.param import param_check, seed_everything
 import utils.vgg_loss, utils.vgg_perceptual_loss
@@ -178,7 +179,7 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
                 cal_mae = cal_mae_loss(tensor_to_yuv(outputs),tensor_to_yuv(clean_images))
                 tot_mae += cal_mae
                 if (iter+1) % int(total_iter/8) == 0:
-                    print(f"\t[{iter+1}/{total_iter}] \tlr: {optimizer.param_groups[0]['lr']} \tTrain_Loss: {loss.item():.4f}\tMAE: {cal_mae:.4f}")
+                    print(f"\t[{iter+1}/{total_iter}] \tlr: {optimizer.param_groups[0]['lr']} \tTrain_Loss: {loss.item():.4f}\tMAE: {cal_mae/noisy_images.size(0):.4f}")
                 
             epoch_loss = running_loss / len(train_dataset)
             val_loss = val(noise)
@@ -258,7 +259,12 @@ if __name__ == '__main__':
     noisy_image_paths = dataset_dir+'/train/scan'
     clean_image_paths = dataset_dir+'/train/clean'
     print('진행중?')
-    model = net(upscale=1, in_chans=3, img_size=args.train_img_size, window_size=8,
+    if args.model == 'swinir':
+        model = net(upscale=1, in_chans=3, img_size=args.train_img_size, window_size=8,
+                    img_range=1., depths=[6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6],
+                    mlp_ratio=2, upsampler='', resi_connection='1conv').to(device)
+    elif args.model == 'swinirv2':
+        model = net(upscale=1, in_chans=3, img_size=args.train_img_size, window_size=8,
                     img_range=1., depths=[6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6],
                     mlp_ratio=2, upsampler='', resi_connection='1conv').to(device)
     
@@ -300,11 +306,11 @@ if __name__ == '__main__':
         criterion = CharbonnierLoss(1e-3)
     args.loss = 'CharbonnierLoss'
     scheduler = optim.lr_scheduler.MultiStepLR(optimizer,
-                            [250000, 400000, 450000, 475000, 500000],
+                            [250000, 400000, 550000, 650000, 700000],
                             0.5, 
                             verbose = False
                 )
-    
+   
     print("lr: ", optimizer.param_groups[0]['lr'])
     
 
