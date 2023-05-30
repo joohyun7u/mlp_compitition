@@ -175,27 +175,27 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
                 optimizer.step()
                 scheduler.step()
                 running_loss += loss.item() * noisy_images.size(0)
-                tot_mae += cal_mae_loss(tensor_to_yuv(outputs),tensor_to_yuv(clean_images)) / len(train_dataset)
+                cal_mae = cal_mae_loss(tensor_to_yuv(outputs),tensor_to_yuv(clean_images))
+                tot_mae += cal_mae
                 if (iter+1) % int(total_iter/8) == 0:
-                    print(f"\t[{iter+1}/{total_iter}] \tlr: {optimizer.param_groups[0]['lr']} \tTrain_Loss: {loss.item():.4f}")
+                    print(f"\t[{iter+1}/{total_iter}] \tlr: {optimizer.param_groups[0]['lr']} \tTrain_Loss: {loss.item():.4f}\tMAE: {cal_mae:.4f}")
                 
             epoch_loss = running_loss / len(train_dataset)
             val_loss = val(noise)
             loss_pth.add(args.model,epoch,epoch_loss,val_loss,loss_file)
-            print(f'Epoch {epoch+1}/{num_epochs} \tTime: {time.time()-epoch_time:.0f}초 \
-                \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f} \tMAE : {tot_mae:.5f}')
+            print(f'Epoch {epoch+1}/{num_epochs} \tTime: {time.time()-epoch_time:.0f}초 \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f} \tMAE : {tot_mae/len(train_dataset):.5f}')
 
         # 현재 epoch의 loss가 최소 loss보다 작으면 모델 갱신
             if save_val:
                 if val_loss < best_val_loss:
                     best_val_loss = val_loss
                     torch.save(model.state_dict(), model_file)
-                    print(f"{epoch+1}epoch 모델 저장 완료")
+                    print(f"\t{epoch+1}epoch 모델 저장 완료")
             else:
                 if epoch_loss < best_loss:
                     best_loss = epoch_loss
                     torch.save(model.state_dict(), model_file)
-                    print(f"{epoch+1}epoch 모델 저장 완료")
+                    print(f"\t{epoch+1}epoch 모델 저장 완료")
 
 
 def val(noise = True):
@@ -259,7 +259,7 @@ if __name__ == '__main__':
     clean_image_paths = dataset_dir+'/train/clean'
     print('진행중?')
     model = net(upscale=1, in_chans=3, img_size=args.train_img_size, window_size=8,
-                    img_range=1., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
+                    img_range=1., depths=[6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6],
                     mlp_ratio=2, upsampler='', resi_connection='1conv').to(device)
     
     # model = net(upscale=1, in_chans=3, img_size=args.train_img_size, window_size=8,
@@ -267,31 +267,13 @@ if __name__ == '__main__':
     #                 ).to(device)
     # img_E = utils_model.test_mode(model, img_L, mode=2, min_size=480, sf=sf)  # use this to avoid 'out of memery' issue.
 
-    param_key_g = 'params'
-    # if m == 'pix2pix' or m == 'pix2pix2': 
-    #     print('성공)')
-    #     model_type = True
-    #     print('총 : ',param_check(G) + param_check(D))
-    #     print('총 : ',param_check(G, True) + param_check(D, True))
-    #     if args.summary == 'True' or args.summary == 'true':
-    #         print(summary(G, (3, 128, 128)))
-    #         print(summary(D, (6, 128, 128)))
-    #     criterionL1 = nn.L1Loss().to(device)
-    #     criterionMSE = nn.MSELoss().to(device) 
-
-    #     # Setup optimizer
-    #     g_optimizer = optim.Adam(G.parameters(), lr=0.0002, betas=(0.5, 0.999))
-    #     d_optimizer = optim.Adam(D.parameters(), lr=0.0002, betas=(0.5, 0.999))
-    # else:
+    
     model_type = False
     param_check(model)
     param_check(model, True)
     if args.summary == 'True' or args.summary == 'true':
         print(summary(model, (3, 128, 128)))
 
-
-    # save_dir = f'results/swinir_color_dn_noise{args.noise}'
-    # folder = args.folder_gt
     border = 0
     window_size = 8
 
@@ -309,10 +291,20 @@ if __name__ == '__main__':
     # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
     # scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
     # scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, 'min')
-    criterion = CharbonnierLoss(1e-3)
+    if args.loss == 2:
+        vgg_model = 'vgg16'
+        args.loss = 'VGGPerceptualLoss'
+        print('! vgg model :' , vgg_model)
+        criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss(model=vgg_model).to(device)
+    else:
+        criterion = CharbonnierLoss(1e-3)
     args.loss = 'CharbonnierLoss'
-    scheduler = optim.lr_scheduler.MultiStepLR(optimizer,[800000, 1200000, 1400000, 1500000, 1600000],
-                                               0.5)
+    scheduler = optim.lr_scheduler.MultiStepLR(optimizer,
+                            [250000, 400000, 450000, 475000, 500000],
+                            0.5, 
+                            verbose = False
+                )
+    
     print("lr: ", optimizer.param_groups[0]['lr'])
     
 
@@ -328,9 +320,6 @@ if __name__ == '__main__':
 
     train_clean_transform = Compose([
         # BilateralBlur(args.train_img_size),
-        # tf.ToPILImage(),
-        # tf.RandAugment(),
-        # ToTensor(),
         ToTensor()
     ])
 
@@ -397,7 +386,8 @@ if __name__ == '__main__':
 
     print(f"running: {device}, \nModel: {args.model} \nepoch: {args.epoch},  \
             \nbatch: {args.batch_size}, \nlr: {args.lr} \nSummary: {args.summary} \
-            \nloss: {args.loss}, \nNoise_train: {args.noise_train} \nNoise {args.noise}")
+            \nloss: {args.loss}, \nNoise_train: {args.noise_train} \nNoise {args.noise} \
+            \patch_size: {args.train_img_size}")
 
     # ?///////////////////////#
 
