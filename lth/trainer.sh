@@ -1,15 +1,15 @@
 #!/bin/bash
 
-#SBATCH --job-name SwinIR.init
+#SBATCH --job-name SwinIR.32Win
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=4
 #SBATCH --mem-per-gpu=32G
 #SBATCH --time 1-0
-#SBATCH --partition batch_ce_ugrad
-#SBATCH -w moana-y1
-#SBATCH -o /data/worrospeed/logs/%x.out
+#SBATCH --partition batch_ugrad
+#SBATCH -w aurora-g1
+#SBATCH -o /data/hch2454/logs/%x.out
 
-version=.init
+version=.32Win
 
 total_iteration=1800000
 batch_size=16
@@ -20,6 +20,8 @@ model_name=SwinIR
 model_save_dir=./model_save/    
 validation_output_dir=./valid_output/    
 
+current_step=635950
+
 python -u trainer.py \
         --version=$version \
         --total_iteration=$total_iteration \
@@ -29,6 +31,7 @@ python -u trainer.py \
         --datasets_dir=$datasets_dir \
         --model_name=$model_name \
         --model_save_dir=$model_save_dir \
-        --validation_output_dir=$validation_output_dir  
+        --validation_output_dir=$validation_output_dir \
+        --current_step=$current_step 
         
 exit 0

@@ -12,15 +12,16 @@ from utils.loss_charbon import CharbonnierLoss
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Argparse')
-    parser.add_argument('--version',        type=str)
-    parser.add_argument('--total_iteration',type=int)
-    parser.add_argument('--batch_size',     type=int)
-    parser.add_argument('--learning_rate',  type=float)
-    parser.add_argument('--val_rate',       type=float)
-    parser.add_argument('--datasets_dir',   type=str)
-    parser.add_argument('--model_name',     type=str)
-    parser.add_argument('--model_save_dir', type=str)
+    parser.add_argument('--version',               type=str)
+    parser.add_argument('--total_iteration',       type=int)
+    parser.add_argument('--batch_size',            type=int)
+    parser.add_argument('--learning_rate',         type=float)
+    parser.add_argument('--val_rate',              type=float)
+    parser.add_argument('--datasets_dir',          type=str)
+    parser.add_argument('--model_name',            type=str)
+    parser.add_argument('--model_save_dir',        type=str)
     parser.add_argument('--validation_output_dir', type=str)
+    parser.add_argument('--current_step',          type=int)
 
     args = parser.parse_args()
 
@@ -38,6 +39,7 @@ if __name__ == '__main__':
     model_name = args.model_name
     model_save_dir = args.model_save_dir
     validation_output_dir = args.validation_output_dir
+    current_step = args.current_step
 
     # 모델 로딩
     model = importlib.import_module('.' + model_name, '.models').model
@@ -57,7 +59,7 @@ if __name__ == '__main__':
     
     
     scheduler = MultiStepLR(optimizer,
-                            [250000, 400000, 450000, 475000, 500000],
+                            [250000, 400000, 450000, 475000, 500000, 550000, 600000, 650000],
                             0.5, 
                             verbose = False
                 )
@@ -76,7 +78,7 @@ if __name__ == '__main__':
     train_set = T.TrainDataset(
         noisy_image_paths = noisy_image_paths, 
         clean_image_paths = clean_image_paths, 
-        patch_size = 64,
+        patch_size = 32,
         noisy_transform=noisy_transform,
         clean_transform=clean_transform
     )
@@ -89,6 +91,11 @@ if __name__ == '__main__':
     valid_loader = DataLoader(valid_set, batch_size=1, shuffle=False, num_workers=4)
 
     # 학습
+    if current_step > 0:
+        pth_name = model_name + version
+    else:
+        pth_name = None
+
     trainer = T.Trainer(
         model = model,
         version = version,
@@ -102,6 +109,8 @@ if __name__ == '__main__':
         criterion = criterion,
         scheduler = scheduler,
         model_save_dir = model_save_dir,
+        load_pth_name = pth_name,
+        current_step = current_step
     )
 
     trainer.train_info()

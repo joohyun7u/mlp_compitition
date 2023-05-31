@@ -59,7 +59,11 @@ class TrainDataset(data.Dataset):
 
 
 class Trainer():
-    def __init__(self, model, version, model_name, total_iteraion, train_data_loader, valid_data_loader , validation_checkpoint, validation_output_dir, optimizer, criterion, scheduler, model_save_dir):
+    def __init__(self, model, version, model_name, total_iteraion, 
+                 train_data_loader, valid_data_loader , validation_checkpoint, 
+                 validation_output_dir, optimizer, criterion, scheduler, 
+                 model_save_dir ,load_pth_name = None, current_step = 0):
+        
         self.model = model
         self.version = version
         self.model_name = model_name
@@ -72,9 +76,16 @@ class Trainer():
         self.criterion = criterion
         self.scheduler = scheduler
         self.model_save_dir = model_save_dir
+        self.load_pth_name = load_pth_name
+        self.current_step = current_step
+        
+        if self.load_pth_name:
+            self.model.load_state_dict(torch.load(join(model_save_dir, load_pth_name + ".pth")))
 
-        self.current_step = 0
         self.best_val_loss = 9999.0
+
+        for _ in range(self.current_step):
+            self.scheduler.step()
 
     def train(self):
         for epoch in range(500000):
@@ -166,7 +177,6 @@ class Trainer():
 
 ##################### 테스트 관련 ######################################
 
-
 class TestDatastLoader(data.Dataset):
     def __init__(self, noisy_image_paths, noisy_transform):
         self.noisy_image_paths = [join(noisy_image_paths, x) for x in listdir(noisy_image_paths)]
@@ -211,6 +221,7 @@ class Tester():
 
         if not os.path.exists(self.denoise_output_dir):
             os.makedirs(self.denoise_output_dir)
+
 
     def test(self):
         self.model.eval()
@@ -287,6 +298,94 @@ class Tester():
 
 
 
+################ 후처리 필터 ######################
+
+class ProccessDatastLoader(data.Dataset):
+    def __init__(self, denoised_image_paths, denoised_transform):
+        self.denoised_image_paths = [join(denoised_image_paths, x) for x in listdir(denoised_image_paths)]
+        self.denoised_transform = denoised_transform
+
+    def __len__(self):
+        return len(self.denoised_image_paths)
+
+    def __getitem__(self, index):
+        
+        denoised_image_path = self.denoised_image_paths[index]
+        denoised_image = load_img(self.denoised_image_paths[index])
+        
+        denoised_image = self.denoised_transform(denoised_image)
+
+        return denoised_image, denoised_image_path
+
+class Bilateral():
+    def __init__(self, denoised_dataloder, image_output_dir, model_pth_name):
+
+        self.denoised_dataloder = denoised_dataloder
+        self.image_output_dir = image_output_dir
+        self.model_pth_name = model_pth_name
+
+        self.bilateral_output_dir = join(self.image_output_dir, 'bilateral/')
+
+        if not os.path.exists(self.bilateral_output_dir):
+            os.makedirs(self.bilateral_output_dir)
+
+
+    def make_bilateral_img(self, kernel_size, sigma_c, sigma_s):
+        # 바이래터럴 필터 적용
+
+        for iter, (denoised_image, denoised_image_path) in enumerate(self.denoised_dataloder):
+
+            output_filename = denoised_image_path[0].replace('\\','/').split('/')[-1][:-4] + '.png'
+
+            denoised_image = denoised_image.squeeze(0)
+            denoised_image = torch.clamp(denoised_image,0,1)
+            denoised_image = transforms.ToPILImage()(denoised_image)
+            denoised_image = np.array(denoised_image)
+
+            output = cv2.bilateralFilter(denoised_image, kernel_size, sigma_c, sigma_s)
+            
+            output = np.clip(output,0,255)
+            output = transforms.ToPILImage()(output)
+
+            output_filename = join(self.bilateral_output_dir, output_filename)
+            output.save(output_filename)
+
+            print(f'Saved bilateral denoised image: {output_filename}')
+
+    def make_csv(self):
+        file_names = os.listdir(self.bilateral_output_dir)
+        file_names.sort()
+
+        csv_file = join(self.image_output_dir ,self.model_pth_name+'_bilateral.csv')
+        
+        # CSV 파일을 작성하기 위해 오픈
+        with open(csv_file, 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(['Image File', 'Y Channel Value'])
+
+            for file_name in file_names:
+                # 이미지 로드
+                image_path = os.path.join(self.bilateral_output_dir, file_name)
+                image = cv2.imread(image_path)
+
+                # 이미지를 YUV 색 공간으로 변환
+                image_yuv = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
+
+                # Y 채널 추출
+                y_channel = image_yuv[:, :, 0]
+
+                # Y 채널을 1차원 배열로 변환
+                y_values = np.mean(y_channel.flatten())
+
+                print(y_values)
+
+                # 파일 이름과 Y 채널 값을 CSV 파일에 작성
+                writer.writerow([file_name[:-4], y_values])
+
+        print('CSV file created successfully.')
+
+
+
 
 ############## 유틸리티 ################
 def load_img(filepath):
@@ -318,3 +417,4 @@ def param_check(model):
         isModelSatisfiesCondition = True
 
     return isModelSatisfiesCondition
+
