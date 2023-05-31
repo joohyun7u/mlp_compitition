@@ -121,7 +121,8 @@ class Trainer():
         self.model.eval()
         running_loss = 0.0
         
-        output_index = random.randint(0,400)
+        worst_loss = 0.0
+        worst_loss_iter = 0
         
         for iter, (noisy_images, clean_images) in enumerate(self.valid_data_loader):
             noisy_image, clean_images = noisy_images.to(device), clean_images.to(device)
@@ -129,28 +130,46 @@ class Trainer():
             loss = self.criterion(outputs, clean_images)
             running_loss += loss.item() * noisy_images.size(0)
 
-            if(iter == output_index):
-                original_image = noisy_images[0]
-                original_image = torch.clamp(original_image, 0, 1)
-                original_image = transforms.ToPILImage()(original_image)
-
-                denoised_image = outputs[0]
-                denoised_image = torch.clamp(denoised_image, 0, 1)  
-                denoised_image = transforms.ToPILImage()(denoised_image)
-
-                original_filename = join(self.validation_output_dir, f"{self.current_step}_scan" + '.png')
-                original_image.save(original_filename)
-
-                denoised_filename = join(self.validation_output_dir, f"{self.current_step}_denoised" + '.png')
-                denoised_image.save(denoised_filename)
-
-                print(f'Saved scanned  image: {original_filename}')
-                print(f'Saved denoised image: {denoised_filename}')    
+            if (loss.item() * noisy_images.size(0) > worst_loss):
+                worst_loss = loss.item() * noisy_images.size(0)
+                worst_loss_iter = iter
 
         epoch_loss = running_loss / len(self.valid_data_loader)
-
         print(f'step {self.current_step}/{self.total_iteraion}  Validation_loss: {epoch_loss:.4f}')
+        
+        for iter, (noisy_images, clean_images) in enumerate(self.valid_data_loader):
+            if (iter != worst_loss_iter):
+                continue
+            noisy_image, clean_images = noisy_images.to(device), clean_images.to(device)
+            outputs = self.model(noisy_image)
 
+            original_image = noisy_images[0]
+            original_image = torch.clamp(original_image, 0, 1)
+            original_image = transforms.ToPILImage()(original_image)
+
+            denoised_image = outputs[0]
+            denoised_image = torch.clamp(denoised_image, 0, 1)  
+            denoised_image = transforms.ToPILImage()(denoised_image)
+
+            clean_image = clean_images[0]
+            clean_image = torch.clamp(clean_image, 0, 1)  
+            clean_image = transforms.ToPILImage()(clean_image)
+
+            original_filename = join(self.validation_output_dir, f"{self.current_step}_{worst_loss}_scan" + '.png')
+            original_image.save(original_filename)
+
+            denoised_filename = join(self.validation_output_dir, f"{self.current_step}_{worst_loss}_denoised" + '.png')
+            denoised_image.save(denoised_filename)
+
+            clean_filename = join(self.validation_output_dir, f"{self.current_step}_{worst_loss}_clean"+ '.png')
+            clean_image.save(clean_filename)
+
+            print(f'Saved scanned  image: {original_filename}')
+            print(f'Saved denoised image: {denoised_filename}')  
+            print(f'Saved clean image: {clean_filename}')  
+
+            break
+            
         if epoch_loss < self.best_val_loss:
             self.best_val_loss = epoch_loss
             torch.save(self.model.state_dict(), self.model_save_dir + self.model_name + self.version + ".pth")
