@@ -13,6 +13,8 @@ from torchvision.datasets import ImageFolder
 from torchvision.transforms import ToTensor, Normalize, Compose
 import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN
 import models.DRLN as DRLN, models.pix2pix as pix2pix, models.pix2pix2 as pix2pix2
+from models.kbnet_s_arch import KBNet_s
+from models.kbnet_l_arch import KBNet_l
 from models.network_swinir import SwinIR as net
 from utils import util_calculate_psnr_ssim as util
 import argparse

@@ -9,6 +9,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, random_split
 import torchvision.transforms as tf
 from torchvision.transforms import ToTensor, Normalize, Compose
+import torchvision.transforms.functional as F
 from os.path import join
 from os import listdir
 from torchsummary import summary
@@ -19,6 +20,9 @@ import torch
 import requests
 from models.network_swinir import SwinIR as net
 from models.swin_transformer_v2 import SwinTransformerV2 as net2
+from models.kbnet_s_arch import KBNet_s
+from models.kbnet_l_arch import KBNet_l
+from models.restormer_arch import Restormer
 from utils import util_calculate_psnr_ssim as util
 from utils.param import param_check, seed_everything
 import utils.vgg_loss, utils.vgg_perceptual_loss
@@ -27,6 +31,7 @@ import matplotlib.pyplot as plt
 import gc
 from math import log10
 from torch.autograd import Variable
+from utils.lr_scheduler import CosineAnnealingRestartCyclicLR
 gc.collect()
 torch.cuda.empty_cache()
 
@@ -108,7 +113,18 @@ class CustomDataset(data.Dataset):
         # transform 적용
         if self.transform:
             noisy_image = self.transform(noisy_image)
+        if self.clean_transform:
             clean_image = self.clean_transform(clean_image)
+
+        # 이미지 랜덤 수평 플립
+        if torch.rand(1) < 0.5:
+            noisy_image = F.hflip(noisy_image)
+            clean_image = F.hflip(clean_image)
+        
+        # 이미지 랜덤 수직 플립
+        if torch.rand(1) < 0.5:
+            noisy_image = F.vflip(noisy_image)
+            clean_image = F.vflip(clean_image)
         
         return noisy_image, clean_image
 
@@ -151,7 +167,7 @@ def cal_mae_loss(ps,ts, y=False):
     return abss
 
 # 모델 학습
-def train(num_epochs, noise = True, save_val=True, model_type=False):
+def train(num_epochs, noise = True, save_val=True, model_type=False, load_epoch=0):
     best_loss = 9999.0
     best_val_loss = 9999.0
     tem = 1
@@ -159,7 +175,7 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
     loss_pth = loss_save()
     if not model_type:
         print(0)
-        for epoch in range(args.epoch):
+        for epoch in range(load_epoch, args.epoch):
             model.train()
             epoch_time = time.time()
             running_loss = 0.0
@@ -182,10 +198,10 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
                     print(f"\t[{iter+1}/{total_iter}] \tlr: {optimizer.param_groups[0]['lr']} \tTrain_Loss: {loss.item():.4f}\tMAE: {cal_mae/noisy_images.size(0):.4f}")
                 
             epoch_loss = running_loss / len(train_dataset)
-            val_loss = val(noise)
+            val_loss , val_mae = val(noise)
             loss_pth.add(args.model,epoch,epoch_loss,val_loss,loss_file)
-            print(f'Epoch {epoch+1}/{num_epochs} \tTime: {time.time()-epoch_time:.0f}초 \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f} \tMAE : {tot_mae/len(train_dataset):.5f}')
-
+            print(f'Epoch {epoch+1}/{num_epochs} \tTime: {time.time()-epoch_time:.0f}초 \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f} \tMAE: {tot_mae/len(train_dataset):.5f} \tVAL_MAE: {val_mae}')
+            torch.save(model.state_dict(), './_save/'+args.load_pth_name)
         # 현재 epoch의 loss가 최소 loss보다 작으면 모델 갱신
             if save_val:
                 if val_loss < best_val_loss:
@@ -202,6 +218,7 @@ def train(num_epochs, noise = True, save_val=True, model_type=False):
 def val(noise = True):
     model.eval()
     running_loss = 0.0
+    tot_mae = 0.0
     with torch.no_grad():
         for noisy_images, clean_images in val_loader:
             noisy_images, clean_images = noisy_images.to(device), clean_images.to(device)
@@ -211,8 +228,9 @@ def val(noise = True):
             else:
                 loss = criterion(outputs, clean_images)
             running_loss += loss.item() * noisy_images.size(0)
+            tot_mae += cal_mae_loss(tensor_to_yuv(outputs),tensor_to_yuv(clean_images))
         epoch_loss = running_loss / len(val_dataset)
-    return epoch_loss
+    return epoch_loss, tot_mae/len(val_dataset)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Argparse')
@@ -232,9 +250,13 @@ if __name__ == '__main__':
     parser.add_argument('--model',          type=str,   default='DnCNN')
     parser.add_argument('--output_dir',     type=str,   default='~/output')
     parser.add_argument('--noise',          type=int,   default=15, help='noise level: 15, 25, 50')
+    parser.add_argument('--load_pth_name',  type=str,   default='temp', help='다시 시작할 pth')
+    parser.add_argument('--load_epoch',     type=int,   default=0, help='다시 시작할 epoch')
+
     args = parser.parse_args()
     device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
-    
+    if args.load_epoch:
+        args.load_epoch += 1
     # 랜덤 시드 고정
     seed_everything(42)
     bools = {'true' : True, 'True' : True, 'TRUE' : True, 'false' : False, 'False' : False, 'FALSE' : False}
@@ -267,12 +289,19 @@ if __name__ == '__main__':
         model = net(upscale=1, in_chans=3, img_size=args.train_img_size, window_size=8,
                     img_range=1., depths=[6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6],
                     mlp_ratio=2, upsampler='', resi_connection='1conv').to(device)
+    elif args.model =='KBNet':
+        model = KBNet_s(middle_blk_num=2, enc_blk_nums=[1, 2, 2], dec_blk_nums=[1, 1, 2],lightweight=True).to(device)
+    elif args.model == 'Restormer':
+        model = Restormer(dim = 30, num_blocks = [2,3,6,8], num_refinement_blocks = 4, heads = [1,2,4,8]).to(device)
     
     # model = net(upscale=1, in_chans=3, img_size=args.train_img_size, window_size=8,
     #                 img_range=1., embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
     #                 ).to(device)
     # img_E = utils_model.test_mode(model, img_L, mode=2, min_size=480, sf=sf)  # use this to avoid 'out of memery' issue.
 
+    if args.load_epoch:
+        model.load_state_dict(torch.load('./_save/'+args.load_pth_name))
+        print(f'epoch 재개완료 {args.load_epoch+1} 부터 시작')
     
     model_type = False
     param_check(model)
@@ -292,24 +321,32 @@ if __name__ == '__main__':
     test_results['psnrb_y'] = []
     psnr, ssim, psnr_y, ssim_y, psnrb, psnrb_y = 0, 0, 0, 0, 0, 0
 
-
-    optimizer = optim.Adam(model.parameters(), lr=args.lr)
-    # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
-    # scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
-    # scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, 'min')
-    if args.loss == 2:
-        vgg_model = 'vgg16'
-        args.loss = 'VGGPerceptualLoss'
-        print('! vgg model :' , vgg_model)
-        criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss(model=vgg_model).to(device)
-    else:
+    if args.model =='KBNet' or args.model =='Restormer':
+        args.lr = 3e-4
+        args.loss = 'CosineAnnealingRestartCyclicLR'
         criterion = CharbonnierLoss(1e-3)
-    args.loss = 'CharbonnierLoss'
-    scheduler = optim.lr_scheduler.MultiStepLR(optimizer,
-                            [250000, 400000, 550000, 650000, 700000],
-                            0.5, 
-                            verbose = False
-                )
+        optimizer = optim.AdamW(model.parameters(), lr=3e-4, weight_decay=1e-4)
+        scheduler = CosineAnnealingRestartCyclicLR(optimizer,[92000, 208000],[1,1],[0.0003,0.000001])
+    else:
+        optimizer = optim.Adam(model.parameters(), lr=args.lr)
+        # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
+        # scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
+        # scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, 'min')
+        if args.loss == 2:
+            vgg_model = 'vgg16'
+            args.loss = 'VGGPerceptualLoss'
+            print('! vgg model :' , vgg_model)
+            criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss(model=vgg_model).to(device)
+        else:
+            criterion = CharbonnierLoss(1e-3)
+        args.loss = 'CharbonnierLoss'
+        scheduler = optim.lr_scheduler.MultiStepLR(optimizer,
+                                [250000, 400000, 550000, 650000, 700000],
+                                0.5, 
+                                verbose = False
+                    )
+    for i in range(args.load_epoch -1):
+        scheduler.step()
    
     print("lr: ", optimizer.param_groups[0]['lr'])
     
@@ -400,7 +437,7 @@ if __name__ == '__main__':
 
     # 모델 학습
     print("모델 학습 시작")
-    train(args.epoch,noise = result_noise, save_val=bools[args.val_best_save])
+    train(args.epoch,noise = result_noise, save_val=bools[args.val_best_save], load_epoch=args.load_epoch)
 
 
     # 종료 시간 기록
