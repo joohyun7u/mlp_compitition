@@ -15,6 +15,9 @@ import models.DnCNN as DnCNN, models.ResNet as ResNet, models.RFDN as RFDN
 import models.DRLN as DRLN, models.pix2pix as pix2pix, models.pix2pix2 as pix2pix2
 from models.kbnet_s_arch import KBNet_s
 from models.kbnet_l_arch import KBNet_l
+from models.restormer_arch import Restormer
+from models.kbnet_s_arch import KBNet_s
+from models.kbnet_l_arch import KBNet_l
 from models.network_swinir import SwinIR as net
 from utils import util_calculate_psnr_ssim as util
 import argparse
@@ -120,6 +123,11 @@ elif m == 'swinir':
     model = net(upscale=1, in_chans=3, img_size=128, window_size=8,
                     img_range=1., depths=[6, 6, 6, 6, 6, 6], embed_dim=180, num_heads=[6, 6, 6, 6, 6, 6],
                     mlp_ratio=2, upsampler='', resi_connection='1conv')
+elif m =='KBNet':
+        model = KBNet_s(middle_blk_num=2, enc_blk_nums=[1, 2, 2], dec_blk_nums=[1, 1, 2],lightweight=True)
+elif m == 'Restormer':
+    model = Restormer(dim = 30, num_blocks = [2,3,6,8], num_refinement_blocks = 4, heads = [1,2,4,8])
+
 else:
     model = DnCNN.DnCNN()
 print(args.csv+args.load_pth)

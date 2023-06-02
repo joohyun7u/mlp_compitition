@@ -13,9 +13,9 @@ dataset_dir=/home/joohyun7u/dataset/ff
 
 py_dir=./models/make_csv.py
 save_dir=./save/
-load_pth=best_swinir_model22_clean.pth
-# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix, swinir
-model=swinir
+load_pth=best_Restormer_model1_clean.pth
+# DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix, swinir, swinirv2, KBNet, Restormer
+model=Restormer
 
 
 source /data/joohyun7u/cjh/sh/setup.sh
