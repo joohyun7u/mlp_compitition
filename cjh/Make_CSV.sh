@@ -12,10 +12,10 @@
 dataset_dir=/home/joohyun7u/dataset/ff
 
 py_dir=./models/make_csv.py
-save_dir=./save/
-load_pth=best_Restormer_model1_clean.pth
+save_dir=./_save/
+load_pth=KBNet_64_lite.pth
 # DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix, swinir, swinirv2, KBNet, Restormer
-model=Restormer
+model=KBNet
 
 
 source /data/joohyun7u/cjh/sh/setup.sh

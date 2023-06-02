@@ -133,17 +133,25 @@ class loss_save():
         self.epochs = []
         self.train_loss = []
         self.val_loss = []
+        self.train_mae = []
+        self.val_mae = []
 
-    def add(self, model, epoch, train_loss, val_loss, save_dir):
+    def add(self, model, epoch, train_loss, val_loss, save_dir, train_mae=None, val_mae=None):
         self.epochs.append(epoch)
         self.train_loss.append(train_loss)
         self.val_loss.append(val_loss)
+        if train_mae:
+            self.train_mae.append(train_mae)
+        if val_mae:
+            self.val_mae.append(val_mae)
         torch.save(
             {
                 "model": model,
                 "epoch": self.epochs,
                 "train_loss": self.train_loss,
-                "val_loss": self.val_loss
+                "val_loss": self.val_loss,
+                "train_mae": self.train_mae,
+                "val_mae": self.val_mae
             }, save_dir
     )
 
@@ -199,7 +207,7 @@ def train(num_epochs, noise = True, save_val=True, model_type=False, load_epoch=
                 
             epoch_loss = running_loss / len(train_dataset)
             val_loss , val_mae = val(noise)
-            loss_pth.add(args.model,epoch,epoch_loss,val_loss,loss_file)
+            loss_pth.add(args.model,epoch,epoch_loss,val_loss,loss_file,tot_mae/len(train_dataset),val_mae)
             print(f'Epoch {epoch+1}/{num_epochs} \tTime: {time.time()-epoch_time:.0f}초 \tTrain_Loss: {epoch_loss:.4f} \tVal_Loss: {val_loss:.4f} \tMAE: {tot_mae/len(train_dataset):.5f} \tVAL_MAE: {val_mae}')
             torch.save(model.state_dict(), './_save/'+args.load_pth_name)
         # 현재 epoch의 loss가 최소 loss보다 작으면 모델 갱신
@@ -255,8 +263,6 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     device = torch.device('cuda' if torch.cuda.is_available() else 'mps:0' if torch.backends.mps.is_available() else 'cpu')
-    if args.load_epoch:
-        args.load_epoch += 1
     # 랜덤 시드 고정
     seed_everything(42)
     bools = {'true' : True, 'True' : True, 'TRUE' : True, 'false' : False, 'False' : False, 'FALSE' : False}
@@ -345,8 +351,6 @@ if __name__ == '__main__':
                                 0.5, 
                                 verbose = False
                     )
-    for i in range(args.load_epoch -1):
-        scheduler.step()
    
     print("lr: ", optimizer.param_groups[0]['lr'])
     
@@ -383,7 +387,7 @@ if __name__ == '__main__':
     # 데이터 로더 설정
     train_loader = DataLoader(train_dataset, 
                               batch_size=args.batch_size, 
-                              num_workers=4, 
+                              num_workers=6, 
                               persistent_workers=True, 
                               drop_last=True,
                               pin_memory=True,
@@ -391,11 +395,13 @@ if __name__ == '__main__':
     
     val_loader   = DataLoader(val_dataset, 
                               batch_size=args.batch_size, 
-                              num_workers=4, 
+                              num_workers=6, 
                               persistent_workers=True, 
                               shuffle=False)
     
-
+    for _ in range(args.load_epoch):
+        for __ in range(len(train_loader)):
+            scheduler.step()
     #///////////////////////#
 
 
