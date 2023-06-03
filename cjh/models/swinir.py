@@ -329,10 +329,19 @@ if __name__ == '__main__':
 
     if args.model =='KBNet' or args.model =='Restormer':
         args.lr = 3e-4
-        args.loss = 'CosineAnnealingRestartCyclicLR'
-        criterion = CharbonnierLoss(1e-3)
+        if args.loss == 2:
+            vgg_model = 'vgg16'
+            args.loss = 'VGGPerceptualLoss'
+            print('! vgg model :' , vgg_model)
+            criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss(model=vgg_model).to(device)
+        elif args.loss == 3:
+            args.loss = 'L1Loss'
+            criterion = nn.L1Loss()
+        else:
+            args.loss = 'CharbonnierLoss'
+            criterion = CharbonnierLoss(1e-3)
         optimizer = optim.AdamW(model.parameters(), lr=3e-4, weight_decay=1e-4)
-        scheduler = CosineAnnealingRestartCyclicLR(optimizer,[92000, 208000],[1,1],[0.0003,0.000001])
+        scheduler = CosineAnnealingRestartCyclicLR(optimizer,[92000, 208000,408000,808000],[1,1,0.1,0.05],[0.0003,0.000001,0.000001,0.000001])
     else:
         optimizer = optim.Adam(model.parameters(), lr=args.lr)
         # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
@@ -343,6 +352,9 @@ if __name__ == '__main__':
             args.loss = 'VGGPerceptualLoss'
             print('! vgg model :' , vgg_model)
             criterion = utils.vgg_perceptual_loss.VGGPerceptualLoss(model=vgg_model).to(device)
+        elif args.loss == 3:
+            args.loss = 'L1Loss'
+            criterion = nn.L1Loss()
         else:
             criterion = CharbonnierLoss(1e-3)
         args.loss = 'CharbonnierLoss'

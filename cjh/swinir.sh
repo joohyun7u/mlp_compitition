@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name Rest128lite
+#SBATCH --job-name RES64lite2day
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
 #SBATCH --mem-per-gpu=29G
@@ -22,17 +22,17 @@ model=Restormer
 
 python -u $py_dir \
         --epoch=8000 \
-        --batch_size=16 \
+        --batch_size=32 \
         --lr=2e-4 \
         --model=$model \
         --summary=False \
         --val=0.01 \
-        --loss=2 \
+        --loss=0 \
         --noise_train=False \
         --val_best_save=False \
-        --train_img_size=128 \
-        --load_pth_name='Restormer_128_lite.pth' \
-        --load_epoch=163 \
+        --train_img_size=64 \
+        --load_pth_name='Restormer_64_lite.pth' \
+        --load_epoch=970 \
 
 
 echo 'done'
