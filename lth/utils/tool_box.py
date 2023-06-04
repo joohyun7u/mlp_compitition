@@ -8,10 +8,8 @@ import torch.nn as nn
 import torch.utils.data as data
 import torchvision.transforms as transforms
 import torchvision.transforms.functional as F
-import torchsummary
 
-from utils.utils_degradation import degradation_bsrgan_plus
-import utils.utils_image as utils_image
+import torchsummary
 
 device = torch.device('cuda' if torch.cuda.is_available()  else 'cpu')
 
@@ -246,11 +244,11 @@ class Tester():
 
     def test(self):
         self.model.eval()
-        for iter, (noisy_image, noisy_image_path) in enumerate(self.test_data_loader):
+        with torch.no_grad():
+            for iter, (noisy_image, noisy_image_path) in enumerate(self.test_data_loader):
             
-            noisy_image = noisy_image.to(device)
-
-            with torch.no_grad():
+                noisy_image = noisy_image.to(device)
+            
                 # pad input image to be a multiple of window_size
                 img_lq = noisy_image
                 h_old, w_old = self.image_size
@@ -262,23 +260,24 @@ class Tester():
                 denoised_image = output[..., :h_old, :w_old]
                 denoised_image = torch.clamp(denoised_image,0,1)
             
-            output_filename = noisy_image_path[0]
+                output_filename = noisy_image_path[0]
 
-            denoised_image = transforms.ToPILImage()(denoised_image.squeeze(0))
-            denoised_filename = join(self.denoise_output_dir, output_filename.replace('\\','/').split('/')[-1][:-4] + '.png')
-            denoised_image.save(denoised_filename)
+                denoised_image = transforms.ToPILImage()(denoised_image.squeeze(0))
+                denoised_filename = join(self.denoise_output_dir, output_filename.replace('\\','/').split('/')[-1][:-4] + '.png')
+                denoised_image.save(denoised_filename)
+
+                print(f'Saved denoised image: {denoised_filename}')
 
 
-            if iter > self.display_num:
-                continue
+                if iter > self.display_num:
+                    continue
 
-            noisy_image = torch.clamp(noisy_image,0,1)
-            noisy_image = transforms.ToPILImage()(noisy_image.squeeze(0))
-            scaned_filename = join(self.scan_output_dir, output_filename.replace('\\','/').split('/')[-1][:-4] + '.png')
-            noisy_image.save(scaned_filename)
+                noisy_image = torch.clamp(noisy_image,0,1)
+                noisy_image = transforms.ToPILImage()(noisy_image.squeeze(0))
+                scaned_filename = join(self.scan_output_dir, output_filename.replace('\\','/').split('/')[-1][:-4] + '.png')
+                noisy_image.save(scaned_filename)
         
-            print(f'Saved scanned  image: {scaned_filename}')
-            print(f'Saved denoised image: {denoised_filename}')
+                print(f'{iter}/{500}Saved scanned  image: {scaned_filename}')
 
     def make_csv(self):
         # CSV 파일 생성
@@ -316,35 +315,6 @@ class Tester():
                 writer.writerow([file_name[:-4], y_values])
 
         print('CSV file created successfully.')
-
-##################### MAKE SOME NOISE ####################
-
-class Noiser():
-    def __init__(self, clean_image_dir, noise_output_dir):
-        self.clean_image_dir = clean_image_dir
-        self.noise_output_dir = noise_output_dir
-
-        if not os.path.exists(self.noise_output_dir):
-            os.makedirs(self.noise_output_dir)
-
-    def make_some_noise(self):
-        file_names = os.listdir(self.clean_image_dir)
-        for file_name in file_names:
-            print(file_name)
-            image_path = join(self.clean_image_dir, file_name)
-            image = utils_image.imread_uint(image_path,3)
-            image = utils_image.uint2single(image)
-
-            sf = 1
-
-            image_lq = degradation_bsrgan_plus(image, sf=sf, shuffle_prob=0.1, use_sharp=True)
-            lq_nearest =  cv2.resize(utils_image.single2uint(image_lq), (int(sf*image_lq.shape[1]), int(sf*image_lq.shape[0])), interpolation=0)
-            
-            output_filename = join(self.noise_output_dir, file_name)
-
-            utils_image.imsave(lq_nearest, output_filename)
-
-            print(output_filename)
 
 
 

@@ -1,20 +1,20 @@
 #!/bin/bash
 
-#SBATCH --job-name SwinIR.32Win
+#SBATCH --job-name SwinIR.init
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=4
 #SBATCH --mem-per-gpu=32G
 #SBATCH --time 1-0
-#SBATCH --partition batch_ugrad
-#SBATCH -w aurora-g1
-#SBATCH -o /data/hch2454/logs/test-%x.out
+#SBATCH --partition batch_ce_ugrad
+#SBATCH -w moana-y3
+#SBATCH -o /data/worrospeed/logs/test-%x.out
 
-version=.32Win
+version=.init
 
 datasets_dir=/local_datasets/MLinP/test/scan/
 model_name=SwinIR
 model_save_dir=./model_save    
-model_pth_name=SwinIR.32Win
+model_pth_name=SwinIR.init
 output_dir=./test_output
 display_num=5
 

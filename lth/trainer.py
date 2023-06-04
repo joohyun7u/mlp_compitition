@@ -9,17 +9,18 @@ from torchvision.transforms import ToTensor, Normalize, Compose
 from utils import tool_box as T
 from utils.loss_vgg import VGGPerceptualLoss
 from utils.loss_charbon import CharbonnierLoss
+from utils.loss_ymae import YMAELoss
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Argparse')
-    parser.add_argument('--version',               type=str)
-    parser.add_argument('--total_iteration',       type=int)
-    parser.add_argument('--batch_size',            type=int)
-    parser.add_argument('--learning_rate',         type=float)
-    parser.add_argument('--val_rate',              type=float)
-    parser.add_argument('--datasets_dir',          type=str)
-    parser.add_argument('--model_name',            type=str)
-    parser.add_argument('--model_save_dir',        type=str)
+    parser.add_argument('--version',        type=str)
+    parser.add_argument('--total_iteration',type=int)
+    parser.add_argument('--batch_size',     type=int)
+    parser.add_argument('--learning_rate',  type=float)
+    parser.add_argument('--val_rate',       type=float)
+    parser.add_argument('--datasets_dir',   type=str)
+    parser.add_argument('--model_name',     type=str)
+    parser.add_argument('--model_save_dir', type=str)
     parser.add_argument('--validation_output_dir', type=str)
     parser.add_argument('--current_step',          type=int)
 
@@ -46,12 +47,13 @@ if __name__ == '__main__':
 
     # 경로
     clean_image_paths = dataset_dir+'train/clean/'
-    noisy_image_paths = dataset_dir+'train/MSN/'
+    noisy_image_paths = dataset_dir+'train/scan/'
 
 
     # 로스함수 및 옵티마이저 설정
 
-    criterion = CharbonnierLoss(eps = 1e-3)
+    criterion = YMAELoss(eps=1e-3)
+    #criterion = CharbonnierLoss(eps = 1e-3)
     #criterion = VGGPerceptualLoss(model="vgg16").to(device)
     #criterion = torch.nn.MSELoss()
 
@@ -59,7 +61,7 @@ if __name__ == '__main__':
     
     
     scheduler = MultiStepLR(optimizer,
-                            [250000, 400000, 450000, 475000, 500000, 550000, 600000, 650000, 1000000, 1050000, 1100000],
+                            [250000, 400000, 450000, 475000, 500000,600000,700000,800000],
                             0.5, 
                             verbose = False
                 )
@@ -78,7 +80,7 @@ if __name__ == '__main__':
     train_set = T.TrainDataset(
         noisy_image_paths = noisy_image_paths, 
         clean_image_paths = clean_image_paths, 
-        patch_size = 32,
+        patch_size = 64,
         noisy_transform=noisy_transform,
         clean_transform=clean_transform
     )
@@ -87,8 +89,8 @@ if __name__ == '__main__':
     val_size = len(train_set) - train_size
     train_set, valid_set = random_split(train_set,[train_size,val_size])
 
-    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=4)
-    valid_loader = DataLoader(valid_set, batch_size=1, shuffle=False, num_workers=4)
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=8,pin_memory=True)
+    valid_loader = DataLoader(valid_set, batch_size=1, shuffle=False, num_workers=8,)
 
     # 학습
     if current_step > 0:

@@ -60,14 +60,14 @@ if __name__ == '__main__':
     )
 
     # 데이터 로더 설정
-    test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=4)
+    test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
     # 테스트
     tester = T.Tester(
         model = model,
         model_name = model_name,
         image_size = (512,512),
-        window_size = 32, 
+        window_size = 64, 
         model_save_dir = model_save_path,
         model_pth_name = model_pth_name,
         test_data_loader = test_loader,
@@ -77,29 +77,3 @@ if __name__ == '__main__':
     
     tester.test()
     tester.make_csv()
-
-    
-"""  페기   # 바이래터럴 후처리
-
-    # 데이터셋 설정
-    denoised_dataset = T.ProccessDatastLoader(
-        denoised_image_paths = join(image_output_dir, 'denoise/'), 
-        denoised_transform = ToTensor()
-    )
-
-    # 데이터 로더 설정
-    denoised_dataloder = DataLoader(test_dataset, batch_size=1, shuffle=False)
-
-    bilateral = T.Bilateral(
-        denoised_dataloder = denoised_dataloder,
-        image_output_dir = image_output_dir,
-        model_pth_name = model_pth_name
-    )
-
-    bilateral.make_bilateral_img(
-        kernel_size = 3,
-        sigma_c = 1,
-        sigma_s = 6
-    )
-
-    bilateral.make_csv() """

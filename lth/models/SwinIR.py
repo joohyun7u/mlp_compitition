@@ -770,8 +770,8 @@ class SwinIR(nn.Module):
 ##################################################################################################33
 
 window_size = 8
-height = 32
-width = 32
+height = 64
+width = 64
 model = SwinIR(img_size= (height,  width),
                window_size=window_size, img_range=1., depths=[6, 6, 6, 6, 6],
                embed_dim=180, num_heads=[6, 6, 6, 6, 6], mlp_ratio=2).to('cuda')
