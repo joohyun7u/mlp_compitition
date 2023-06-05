@@ -35,6 +35,21 @@ from utils.lr_scheduler import CosineAnnealingRestartCyclicLR
 gc.collect()
 torch.cuda.empty_cache()
 
+class YMAELoss(nn.Module):
+
+    def __init__(self, eps=1e-9):
+        super(YMAELoss, self).__init__()
+        self.eps = eps
+
+    def forward(self, x, y):
+        Y_x = (x[:,0,:,:]*0.114) + (x[:,1,:,:]*0.586) + (x[:,2,:,:]*0.299) 
+        Y_y = (y[:,0,:,:]*0.114) + (y[:,1,:,:]*0.586) + (y[:,2,:,:]*0.299) 
+
+        diff = Y_x - Y_y
+
+        loss = torch.mean(torch.sqrt((diff * diff) + self.eps))
+        return loss
+
 class CharbonnierLoss(nn.Module):
     """Charbonnier Loss (L1)"""
 
@@ -97,18 +112,47 @@ class CustomDataset(data.Dataset):
 
     def __getitem__(self, index):
         # 이미지 불러오기
-        noisy_image = load_img(self.noisy_image_paths[index], args.noise)
+        original_noisy_image = load_img(self.noisy_image_paths[index], args.noise)
         clean_image = load_img(self.clean_image_paths[index])
         if self.noisy_train:
-            clean_image = noisy_image - clean_image
+            clean_image = original_noisy_image - clean_image
 
         H, W, _ = clean_image.shape
 
         # 이미지 랜덤 크롭
         rnd_h = random.randint(0, max(0, H - self.patch_size))
         rnd_w = random.randint(0, max(0, W - self.patch_size))
-        noisy_image = noisy_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
+        noisy_image = original_noisy_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
         clean_image = clean_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
+
+        # RNRN 꾸꾸
+        shift_factor_x = torch.rand(1)
+        shift_factor_y = torch.rand(1)
+
+        x_shift = None
+        y_shift = None
+
+        if(shift_factor_x < 0.3):
+            x_shift = -1
+        elif(shift_factor_x > 0.7):
+            x_shift = 1
+        else:
+            x_shift = 0
+
+        if(shift_factor_y < 0.3):
+            y_shift = -1
+        elif(shift_factor_y > 0.7):
+            y_shift = 1
+        else:
+            y_shift = 0
+
+        rnd_h = np.clip(rnd_h + x_shift,0, H - self.patch_size)
+        rnd_w = np.clip(rnd_w + y_shift,0, W - self.patch_size)
+
+        random_noise_from_real_noise = original_noisy_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
+
+        noisy_image = cv2.addWeighted(noisy_image,0.8,random_noise_from_real_noise,0.2,0.0)
+
         
         # transform 적용
         if self.transform:
@@ -307,7 +351,7 @@ if __name__ == '__main__':
 
     if args.load_epoch:
         model.load_state_dict(torch.load('./_save/'+args.load_pth_name))
-        print(f'epoch 재개완료 {args.load_epoch+1} 부터 시작')
+        print(f'epoch 재개완료 {args.load_epoch+1} 부터 시작 \t./_save/{args.load_pth_name}')
     
     model_type = False
     param_check(model)
@@ -341,13 +385,16 @@ if __name__ == '__main__':
             args.loss = 'CharbonnierLoss'
             criterion = CharbonnierLoss(1e-3)
         optimizer = optim.AdamW(model.parameters(), lr=3e-4, weight_decay=1e-4)
-        scheduler = CosineAnnealingRestartCyclicLR(optimizer,[92000, 208000,408000,808000],[1,1,0.1,0.05],[0.0003,0.000001,0.000001,0.000001])
+        scheduler = CosineAnnealingRestartCyclicLR(optimizer,[92000, 208000,408000,808000],[1,1,0.006,0.000001],[0.0003,0.000001,0.00000072,0.000007])
     else:
         optimizer = optim.Adam(model.parameters(), lr=args.lr)
         # scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[30,80], gamma=0.5)
         # scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=2e5, gamma=0.5)
         # scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, 'min')
-        if args.loss == 2:
+        if args.loss == 1:
+            args.loss = 'Y_MAE_LOSS'
+            criterion = YMAELoss()
+        elif args.loss == 2:
             vgg_model = 'vgg16'
             args.loss = 'VGGPerceptualLoss'
             print('! vgg model :' , vgg_model)
