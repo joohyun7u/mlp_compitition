@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name SwinIR.init-6
+#SBATCH --job-name SwinIR.init-8
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
 #SBATCH --mem-per-gpu=32G
@@ -20,7 +20,7 @@ model_name=SwinIR
 model_save_dir=./model_save/    
 validation_output_dir=./valid_output/    
 
-current_step=530301
+current_step=610000
 
 python -u trainer.py \
         --version=$version \
