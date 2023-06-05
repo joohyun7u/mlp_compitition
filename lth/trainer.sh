@@ -1,15 +1,15 @@
 #!/bin/bash
 
-#SBATCH --job-name SwinIR.init-8
+#SBATCH --job-name SwinIR.RNRN-1
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
 #SBATCH --mem-per-gpu=32G
 #SBATCH --time 1-0
-#SBATCH --partition batch_ce_ugrad
-#SBATCH -w moana-y3
-#SBATCH -o /data/worrospeed/logs/%x.out
+#SBATCH --partition batch_ugrad
+#SBATCH -w ariel-v1
+#SBATCH -o /data/youjinmyung/logs/%x.out
 
-version=.init
+version=.RNRN
 
 total_iteration=1800000
 batch_size=16

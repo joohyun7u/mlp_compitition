@@ -28,16 +28,44 @@ class TrainDataset(data.Dataset):
 
     def __getitem__(self, index):
         # 이미지 불러오기
-        noisy_image = load_img(self.noisy_image_paths[index])
+        original_noisy_image = load_img(self.noisy_image_paths[index])
         clean_image = load_img(self.clean_image_paths[index])
 
-        H, W, _ = noisy_image.shape
+        H, W, _ = original_noisy_image.shape
 
         # 이미지 랜덤 크롭
         rnd_h = random.randint(0, max(0, H - self.patch_size))
         rnd_w = random.randint(0, max(0, W - self.patch_size))
-        noisy_image = noisy_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
+        noisy_image = original_noisy_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
         clean_image = clean_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
+
+        # RNRN 꾸꾸
+        shift_factor_x = torch.rand(1)
+        shift_factor_y = torch.rand(1)
+
+        x_shift = None
+        y_shift = None
+
+        if(shift_factor_x < 0.3):
+            x_shift = -1
+        elif(shift_factor_x > 0.7):
+            x_shift = 1
+        else:
+            x_shift = 0
+
+        if(shift_factor_y < 0.3):
+            y_shift = -1
+        elif(shift_factor_y > 0.7):
+            y_shift = 1
+        else:
+            y_shift = 0
+
+        rnd_h = np.clip(rnd_h + x_shift,0, H - self.patch_size)
+        rnd_w = np.clip(rnd_w + y_shift,0, W - self.patch_size)
+
+        random_noise_from_real_noise = original_noisy_image[rnd_h:rnd_h + self.patch_size, rnd_w:rnd_w + self.patch_size, :]
+
+        noisy_image = cv2.addWeighted(noisy_image,0.8,random_noise_from_real_noise,0.2,0.0)
 
         # transform 적용
         if self.noisy_transform:
@@ -54,7 +82,7 @@ class TrainDataset(data.Dataset):
         if torch.rand(1) < 0.5:
             noisy_image = F.vflip(noisy_image)
             clean_image = F.vflip(clean_image)
-        
+
         return noisy_image, clean_image
 
 
