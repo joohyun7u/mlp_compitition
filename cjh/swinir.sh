@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name re128argu
+#SBATCH --job-name re256
 #SBATCH --gres=gpu:1
 #SBATCH --cpus-per-gpu=8
 #SBATCH --mem-per-gpu=29G
@@ -22,17 +22,17 @@ model=Restormer
 
 python -u $py_dir \
         --epoch=8000 \
-        --batch_size=16 \
+        --batch_size=4 \
         --lr=2e-4 \
         --model=$model \
         --summary=False \
-        --val=0.01 \
+        --val=0.0001 \
         --loss=0 \
         --noise_train=False \
         --val_best_save=False \
-        --train_img_size=128 \
-        --load_pth_name='Restormer_128_argue.pth' \
-        --load_epoch=879 \
+        --train_img_size=256 \
+        --load_pth_name='Restormer_256_.pth' \
+        --load_epoch=103 \
 
 
 echo 'done'

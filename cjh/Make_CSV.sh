@@ -13,7 +13,7 @@ dataset_dir=/home/joohyun7u/dataset/ff
 
 py_dir=./models/make_csv.py
 save_dir=./_save/
-load_pth=Restormer_128_l1loss.pth
+load_pth=Restormer_256_.pth
 # DnCNN, ResNet18 34 50 101 152, RFDN, DRLN, pix2pix, swinir, swinirv2, KBNet, Restormer
 model=Restormer
 
