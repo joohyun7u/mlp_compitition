@@ -12,6 +12,7 @@ cjh/__pycache__
 cjh/KAIR/
 cjh/_save/
 cjh/KBNet
+cjh/loss
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

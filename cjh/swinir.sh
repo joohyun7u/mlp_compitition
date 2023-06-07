@@ -32,7 +32,7 @@ python -u $py_dir \
         --val_best_save=False \
         --train_img_size=256 \
         --load_pth_name='Restormer_256_.pth' \
-        --load_epoch=103 \
+        --load_epoch=154 \
 
 
 echo 'done'
